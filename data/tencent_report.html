@@ -84,8 +84,8 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
 <div class="data-grid">
     <div class="data-card">
         <div class="label">Owner's Earnings</div>
-        <div class="value">2439.8<small> 亿</small></div>
-        <div class="sub">OE Margin 29.5%</div>
+        <div class="value">2274.8<small> 亿</small></div>
+        <div class="sub">OE Margin 27.5%</div>
     </div>
     <div class="data-card">
         <div class="label">可分配净现金</div>
@@ -94,13 +94,13 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
     </div>
     <div class="data-card">
         <div class="label">内在价值</div>
-        <div class="value">23822.0<small> 亿</small></div>
-        <div class="sub">零增长 24398.0 + 净现金 -576.0</div>
+        <div class="value">27868.9<small> 亿</small></div>
+        <div class="sub">零增长 22748.0 + 净现金 -576.0</div>
     </div>
     <div class="data-card">
         <div class="label">安全边际</div>
-        <div class="value negative">-43.3%</div>
-        <div class="sub">无安全边际 | 赔率 -43.3%</div>
+        <div class="value negative">-33.6%</div>
+        <div class="sub">无安全边际 | 赔率 -33.7%</div>
     </div>
 </div>
 
@@ -109,9 +109,9 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
     <h2>1. Owner's Earnings 计算</h2>
     <table class="calc-table">
         <tr><td></td><td>经营性现金流 (CFO)</td><td>2879.80 亿</td></tr>
-        <tr><td class="op">−</td><td>维持性资本支出</td><td>440.00 亿</td></tr>
-        <tr class="separator result"><td class="op">=</td><td>Owner's Earnings</td><td>2439.80 亿</td></tr>
-        <tr><td></td><td colspan="2" style="font-size:13px;color:var(--text-dim)">扩张性 Capex 431.20 亿 (总 871.2 − 维持性 440.0) | OE Margin 29.5%</td></tr>
+        <tr><td class="op">−</td><td>维持性资本支出</td><td>605.00 亿</td></tr>
+        <tr class="separator result"><td class="op">=</td><td>Owner's Earnings</td><td>2274.80 亿</td></tr>
+        <tr><td></td><td colspan="2" style="font-size:13px;color:var(--text-dim)">扩张性 Capex 266.20 亿 (总 871.2 − 维持性 605.0) | OE Margin 27.5%</td></tr>
     </table>
 </div>
 
@@ -137,11 +137,11 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
 <div class="section">
     <h2>3. 零增长估值与安全边际</h2>
     <table class="calc-table">
-        <tr><td></td><td>零增长估值 = OE / r</td><td>2439.8 / 10% = 24398.00 亿</td></tr>
+        <tr><td></td><td>零增长估值 = OE / r</td><td>2274.8 / 10% = 22748.00 亿</td></tr>
         <tr><td class="op">+</td><td>可分配净现金</td><td>-575.96 亿</td></tr>
-        <tr class="separator result"><td class="op">=</td><td>内在价值</td><td>23822.04 亿</td></tr>
+        <tr class="separator result"><td class="op">=</td><td>内在价值</td><td>27868.94 亿</td></tr>
         <tr><td class="op">−</td><td>当前市值</td><td>42000.00 亿</td></tr>
-        <tr class="separator result"><td class="op">=</td><td>安全边际</td><td class="negative">-18177.96 亿 (-43.3%)</td></tr>
+        <tr class="separator result"><td class="op">=</td><td>安全边际</td><td class="negative">-14131.06 亿 (-33.6%)</td></tr>
     </table>
     <h3 style="font-size:15px;margin-top:20px;margin-bottom:4px;color:var(--text-dim)">折现率敏感性分析</h3>
     <table class="sens-table">
@@ -149,24 +149,24 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
         
             <tr class="">
                 <td>8%</td>
-                <td>30497.5</td>
-                <td>29921.5</td>
-                <td class="negative">-28.8%</td>
-                <td>-28.8%</td>
+                <td>28435.0</td>
+                <td>33555.9</td>
+                <td class="negative">-20.1%</td>
+                <td>-20.1%</td>
             </tr>
             <tr class="current">
                 <td>10%</td>
-                <td>24398.0</td>
-                <td>23822.0</td>
-                <td class="negative">-43.3%</td>
-                <td>-43.3%</td>
+                <td>22748.0</td>
+                <td>27868.9</td>
+                <td class="negative">-33.6%</td>
+                <td>-33.7%</td>
             </tr>
             <tr class="">
                 <td>12%</td>
-                <td>20331.7</td>
-                <td>19755.7</td>
-                <td class="negative">-53.0%</td>
-                <td>-53.0%</td>
+                <td>18956.7</td>
+                <td>24077.6</td>
+                <td class="negative">-42.7%</td>
+                <td>-42.7%</td>
             </tr>
     </table>
 </div>
@@ -180,23 +180,23 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
                 <span class="icon-cross"></span>
                 <span class="condition-name">市值 &lt; 零增长OE估值 + 可分配净现金</span>
             </div>
-            <div class="condition-detail">市值 42000.0 亿 vs 内在价值 23822.0 亿 (边际 -43.3%)</div>
-            <div class="gap">→ 市值高出内在价值 18178.0 亿，需下跌 43.3% 或 OE 提升</div>
+            <div class="condition-detail">市值 42000.0 亿 vs 内在价值 27868.9 亿 (边际 -33.6%)</div>
+            <div class="gap">→ 市值高出内在价值 14131.1 亿，需下跌 33.6% 或 OE 提升</div>
         </div>
         <div class="condition not-triggered">
             <div class="condition-header">
                 <span class="icon-cross"></span>
                 <span class="condition-name">赔率达标（顶级资产 ≥40%）</span>
             </div>
-            <div class="condition-detail">赔率 -43.3%，阈值 40%</div>
-            <div class="gap">→ 当前赔率 -43.3%，顶级资产需 ≥40%，需市值降至 17016 亿或内在价值提升至 58800 亿</div>
+            <div class="condition-detail">赔率 -33.7%，阈值 40%</div>
+            <div class="gap">→ 当前赔率 -33.7%，顶级资产需 ≥40%，需市值降至 19906 亿或内在价值提升至 58800 亿</div>
         </div>
         <div class="condition triggered">
             <div class="condition-header">
                 <span class="icon-check"></span>
                 <span class="condition-name">过去12个月OE为正且稳定</span>
             </div>
-            <div class="condition-detail">近4季OE: [610.0, 610.0, 610.0, 610.0] 亿，全正=是，稳定=是</div>
+            <div class="condition-detail">近4季OE: [568.7, 568.7, 568.7, 568.7] 亿，全正=是，稳定=是</div>
             
         </div>
         <div class="condition not-triggered">
@@ -210,7 +210,7 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
     
         <div class="missing-box">
             <div class="missing-title">未达标项 (3 条)</div>
-            <ul><li><strong>市值 &lt; 零增长OE估值 + 可分配净现金</strong>: 市值高出内在价值 18178.0 亿，需下跌 43.3% 或 OE 提升</li><li><strong>赔率达标</strong>: 当前赔率 -43.3%，顶级资产需 ≥40%，需市值降至 17016 亿或内在价值提升至 58800 亿</li><li><strong>市值/OE历史低分位 + 无结构性恶化</strong>: 市值/OE 分位 40%（需 ≤30%）</li></ul>
+            <ul><li><strong>市值 &lt; 零增长OE估值 + 可分配净现金</strong>: 市值高出内在价值 14131.1 亿，需下跌 33.6% 或 OE 提升</li><li><strong>赔率达标</strong>: 当前赔率 -33.7%，顶级资产需 ≥40%，需市值降至 19906 亿或内在价值提升至 58800 亿</li><li><strong>市值/OE历史低分位 + 无结构性恶化</strong>: 市值/OE 分位 40%（需 ≤30%）</li></ul>
         </div>
 </div>
 
@@ -234,14 +234,14 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
         <div class="action">不参与</div>
         <div class="position">建议仓位: 0%</div>
     </div>
-    <div class="reasoning">无投资价值；Combo A 缺 3 条: 市值 &lt; 零增长OE估值 + 可分配净现金, 赔率达标, 市值/OE历史低分位 + 无结构性恶化；赔率为负 (-43.3%)，无安全边际</div>
+    <div class="reasoning">无投资价值；Combo A 缺 3 条: 市值 &lt; 零增长OE估值 + 可分配净现金, 赔率达标, 市值/OE历史低分位 + 无结构性恶化；赔率为负 (-33.7%)，无安全边际</div>
 </div>
 
 <!-- 后续跟踪 -->
 <div class="section">
     <h2>6. 后续跟踪要点</h2>
     <ul class="next-steps">
-        <li>赔率达标: 需市值降至 14013 亿以下（当前 42000 亿）</li><li>或 OE 提升: 需 OE 从 2440 亿提升至使内在价值覆盖 70% 赔率</li><li>关注下季财报是否出现 Combo B（基本面拐点）信号</li>
+        <li>赔率达标: 需市值降至 16393 亿以下（当前 42000 亿）</li><li>或 OE 提升: 需 OE 从 2275 亿提升至使内在价值覆盖 70% 赔率</li><li>关注下季财报是否出现 Combo B（基本面拐点）信号</li>
     </ul>
 </div>
 

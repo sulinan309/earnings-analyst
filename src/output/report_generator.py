@@ -72,13 +72,15 @@ class ReportGenerator:
             "└─────────────────────────────────────────────────┘",
             "",
             f"  经营性现金流 (CFO)       {oe.cfo:>10.2f} 亿",
-            f"- 维持性资本支出            {oe.maintenance_capex:>10.2f} 亿  ← 从附注拆分",
+            f"- 维持性资本支出            {oe.maintenance_capex:>10.2f} 亿  ← {'⚠ 估算值' if oe.maintenance_capex_is_estimated else '从附注拆分'}",
             f"{'─' * 40}",
             f"= Owner's Earnings (OE)    {oe.oe:>10.2f} 亿",
             "",
             f"  OE Margin:               {oe.oe_margin_pct:.1f}%  (OE {oe.oe:.1f} / 营收 {fd.revenue:.1f})",
             f"  扩张性 Capex:            {oe.growth_capex:>10.2f} 亿  (总Capex {fd.total_capex:.1f} - 维持性 {oe.maintenance_capex:.1f})",
         ]
+        if oe.maintenance_capex_is_estimated:
+            lines.append(f"  ⚠ 维持性Capex为估算: {oe.maintenance_capex_note}")
         return "\n".join(lines)
 
     def _net_cash_section(self, inp: ReportInput) -> str:
@@ -105,6 +107,16 @@ class ReportGenerator:
             "",
             f"= 可分配净现金             {oe.distributable_net_cash:>10.2f} 亿",
         ]
+        if oe.investment_portfolio_gross > 0:
+            discount_pct = f"{oe.investment_discount_rate:.0%}"
+            lines.extend([
+                "",
+                f"  投资组合（保守 {discount_pct} 折扣）:",
+                f"    上市投资公允价值         {fd.listed_investments_fv:>10.2f} 亿",
+                f"    非上市投资账面价值       {fd.unlisted_investments_bv:>10.2f} 亿",
+                f"    总计                   {oe.investment_portfolio_gross:>10.2f} 亿",
+                f"    × (1 - {discount_pct})            {oe.investment_portfolio_value:>10.2f} 亿",
+            ])
         return "\n".join(lines)
 
     def _valuation_section(self, inp: ReportInput) -> str:
@@ -116,7 +128,9 @@ class ReportGenerator:
             "└─────────────────────────────────────────────────┘",
             "",
             f"  零增长估值 = OE / r = {oe.oe:.1f} / {oe.discount_rate:.0%} = {oe.zero_growth_value:.2f} 亿",
-            f"  内在价值   = {oe.zero_growth_value:.1f} + {oe.distributable_net_cash:.1f} = {oe.intrinsic_value:.2f} 亿",
+            f"  内在价值   = {oe.zero_growth_value:.1f} + {oe.distributable_net_cash:.1f}"
+            + (f" + {oe.investment_portfolio_value:.1f}(投资组合)" if oe.investment_portfolio_value else "")
+            + f" = {oe.intrinsic_value:.2f} 亿",
             f"  当前市值   = {oe.market_cap:.2f} 亿",
             "",
             f"  安全边际   = {oe.intrinsic_value:.1f} - {oe.market_cap:.1f} = {oe.safety_margin:+.2f} 亿 ({oe.safety_margin_pct:+.1f}%)",
