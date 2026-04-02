@@ -140,19 +140,32 @@ class ReportGenerator:
         return "\n".join(lines)
 
     def _sensitivity_section(self, inp: ReportInput) -> str:
-        """折现率敏感性表格"""
+        """三情景估值对比表"""
         from src.frameworks.oe_calculator import OECalculator
-        results = OECalculator(discount_rate=0.10).sensitivity(inp.financial_data)
+        scenarios = OECalculator(discount_rate=0.10).scenario_analysis(inp.financial_data)
+        market_cap = inp.oe_result.market_cap
+
         lines = [
-            "  折现率敏感性分析:",
-            f"  {'折现率':>8} {'零增长估值':>10} {'内在价值':>10} {'安全边际':>10} {'赔率':>8}",
-            f"  {'─' * 52}",
+            "┌─────────────────────────────────────────────────┐",
+            "│  三情景估值对比                                   │",
+            "└─────────────────────────────────────────────────┘",
+            "",
+            f"  {'情景':<6} {'OE':>10} {'内在价值':>12} {'vs 市值':>12} {'安全边际':>10}",
+            f"  {'─' * 56}",
         ]
-        for r in results:
+        for s in scenarios:
+            tag = "★" if s.name == "中性" else " "
             lines.append(
-                f"  {r.discount_rate:>8.0%} {r.zero_growth_value:>10.1f} {r.intrinsic_value:>10.1f}"
-                f" {r.safety_margin_pct:>+10.1f}% {r.odds:>8.1%}"
+                f" {tag}{s.name:<5} {s.oe.oe:>10.1f} {s.intrinsic_value:>12.1f}"
+                f" {s.intrinsic_value - market_cap:>+12.1f} {s.safety_margin_pct:>+10.1f}%"
             )
+        lines.append(f"  {'─' * 56}")
+        lines.append(f"  {'当前市值':>18} {market_cap:>12.1f}")
+
+        lines.append("")
+        for s in scenarios:
+            lines.append(f"  {s.name}: {s.params}")
+
         return "\n".join(lines)
 
     def _combo_section(self, inp: ReportInput) -> str:

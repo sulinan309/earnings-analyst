@@ -193,3 +193,130 @@ class OECalculator:
             )
             results.append(calc.calculate(data))
         return results
+
+    def scenario_analysis(self, data: FinancialData) -> list["ScenarioResult"]:
+        """三情景估值分析
+
+        保守: r=12%, 零增长, 维持性Capex上浮20%, 保守净现金
+        中性: r=10%, 零增长, 当前OE, 保守净现金
+        乐观: r=8%, 温和增长g=5%, 维持性Capex下浮10%, 净现金完整口径
+        """
+        scenarios = []
+
+        # ── 保守情景 ──
+        conservative_data = FinancialData(
+            cfo=data.cfo,
+            maintenance_capex=data.maintenance_capex * 1.20,  # 上浮20%
+            total_capex=data.total_capex,
+            cash_and_equivalents=data.cash_and_equivalents,
+            short_term_investments=data.short_term_investments,
+            interest_bearing_debt=data.interest_bearing_debt,
+            committed_investments=data.committed_investments,
+            restricted_cash=data.restricted_cash,
+            overseas_cash=data.overseas_cash,
+            revenue=data.revenue,
+            market_cap=data.market_cap,
+            listed_investments_fv=data.listed_investments_fv,
+            unlisted_investments_bv=data.unlisted_investments_bv,
+            investment_discount=0.70,  # 投资组合打7折（更保守）
+            period=data.period,
+            ticker=data.ticker,
+        )
+        conservative_calc = OECalculator(
+            discount_rate=0.12,
+            reserve_months=2.0,  # 2个月运营储备（更保守）
+            overseas_discount_rate=0.25,  # 海外现金折扣更高
+        )
+        c_result = conservative_calc.calculate(conservative_data)
+        scenarios.append(ScenarioResult(
+            name="保守",
+            label="最坏情况下值多少",
+            params="r=12%, 零增长, 维持性Capex×1.2, 运营储备2月, 投资组合70%折扣",
+            oe=c_result,
+        ))
+
+        # ── 中性情景 ──
+        n_result = OECalculator(discount_rate=0.10).calculate(data)
+        scenarios.append(ScenarioResult(
+            name="中性",
+            label="合理估值",
+            params="r=10%, 零增长, 当前OE, 保守净现金, 投资组合50%折扣",
+            oe=n_result,
+        ))
+
+        # ── 乐观情景 ──
+        optimistic_data = FinancialData(
+            cfo=data.cfo,
+            maintenance_capex=data.maintenance_capex * 0.90,  # 下浮10%
+            total_capex=data.total_capex,
+            cash_and_equivalents=data.cash_and_equivalents,
+            short_term_investments=data.short_term_investments,
+            interest_bearing_debt=data.interest_bearing_debt,
+            committed_investments=0.0,  # 完整口径不扣
+            restricted_cash=0.0,
+            overseas_cash=0.0,  # 不扣海外折扣
+            revenue=data.revenue,
+            market_cap=data.market_cap,
+            listed_investments_fv=data.listed_investments_fv,
+            unlisted_investments_bv=data.unlisted_investments_bv,
+            investment_discount=0.30,  # 投资组合仅打3折
+            period=data.period,
+            ticker=data.ticker,
+        )
+        optimistic_calc = OECalculator(
+            discount_rate=0.08,
+            reserve_months=1.0,  # 1个月运营储备
+            overseas_discount_rate=0.0,
+        )
+        o_base = optimistic_calc.calculate(optimistic_data)
+        # 叠加温和增长 g=5%: 估值 = OE / (r - g) = OE / 3%
+        growth_rate = 0.05
+        effective_rate = 0.08 - growth_rate  # 3%
+        growth_value = o_base.oe / effective_rate
+        growth_intrinsic = growth_value + o_base.distributable_net_cash + o_base.investment_portfolio_value
+        growth_margin = growth_intrinsic - data.market_cap
+        growth_margin_pct = round(growth_margin / data.market_cap * 100, 1)
+
+        scenarios.append(ScenarioResult(
+            name="乐观",
+            label="业务持续改善时值多少",
+            params="r=8%, g=5%, 维持性Capex×0.9, 完整净现金, 投资组合30%折扣",
+            oe=o_base,
+            override_value=round(growth_value, 2),
+            override_intrinsic=round(growth_intrinsic, 2),
+            override_margin=round(growth_margin, 2),
+            override_margin_pct=growth_margin_pct,
+            override_odds=round(growth_margin / data.market_cap, 4),
+            growth_rate=growth_rate,
+        ))
+
+        return scenarios
+
+
+@dataclass
+class ScenarioResult:
+    """单个情景的估值结果"""
+    name: str           # "保守" / "中性" / "乐观"
+    label: str          # 情景含义
+    params: str         # 参数描述
+    oe: OEResult        # 基础计算结果
+
+    # 乐观情景叠加增长后的覆盖值（可选）
+    override_value: float | None = None       # 增长估值
+    override_intrinsic: float | None = None   # 含增长内在价值
+    override_margin: float | None = None
+    override_margin_pct: float | None = None
+    override_odds: float | None = None
+    growth_rate: float = 0.0
+
+    @property
+    def intrinsic_value(self) -> float:
+        return self.override_intrinsic if self.override_intrinsic is not None else self.oe.intrinsic_value
+
+    @property
+    def safety_margin_pct(self) -> float:
+        return self.override_margin_pct if self.override_margin_pct is not None else self.oe.safety_margin_pct
+
+    @property
+    def odds(self) -> float:
+        return self.override_odds if self.override_odds is not None else self.oe.odds

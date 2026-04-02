@@ -223,6 +223,32 @@ report_input = ReportInput(
 
 print(ReportGenerator().generate(report_input))
 
+# ═══════════════════════════════════════════════════════════
+#  Step 6: 三情景估值对比
+# ═══════════════════════════════════════════════════════════
+
+from src.frameworks.oe_calculator import ScenarioResult
+
+scenarios = OECalculator(discount_rate=0.10).scenario_analysis(financial_data)
+
+print(f"\n\n{'═' * 70}")
+print("  三情景估值对比")
+print(f"{'═' * 70}")
+print(f"  {'情景':<6} {'OE':>10} {'内在价值':>12} {'vs 市值':>14} {'安全边际':>10}")
+print(f"  {'─' * 58}")
+for s in scenarios:
+    tag = " ★" if s.name == "中性" else "  "
+    print(
+        f"{tag}{s.name:<5} {s.oe.oe:>10.1f} {s.intrinsic_value:>12.1f}"
+        f" {s.intrinsic_value - market_cap_hkb:>+14.1f} {s.safety_margin_pct:>+10.1f}%"
+    )
+print(f"  {'─' * 58}")
+print(f"  {'当前市值':>18} {market_cap_hkb:>12.1f}")
+
+print(f"\n  参数明细:")
+for s in scenarios:
+    print(f"  {s.name}: {s.params}")
+
 # 生成 HTML 报告
 html = generate_html(report_input)
 html_path = "data/tencent_report.html"
