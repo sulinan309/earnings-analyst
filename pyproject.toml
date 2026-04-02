@@ -3,7 +3,9 @@ name = "earnings-analyst"
 version = "0.1.0"
 description = "港股财报分析工具 - 基于李录 Owner's Earnings 框架"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "anthropic>=0.40",
+]
 
 [project.optional-dependencies]
 dev = [
