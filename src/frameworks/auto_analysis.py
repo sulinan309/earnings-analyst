@@ -121,10 +121,15 @@ def run_full_analysis(
         )
 
     # ── Step 7: AI 叙事模块 ──
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    api_key = os.environ.get("OPENROUTER_API_KEY") or os.environ.get("ANTHROPIC_API_KEY")
     if api_key:
-        result.deep = _generate_with_claude(financial_data, profile, oe_result, result)
-        result.data_source = "claude_api"
+        try:
+            result.deep = _generate_with_claude(financial_data, profile, oe_result, result)
+            result.data_source = "claude_api"
+        except Exception as e:
+            print(f"  ⚠ AI生成失败({type(e).__name__})，使用模板兜底")
+            result.deep = _generate_with_template(financial_data, profile, oe_result, result)
+            result.data_source = "template_fallback (API failed)"
     else:
         result.deep = _generate_with_template(financial_data, profile, oe_result, result)
         result.data_source = "template_fallback"
@@ -137,6 +142,11 @@ def _generate_with_claude(
 ) -> DeepAnalysis:
     """用 Claude API 生成叙事模块"""
     import anthropic
+
+    client = anthropic.Anthropic(
+        api_key=os.environ.get("OPENROUTER_API_KEY") or os.environ.get("ANTHROPIC_API_KEY"),
+        base_url=os.environ.get("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1"),
+    )
 
     # 准备数据摘要给 Claude
     data_summary = f"""
@@ -194,41 +204,10 @@ CapEx 模拟:
   }}
 }}"""
 
-    client = anthropic.Anthropic()
     response = client.messages.create(
-        model="claude-sonnet-4-6",
+        model="anthropic/claude-sonnet-4-5",
         max_tokens=4000,
-        thinking={"type": "adaptive"},
-        output_config={"format": {"type": "json_schema", "schema": {
-            "type": "object",
-            "properties": {
-                "executive_summary": {"type": "object", "properties": {
-                    "headline": {"type": "string"}, "action": {"type": "string"},
-                    "tldr": {"type": "array", "items": {"type": "string"}},
-                    "body": {"type": "string"}
-                }, "required": ["headline", "action", "tldr", "body"], "additionalProperties": False},
-                "key_forces": {"type": "array", "items": {"type": "object", "properties": {
-                    "title": {"type": "string"}, "body": {"type": "string"},
-                    "oe_implication": {"type": "string"}
-                }, "required": ["title", "body", "oe_implication"], "additionalProperties": False}},
-                "philosophies": {"type": "array", "items": {"type": "object", "properties": {
-                    "name": {"type": "string"}, "representative": {"type": "string"},
-                    "verdict": {"type": "string"}, "reasoning": {"type": "string"}
-                }, "required": ["name", "representative", "verdict", "reasoning"], "additionalProperties": False}},
-                "pre_mortem": {"type": "object", "properties": {
-                    "failure_scenario": {"type": "string"},
-                    "failure_paths": {"type": "array", "items": {"type": "object", "properties": {
-                        "description": {"type": "string"}, "probability": {"type": "string"}
-                    }, "required": ["description", "probability"], "additionalProperties": False}},
-                    "cognitive_biases": {"type": "array", "items": {"type": "object", "properties": {
-                        "bias": {"type": "string"}, "risk": {"type": "string"}, "check": {"type": "string"}
-                    }, "required": ["bias", "risk", "check"], "additionalProperties": False}}
-                }, "required": ["failure_scenario", "failure_paths", "cognitive_biases"], "additionalProperties": False}
-            },
-            "required": ["executive_summary", "key_forces", "philosophies", "pre_mortem"],
-            "additionalProperties": False,
-        }}},
-        messages=[{"role": "user", "content": prompt}],
+        messages=[{"role": "user", "content": prompt + "\n\n请只输出JSON，不要输出其他内容。"}],
     )
 
     text = next((b.text for b in response.content if b.type == "text"), None)
