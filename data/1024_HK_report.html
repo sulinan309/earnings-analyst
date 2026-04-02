@@ -151,37 +151,110 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
         <tr><td class="op">−</td><td>当前市值</td><td>2300.00 亿</td></tr>
         <tr class="separator result"><td class="op">=</td><td>安全边际</td><td class="positive">+546.30 亿 (+23.8%)</td></tr>
     </table>
-    <h3 style="font-size:15px;margin-top:20px;margin-bottom:4px;color:var(--text-dim)">折现率敏感性分析</h3>
+    <h3 style="font-size:15px;margin-top:20px;margin-bottom:4px;color:var(--text-dim)">三情景估值对比</h3>
     <table class="sens-table">
-        <tr><th>折现率</th><th>零增长估值</th><th>内在价值</th><th>安全边际</th><th>赔率</th></tr>
-        
-            <tr class="">
-                <td>8%</td>
-                <td>2860.0</td>
-                <td>3418.3</td>
-                <td class="positive">+48.6% ✓</td>
-                <td>48.6%</td>
-            </tr>
-            <tr class="current">
-                <td>10%</td>
-                <td>2288.0</td>
-                <td>2846.3</td>
-                <td class="positive">+23.8% ✓</td>
-                <td>23.8%</td>
-            </tr>
-            <tr class="">
-                <td>12%</td>
-                <td>1906.7</td>
-                <td>2465.0</td>
-                <td class="positive">+7.2% ✓</td>
-                <td>7.2%</td>
-            </tr>
+        <tr><th style="text-align:left">情景</th><th>OE</th><th>内在价值</th><th>安全边际</th></tr>
+        <tr class=""><td style="text-align:left">保守</td><td>213</td><td>2265</td><td class="negative">-1.5%</td></tr><tr class="current"><td style="text-align:left">★ 中性</td><td>229</td><td>2846</td><td class="positive">+23.8%</td></tr><tr class=""><td style="text-align:left">乐观</td><td>237</td><td>8542</td><td class="positive">+271.4%</td></tr>
     </table>
+    <div style="font-size:12px;color:var(--text-muted);margin-top:8px">
+        保守: r=12%零增长,Capex×1.2 · 中性: r=10%零增长,当前OE · 乐观: r=8%,g=5%,Capex×0.9
+    </div>
+</div>
+
+<div class="section">
+    <h2>核心 KPI 仪表盘 · 短视频/直播/电商</h2>
+    <table class="sens-table">
+        <tr><th style="text-align:left">指标</th><th>当前值</th><th style="text-align:left">说明</th></tr>
+        <tr>
+            <td style="text-align:left">DAU</td>
+            <td class="positive">4.1亿 ↑</td>
+            <td style="font-size:12px;color:var(--text-dim)">同比+2.7%，增长放缓但仍为正</td>
+        </tr><tr>
+            <td style="text-align:left">电商GMV</td>
+            <td class="positive">15981亿 ↑</td>
+            <td style="font-size:12px;color:var(--text-dim)">同比+15%，电商仍为核心增长引擎</td>
+        </tr><tr>
+            <td style="text-align:left">总收入增速</td>
+            <td class="positive">12.5% ↑</td>
+            <td style="font-size:12px;color:var(--text-dim)"></td>
+        </tr><tr>
+            <td style="text-align:left">经调整净利润率</td>
+            <td class="positive">14.5% ↑</td>
+            <td style="font-size:12px;color:var(--text-dim)">盈利能力持续改善</td>
+        </tr><tr>
+            <td style="text-align:left">经调整净利润</td>
+            <td class="positive">206亿 ↑</td>
+            <td style="font-size:12px;color:var(--text-dim)">同比+16.5%</td>
+        </tr><tr>
+            <td style="text-align:left">可灵AI ARR</td>
+            <td class="positive">2.4亿美元 ↑</td>
+            <td style="font-size:12px;color:var(--text-dim)">12月单月突破2000万美元，商业化加速</td>
+        </tr><tr>
+            <td style="text-align:left">海外经营亏损</td>
+            <td class="positive">-0.76亿 ↑</td>
+            <td style="font-size:12px;color:var(--text-dim)">海外亏损大幅收窄，接近盈亏平衡</td>
+        </tr><tr>
+            <td style="text-align:left">国内经营利润</td>
+            <td class="positive">212亿 ↑</td>
+            <td style="font-size:12px;color:var(--text-dim)">同比+29%</td>
+        </tr>
+    </table>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
+        <div style="background:var(--green-bg);border-radius:8px;padding:12px">
+            <div style="font-weight:600;color:var(--green);margin-bottom:8px">核心发现</div>
+            <ul style="font-size:13px;padding-left:16px"><li style="color:var(--green)">可灵AI从0到ARR 2.4亿美元，验证了视频生成模型的商业化路径</li><li style="color:var(--green)">国内经营利润212亿(+29%)，海外亏损接近归零，利润质量大幅改善</li><li style="color:var(--green)">AIGC营销素材Q4消耗40亿元，AI对核心广告业务的提效已兑现收入</li></ul>
+        </div>
+        <div style="background:var(--yellow-bg);border-radius:8px;padding:12px">
+            <div style="font-weight:600;color:var(--yellow);margin-bottom:8px">核心隐忧</div>
+            <ul style="font-size:13px;padding-left:16px"><li style="color:var(--yellow)">DAU增速仅2.7%，用户天花板隐现，后续增长依赖ARPU提升</li><li style="color:var(--yellow)">物业设备从148亿增至229亿(+54%)，AI算力投入加速</li><li style="color:var(--yellow)">直播收入仅+5.5%，传统打赏模式增长乏力</li></ul>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>管理层信号</h2>
+    <table class="sens-table"><tr><th></th><th style="text-align:left">指标</th><th style="text-align:left">指引</th><th style="text-align:left">实际</th></tr><tr><td>✅</td><td>可灵AI商业化</td><td>加速变现</td><td>Q4收入3.4亿，ARR达2.4亿美元</td></tr><tr><td>✅</td><td>盈利改善</td><td>持续改善</td><td>经调整净利润率14.5%(+0.6pct)</td></tr><tr><td>✅</td><td>海外扭亏</td><td>缩窄亏损</td><td>海外经营亏损仅0.76亿(去年9.34亿)</td></tr></table>
+    <div style="margin-top:8px;font-size:13px;color:var(--text-dim)">指引可信度: 中高 — 程一笑团队近两年兑现能力显著提升，可灵AI超预期</div>
+    <div style="margin-top:16px"><div style="font-weight:600;margin-bottom:8px">内部人行为</div><div style="margin-bottom:8px"><span class="positive" style="font-weight:600">回购</span> 31.2亿港币/5678万股 (FY2025全年) — 规模不大但持续回购，信号正面</div></div>
+    <div style="margin-top:16px;padding:12px;background:var(--bg);border-radius:8px">
+        <div style="font-size:13px;color:var(--text-dim)"><strong>资本配置:</strong> AI投入(可灵+算力中心)+适度回购+控制海外烧钱，资本配置纪律性改善</div>
+        <div style="font-size:13px;color:var(--text-dim);margin-top:8px"><strong>业绩会 tone:</strong> 程一笑：'AI能力已成为驱动快手长期增长的核心引擎' — 从谨慎转向自信</div>
+        <div style="font-size:13px;color:var(--blue);margin-top:4px">vs 上期: 明显更自信，可灵AI给了管理层底气</div>
+    </div>
+    
+</div>
+
+<div class="section">
+    <h2>Variant View — 市场共识 vs 我们的判断</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div style="background:var(--bg);border-radius:8px;padding:16px;border-left:3px solid var(--text-dim)">
+            <div style="font-weight:600;color:var(--text-dim);margin-bottom:8px">市场共识</div>
+            <div style="font-size:14px">市场共识：快手是'小腾讯'故事——广告+电商+AI，但用户增长已见顶，估值偏低(~12x经调整PE)是因为市场不确定增长质量。</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:8px">市值2300亿隐含经调整利润增速~8-10%即可justify</div>
+        </div>
+        <div style="background:var(--bg);border-radius:8px;padding:16px;border-left:3px solid var(--blue)">
+            <div style="font-weight:600;color:var(--blue);margin-bottom:8px">我们的判断</div>
+            <div style="font-size:14px">OE框架显示内在价值2846亿 vs 市值2300亿，安全边际+23.8%，Combo A已3/4触发。这是Watchlist中最接近买入区间的标的。可灵AI的商业化(ARR 2.4亿美元)是市场尚未fully price in的增量——大多数卖方模型中可灵收入占比&lt;5%。</div>
+        </div>
+    </div>
+    <div style="background:var(--yellow-bg);border-radius:8px;padding:16px;margin-top:16px">
+        <div style="font-weight:600;color:var(--yellow);margin-bottom:8px">市场错在哪</div>
+        <div style="font-size:14px">市场过度关注DAU增速放缓(+2.7%)而忽略了两个结构性改善：1) 可灵AI开辟了toB变现路径（视频生成基础设施），这和广告+电商形成三角结构；2) 海外亏损从9.34亿收窄至0.76亿，意味着国际化不再是利润黑洞。</div>
+    </div>
+    <div style="margin-top:16px"><div style="font-weight:600;margin-bottom:8px">关键分歧</div><ul style="font-size:14px;padding-left:16px"><li>可灵AI的TAM有多大？视频生成工具vs通用AI平台，天花板差10倍</li><li>DAU 4.1亿是否是天花板？如果是，ARPU提升能否支撑收入增长？</li><li>电商GMV+15%还能持续几年？抖音电商的竞争压力？</li></ul></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
+        <div><div style="font-weight:600;color:var(--green);margin-bottom:8px">正面催化剂</div><ul style="font-size:13px;padding-left:16px"><li style="color:var(--green)">可灵AI季度收入突破10亿人民币 → 叙事从'短视频公司'变为'AI公司'</li><li style="color:var(--green)">海外业务正式盈利</li><li style="color:var(--green)">电商take rate提升 → 利润率再上一个台阶</li></ul></div>
+        <div><div style="font-weight:600;color:var(--red);margin-bottom:8px">负面催化剂</div><ul style="font-size:13px;padding-left:16px"><li style="color:var(--red)">DAU出现环比下滑</li><li style="color:var(--red)">可灵AI竞品(Sora等)大幅降价</li><li style="color:var(--red)">电商GMV增速跌至个位数</li></ul></div>
+    </div>
+    <div class="warn-box" style="margin-top:16px">
+        <div style="font-weight:600">Kill Conditions — 论点证伪条件</div>
+        <ul style="padding-left:16px;margin-top:4px;font-size:14px"><li>经调整净利润连续2季度下滑</li><li>可灵AI ARR增速跌至&lt;50%</li><li>管理层停止回购或开始减持</li></ul>
+    </div>
 </div>
 
 <!-- Combo A -->
 <div class="section">
-    <h2>4. Combo A · 估值安全边际型 [3/4] ✅ 触发</h2>
+    <h2>Combo A · 估值安全边际型 [3/4] ✅ 触发</h2>
     
         <div class="condition triggered">
             <div class="condition-header">
@@ -224,7 +297,7 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
 
 <!-- 决策 -->
 <div class="section">
-    <h2>5. 仓位决策</h2>
+    <h2>仓位决策</h2>
     <div class="score-bar">
         <div class="score-item">
             <div class="score-label">胜率</div>

@@ -151,37 +151,98 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
         <tr><td class="op">−</td><td>当前市值</td><td>10000.00 亿</td></tr>
         <tr class="separator result"><td class="op">=</td><td>安全边际</td><td class="positive">+4898.27 亿 (+49.0%)</td></tr>
     </table>
-    <h3 style="font-size:15px;margin-top:20px;margin-bottom:4px;color:var(--text-dim)">折现率敏感性分析</h3>
+    <h3 style="font-size:15px;margin-top:20px;margin-bottom:4px;color:var(--text-dim)">三情景估值对比</h3>
     <table class="sens-table">
-        <tr><th>折现率</th><th>零增长估值</th><th>内在价值</th><th>安全边际</th><th>赔率</th></tr>
-        
-            <tr class="">
-                <td>8%</td>
-                <td>14635.4</td>
-                <td>17825.3</td>
-                <td class="positive">+78.3% ✓</td>
-                <td>78.2%</td>
-            </tr>
-            <tr class="current">
-                <td>10%</td>
-                <td>11708.3</td>
-                <td>14898.3</td>
-                <td class="positive">+49.0% ✓</td>
-                <td>49.0%</td>
-            </tr>
-            <tr class="">
-                <td>12%</td>
-                <td>9756.9</td>
-                <td>12946.9</td>
-                <td class="positive">+29.5% ✓</td>
-                <td>29.5%</td>
-            </tr>
+        <tr><th style="text-align:left">情景</th><th>OE</th><th>内在价值</th><th>安全边际</th></tr>
+        <tr class=""><td style="text-align:left">保守</td><td>1170</td><td>12707</td><td class="positive">+27.1%</td></tr><tr class="current"><td style="text-align:left">★ 中性</td><td>1171</td><td>14898</td><td class="positive">+49.0%</td></tr><tr class=""><td style="text-align:left">乐观</td><td>1171</td><td>43296</td><td class="positive">+333.0%</td></tr>
     </table>
+    <div style="font-size:12px;color:var(--text-muted);margin-top:8px">
+        保守: r=12%零增长,Capex×1.2 · 中性: r=10%零增长,当前OE · 乐观: r=8%,g=5%,Capex×0.9
+    </div>
+</div>
+
+<div class="section">
+    <h2>核心 KPI 仪表盘 · 电商平台</h2>
+    <table class="sens-table">
+        <tr><th style="text-align:left">指标</th><th>当前值</th><th style="text-align:left">说明</th></tr>
+        <tr>
+            <td style="text-align:left">总收入增速</td>
+            <td class="negative">10% ↓</td>
+            <td style="font-size:12px;color:var(--text-dim)">从FY2024的+90%骤降至+10%，增速悬崖</td>
+        </tr><tr>
+            <td style="text-align:left">经营利润率</td>
+            <td class="negative">22% ↓</td>
+            <td style="font-size:12px;color:var(--text-dim)">Temu投入侵蚀利润率</td>
+        </tr><tr>
+            <td style="text-align:left">CFO</td>
+            <td class="negative">1069亿 ↓</td>
+            <td style="font-size:12px;color:var(--text-dim)">同比-12%，但绝对额仍强</td>
+        </tr><tr>
+            <td style="text-align:left">现金储备</td>
+            <td class="positive">4223亿 ↑</td>
+            <td style="font-size:12px;color:var(--text-dim)">现金+短期投资4223亿，零负债</td>
+        </tr><tr>
+            <td style="text-align:left">营销费用增速</td>
+            <td class="negative">~15% ↑</td>
+            <td style="font-size:12px;color:var(--text-dim)">Temu持续烧钱获客</td>
+        </tr>
+    </table>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
+        <div style="background:var(--green-bg);border-radius:8px;padding:12px">
+            <div style="font-weight:600;color:var(--green);margin-bottom:8px">核心发现</div>
+            <ul style="font-size:13px;padding-left:16px"><li style="color:var(--green)">零有息负债+4223亿现金储备，资产负债表极度健康</li><li style="color:var(--green)">即使增速大幅放缓，CFO仍有1069亿，造血能力一流</li><li style="color:var(--green)">轻资产模式Capex极低，几乎全部CFO转化为FCF</li></ul>
+        </div>
+        <div style="background:var(--yellow-bg);border-radius:8px;padding:12px">
+            <div style="font-weight:600;color:var(--yellow);margin-bottom:8px">核心隐忧</div>
+            <ul style="font-size:13px;padding-left:16px"><li style="color:var(--yellow)">收入增速从90%断崖至10%，市场对增长故事的信仰正在动摇</li><li style="color:var(--yellow)">Temu海外监管风险（关税、合规），且商业模式可持续性待验证</li><li style="color:var(--yellow)">管理层极度低调不透明，信息披露质量在大型中概股中最低</li></ul>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>管理层信号</h2>
+    <div style="color:var(--text-muted)">管理层未提供前瞻指引</div>
+    <div style="margin-top:8px;font-size:13px;color:var(--text-dim)">指引可信度: 极低 — PDD几乎不给前瞻指引，业绩会信息量极少，投资者处于'盲飞'状态</div>
+    
+    <div style="margin-top:16px;padding:12px;background:var(--bg);border-radius:8px">
+        <div style="font-size:13px;color:var(--text-dim)"><strong>资本配置:</strong> 巨额现金堆积(4223亿)但不分红不回购，资本配置不透明</div>
+        <div style="font-size:13px;color:var(--text-dim);margin-top:8px"><strong>业绩会 tone:</strong> 管理层一贯低调，信息披露在大型中概股中最不透明</div>
+        <div style="font-size:13px;color:var(--blue);margin-top:4px">vs 上期: 无显著变化，始终保持沉默</div>
+    </div>
+    <div class="warn-box" style="margin-top:12px"><div style="font-weight:600">⚠ 风险信号</div><ul style="padding-left:16px;margin-top:4px"><li>管理层不给指引，投资者无法追踪兑现度</li><li>4223亿现金零回馈股东，资本配置意图不明</li><li>公司注册在爱尔兰，VIE架构+低信息披露=治理折扣</li></ul></div>
+</div>
+
+<div class="section">
+    <h2>Variant View — 市场共识 vs 我们的判断</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div style="background:var(--bg);border-radius:8px;padding:16px;border-left:3px solid var(--text-dim)">
+            <div style="font-weight:600;color:var(--text-dim);margin-bottom:8px">市场共识</div>
+            <div style="font-size:14px">市场共识：增速断崖(+90%→+10%)后市场重新定价，Temu烧钱节奏不透明，估值已从溢价变为折价(~9x PE)。</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:8px">市值1万亿隐含利润增速~5-8%即可justify</div>
+        </div>
+        <div style="background:var(--bg);border-radius:8px;padding:16px;border-left:3px solid var(--blue)">
+            <div style="font-weight:600;color:var(--blue);margin-bottom:8px">我们的判断</div>
+            <div style="font-size:14px">OE框架显示内在价值14,898亿 vs 市值10,000亿，安全边际+49%。零有息负债+4223亿现金是极强的安全垫。问题不在估值（足够便宜），而在治理——管理层不透明是最大风险，Combo A仅2/4触发。</div>
+        </div>
+    </div>
+    <div style="background:var(--yellow-bg);border-radius:8px;padding:16px;margin-top:16px">
+        <div style="font-weight:600;color:var(--yellow);margin-bottom:8px">市场错在哪</div>
+        <div style="font-size:14px">市场同时低估了两件矛盾的事：1) PDD的CFO造血能力(1069亿/年)和现金堆积(4223亿)被增速恐慌掩盖了；2) 但市场可能也低估了Temu的监管尾部风险。真正被忽略的是，即使Temu完全关停，国内业务的OE仍能justify当前市值。</div>
+    </div>
+    <div style="margin-top:16px"><div style="font-weight:600;margin-bottom:8px">关键分歧</div><ul style="font-size:14px;padding-left:16px"><li>Temu是战略资产还是价值毁灭器？烧了多少钱完全不透明</li><li>4223亿现金会不会永远锁在公司里？管理层治理意愿是最大未知数</li><li>美国关税政策对Temu的影响——极端情况下Temu被迫退出美国</li></ul></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
+        <div><div style="font-weight:600;color:var(--green);margin-bottom:8px">正面催化剂</div><ul style="font-size:13px;padding-left:16px"><li style="color:var(--green)">宣布分红或大规模回购 → 治理折扣收窄</li><li style="color:var(--green)">Temu实现单区域盈利 → 烧钱恐惧缓解</li><li style="color:var(--green)">管理层开始给指引 → 信息不透明折扣收窄</li></ul></div>
+        <div><div style="font-weight:600;color:var(--red);margin-bottom:8px">负面催化剂</div><ul style="font-size:13px;padding-left:16px"><li style="color:var(--red)">美国对中国跨境电商加征关税/禁令</li><li style="color:var(--red)">国内反垄断再次聚焦PDD</li><li style="color:var(--red)">管理层仍拒绝回馈股东</li></ul></div>
+    </div>
+    <div class="warn-box" style="margin-top:16px">
+        <div style="font-weight:600">Kill Conditions — 论点证伪条件</div>
+        <ul style="padding-left:16px;margin-top:4px;font-size:14px"><li>国内电商CFO连续2季度下滑（非Temu烧钱导致）</li><li>重大监管处罚落地</li><li>管理层出现非计划性减持</li></ul>
+    </div>
 </div>
 
 <!-- Combo A -->
 <div class="section">
-    <h2>4. Combo A · 估值安全边际型 [2/4] ❌ 未触发</h2>
+    <h2>Combo A · 估值安全边际型 [2/4] ❌ 未触发</h2>
     
         <div class="condition triggered">
             <div class="condition-header">
@@ -224,7 +285,7 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
 
 <!-- 决策 -->
 <div class="section">
-    <h2>5. 仓位决策</h2>
+    <h2>仓位决策</h2>
     <div class="score-bar">
         <div class="score-item">
             <div class="score-label">胜率</div>

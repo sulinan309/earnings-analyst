@@ -151,37 +151,102 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
         <tr><td class="op">−</td><td>当前市值</td><td>8500.00 亿</td></tr>
         <tr class="separator result"><td class="op">=</td><td>安全边际</td><td class="negative">-549.61 亿 (-6.5%)</td></tr>
     </table>
-    <h3 style="font-size:15px;margin-top:20px;margin-bottom:4px;color:var(--text-dim)">折现率敏感性分析</h3>
+    <h3 style="font-size:15px;margin-top:20px;margin-bottom:4px;color:var(--text-dim)">三情景估值对比</h3>
     <table class="sens-table">
-        <tr><th>折现率</th><th>零增长估值</th><th>内在价值</th><th>安全边际</th><th>赔率</th></tr>
-        
-            <tr class="">
-                <td>8%</td>
-                <td>7425.0</td>
-                <td>9435.4</td>
-                <td class="positive">+11.0% ✓</td>
-                <td>11.0%</td>
-            </tr>
-            <tr class="current">
-                <td>10%</td>
-                <td>5940.0</td>
-                <td>7950.4</td>
-                <td class="negative">-6.5%</td>
-                <td>-6.5%</td>
-            </tr>
-            <tr class="">
-                <td>12%</td>
-                <td>4950.0</td>
-                <td>6960.4</td>
-                <td class="negative">-18.1%</td>
-                <td>-18.1%</td>
-            </tr>
+        <tr><th style="text-align:left">情景</th><th>OE</th><th>内在价值</th><th>安全边际</th></tr>
+        <tr class=""><td style="text-align:left">保守</td><td>517</td><td>5532</td><td class="negative">-34.9%</td></tr><tr class="current"><td style="text-align:left">★ 中性</td><td>594</td><td>7950</td><td class="negative">-6.5%</td></tr><tr class=""><td style="text-align:left">乐观</td><td>632</td><td>24199</td><td class="positive">+184.7%</td></tr>
     </table>
+    <div style="font-size:12px;color:var(--text-muted);margin-top:8px">
+        保守: r=12%零增长,Capex×1.2 · 中性: r=10%零增长,当前OE · 乐观: r=8%,g=5%,Capex×0.9
+    </div>
+</div>
+
+<div class="section">
+    <h2>核心 KPI 仪表盘 · 电商+云+本地生活</h2>
+    <table class="sens-table">
+        <tr><th style="text-align:left">指标</th><th>当前值</th><th style="text-align:left">说明</th></tr>
+        <tr>
+            <td style="text-align:left">收入增速(同口径)</td>
+            <td class="positive">9-15% ↑</td>
+            <td style="font-size:12px;color:var(--text-dim)">剔除出售高鑫/银泰后同口径+15%</td>
+        </tr><tr>
+            <td style="text-align:left">云收入增速</td>
+            <td class="positive">26% ↑</td>
+            <td style="font-size:12px;color:var(--text-dim)">AI需求驱动加速</td>
+        </tr><tr>
+            <td style="text-align:left">AI+云Capex(近4季)</td>
+            <td class="negative">1200亿 ↑</td>
+            <td style="font-size:12px;color:var(--text-dim)">3年计划3800亿的1/3已投出</td>
+        </tr><tr>
+            <td style="text-align:left">FCF(前三季度)</td>
+            <td class="negative">-293亿 ↓</td>
+            <td style="font-size:12px;color:var(--text-dim)">累计净流出，AI投入吞噬现金流</td>
+        </tr><tr>
+            <td style="text-align:left">现金储备</td>
+            <td class="positive">5602亿 →</td>
+            <td style="font-size:12px;color:var(--text-dim)">仍有充足弹药</td>
+        </tr><tr>
+            <td style="text-align:left">经调整EBITA利润率</td>
+            <td class="negative">~下降 ↓</td>
+            <td style="font-size:12px;color:var(--text-dim)">即时零售+AI投入双重压力</td>
+        </tr>
+    </table>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
+        <div style="background:var(--green-bg);border-radius:8px;padding:12px">
+            <div style="font-weight:600;color:var(--green);margin-bottom:8px">核心发现</div>
+            <ul style="font-size:13px;padding-left:16px"><li style="color:var(--green)">云业务+26%加速增长，AI需求成为真正的收入驱动力而非概念</li><li style="color:var(--green)">同口径收入+15%，剥离低效资产后核心业务增速健康</li><li style="color:var(--green)">5602亿现金储备，即使FCF为负也有充足弹药支撑3800亿AI投入</li></ul>
+        </div>
+        <div style="background:var(--yellow-bg);border-radius:8px;padding:12px">
+            <div style="font-weight:600;color:var(--yellow);margin-bottom:8px">核心隐忧</div>
+            <ul style="font-size:13px;padding-left:16px"><li style="color:var(--yellow)">前三季度FCF累计净流出293亿，这是阿里历史上罕见的</li><li style="color:var(--yellow)">Capex年化1264亿vs CFO年化890亿，资本支出已超过造血能力</li><li style="color:var(--yellow)">即时零售(闪购)烧钱+AI Capex双重压力，利润率短期看不到底</li></ul>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>管理层信号</h2>
+    <table class="sens-table"><tr><th></th><th style="text-align:left">指标</th><th style="text-align:left">指引</th><th style="text-align:left">实际</th></tr><tr><td>✅</td><td>AI+云投入</td><td>3年投3800亿</td><td>前4季度已投1200亿(占31.6%)</td></tr><tr><td>✅</td><td>资产剥离</td><td>出售非核心资产</td><td>已出售高鑫零售+银泰</td></tr></table>
+    <div style="margin-top:8px;font-size:13px;color:var(--text-dim)">指引可信度: 中 — 吴泳铭战略方向清晰，但利润端兑现持续低于预期</div>
+    
+    <div style="margin-top:16px;padding:12px;background:var(--bg);border-radius:8px">
+        <div style="font-size:13px;color:var(--text-dim)"><strong>资本配置:</strong> 双重烧钱：AI+云Capex年化1264亿 + 即时零售(闪购)持续投入。FCF已转负，用存量现金支撑。出售非核心资产回血。</div>
+        <div style="font-size:13px;color:var(--text-dim);margin-top:8px"><strong>业绩会 tone:</strong> 吴泳铭：'构建AI技术基础设施与大消费平台的关键投入期，短期利润承压'</div>
+        <div style="font-size:13px;color:var(--blue);margin-top:4px">vs 上期: 从'降本增效'180度转向'全面重投入'，市场仍在消化</div>
+    </div>
+    <div class="warn-box" style="margin-top:12px"><div style="font-weight:600">⚠ 风险信号</div><ul style="padding-left:16px;margin-top:4px"><li>FCF前三季度累计净流出293亿，阿里历史首次</li><li>Capex年化1264亿 &gt; CFO年化890亿，入不敷出</li><li>利润率持续恶化，看不到投入回报的时间表</li></ul></div>
+</div>
+
+<div class="section">
+    <h2>Variant View — 市场共识 vs 我们的判断</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div style="background:var(--bg);border-radius:8px;padding:16px;border-left:3px solid var(--text-dim)">
+            <div style="font-weight:600;color:var(--text-dim);margin-bottom:8px">市场共识</div>
+            <div style="font-size:14px">市场共识：阿里处于'重投入期'，AI+云和即时零售双线烧钱，短期利润承压，估值便宜(~10x经调整PE)但缺乏催化剂。</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:8px">市值8500亿隐含利润增速~5-8%</div>
+        </div>
+        <div style="background:var(--bg);border-radius:8px;padding:16px;border-left:3px solid var(--blue)">
+            <div style="font-weight:600;color:var(--blue);margin-bottom:8px">我们的判断</div>
+            <div style="font-size:14px">OE框架显示安全边际-6.5%，几乎处于盈亏平衡。关键矛盾：年化Capex 1264亿已超过CFO 890亿，阿里正在用存量现金支撑AI投入。如果云业务AI收入能在2-3年内贡献500亿+增量利润，当前价格是极好的买入点；如果不能，就是价值陷阱。</div>
+        </div>
+    </div>
+    <div style="background:var(--yellow-bg);border-radius:8px;padding:16px;margin-top:16px">
+        <div style="font-weight:600;color:var(--yellow);margin-bottom:8px">市场错在哪</div>
+        <div style="font-size:14px">市场可能过度悲观了。同口径收入+15%说明核心业务增长健康，云+26%加速增长是实质性的AI变现（不是PPT）。5602亿现金储备意味着即使烧3年也不会出现财务危机。但市场也有道理——利润率下降、FCF转负是真实的。分歧在于：这是'黎明前的黑暗'还是'无底洞的开始'？</div>
+    </div>
+    <div style="margin-top:16px"><div style="font-weight:600;margin-bottom:8px">关键分歧</div><ul style="font-size:14px;padding-left:16px"><li>3800亿AI投入的回报期——2年？3年？5年？还是永远收不回来？</li><li>即时零售(闪购)能否成为第二增长曲线？还是美团不可逾越？</li><li>出售高鑫+银泰后，还有哪些资产可以剥离回血？</li></ul></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
+        <div><div style="font-weight:600;color:var(--green);margin-bottom:8px">正面催化剂</div><ul style="font-size:13px;padding-left:16px"><li style="color:var(--green)">云业务AI收入单季突破200亿 → AI投入回报可见</li><li style="color:var(--green)">FCF重新转正 → 最悲观的情景被排除</li><li style="color:var(--green)">管理层回购加速 → Combo D2 信号确认</li></ul></div>
+        <div><div style="font-weight:600;color:var(--red);margin-bottom:8px">负面催化剂</div><ul style="font-size:13px;padding-left:16px"><li style="color:var(--red)">FCF持续为负超过4个季度</li><li style="color:var(--red)">核心电商GMV出现下滑</li><li style="color:var(--red)">管理层继续追加投入超出3800亿承诺</li></ul></div>
+    </div>
+    <div class="warn-box" style="margin-top:16px">
+        <div style="font-weight:600">Kill Conditions — 论点证伪条件</div>
+        <ul style="padding-left:16px;margin-top:4px;font-size:14px"><li>云业务AI收入增速跌至&lt;15%（投入效率低下）</li><li>核心电商OE连续3季度下滑</li><li>管理层放弃回购</li></ul>
+    </div>
 </div>
 
 <!-- Combo A -->
 <div class="section">
-    <h2>4. Combo A · 估值安全边际型 [2/4] ❌ 未触发</h2>
+    <h2>Combo A · 估值安全边际型 [2/4] ❌ 未触发</h2>
     
         <div class="condition not-triggered">
             <div class="condition-header">
@@ -224,7 +289,7 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
 
 <!-- 决策 -->
 <div class="section">
-    <h2>5. 仓位决策</h2>
+    <h2>仓位决策</h2>
     <div class="score-bar">
         <div class="score-item">
             <div class="score-label">胜率</div>
