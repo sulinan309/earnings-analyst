@@ -8,6 +8,9 @@ from datetime import date
 from src.frameworks.oe_calculator import OECalculator, OEResult, FinancialData
 from src.signals.combo_scanner import ComboScanResult
 from src.frameworks.odds_matrix import MatrixResult
+from src.frameworks.kpi_dashboard import get_kpi_dashboard, KPIDashboard
+from src.frameworks.management_signals import get_management_signals, ManagementSignals
+from src.frameworks.variant_view import get_variant_view, VariantView
 from src.output.report_generator import ReportInput
 
 
@@ -19,7 +22,10 @@ def generate_html(inp: ReportInput) -> str:
     m = inp.matrix_result
     d = inp.report_date or date.today()
 
-    sensitivity = OECalculator(discount_rate=0.10).sensitivity(fd)
+    scenarios = OECalculator(discount_rate=0.10).scenario_analysis(fd)
+    kpi = get_kpi_dashboard(inp.ticker)
+    mgmt = get_management_signals(inp.ticker)
+    variant = get_variant_view(inp.ticker)
 
     margin_class = "positive" if oe.has_safety_margin else "negative"
     margin_label = "存在安全边际" if oe.has_safety_margin else "无安全边际"
@@ -47,19 +53,7 @@ def generate_html(inp: ReportInput) -> str:
             {gap_html}
         </div>"""
 
-    # 敏感性表格行
-    sens_rows = ""
-    for r in sensitivity:
-        row_cls = "current" if r.discount_rate == oe.discount_rate else ""
-        tag = " ✓" if r.has_safety_margin else ""
-        sens_rows += f"""
-            <tr class="{row_cls}">
-                <td>{r.discount_rate:.0%}</td>
-                <td>{r.zero_growth_value:.1f}</td>
-                <td>{r.intrinsic_value:.1f}</td>
-                <td class="{'positive' if r.safety_margin_pct > 0 else 'negative'}">{r.safety_margin_pct:+.1f}%{tag}</td>
-                <td>{r.odds:.1%}</td>
-            </tr>"""
+    # (scenarios table is rendered inline in the HTML template)
 
     # 缺失项
     missing_html = ""
@@ -227,23 +221,32 @@ body {{ background: var(--bg); color: var(--text); font-family: -apple-system, '
         <tr><td class="op">−</td><td>当前市值</td><td>{oe.market_cap:.2f} 亿</td></tr>
         <tr class="separator result"><td class="op">=</td><td>安全边际</td><td class="{margin_class}">{oe.safety_margin:+.2f} 亿 ({oe.safety_margin_pct:+.1f}%)</td></tr>
     </table>
-    <h3 style="font-size:15px;margin-top:20px;margin-bottom:4px;color:var(--text-dim)">折现率敏感性分析</h3>
+    <h3 style="font-size:15px;margin-top:20px;margin-bottom:4px;color:var(--text-dim)">三情景估值对比</h3>
     <table class="sens-table">
-        <tr><th>折现率</th><th>零增长估值</th><th>内在价值</th><th>安全边际</th><th>赔率</th></tr>
-        {sens_rows}
+        <tr><th style="text-align:left">情景</th><th>OE</th><th>内在价值</th><th>安全边际</th></tr>
+        {''.join(f'<tr class="{"current" if s.name == "中性" else ""}"><td style="text-align:left">{"★ " if s.name == "中性" else ""}{s.name}</td><td>{s.oe.oe:.0f}</td><td>{s.intrinsic_value:.0f}</td><td class="{"positive" if s.safety_margin_pct > 0 else "negative"}">{s.safety_margin_pct:+.1f}%</td></tr>' for s in scenarios)}
     </table>
+    <div style="font-size:12px;color:var(--text-muted);margin-top:8px">
+        保守: r=12%零增长,Capex×1.2 · 中性: r=10%零增长,当前OE · 乐观: r=8%,g=5%,Capex×0.9
+    </div>
 </div>
+
+{_render_kpi_section(kpi)}
+
+{_render_mgmt_section(mgmt)}
+
+{_render_variant_section(variant)}
 
 <!-- Combo A -->
 <div class="section">
-    <h2>4. Combo A · 估值安全边际型 [{ca.triggered_count}/{ca.total_count}] {"✅ 触发" if ca.triggered else "❌ 未触发"}</h2>
+    <h2>Combo A · 估值安全边际型 [{ca.triggered_count}/{ca.total_count}] {"✅ 触发" if ca.triggered else "❌ 未触发"}</h2>
     {combo_rows}
     {missing_html}
 </div>
 
 <!-- 决策 -->
 <div class="section">
-    <h2>5. 仓位决策</h2>
+    <h2>仓位决策</h2>
     <div class="score-bar">
         <div class="score-item">
             <div class="score-label">胜率</div>
@@ -284,6 +287,112 @@ def _esc(s: str) -> str:
     """HTML 转义"""
     return (s.replace("&", "&amp;").replace("<", "&lt;")
              .replace(">", "&gt;").replace('"', "&quot;"))
+
+
+def _render_kpi_section(kpi: KPIDashboard | None) -> str:
+    if kpi is None:
+        return ""
+    rows = ""
+    for k in kpi.kpis:
+        trend_cls = "positive" if k.is_positive else "negative"
+        val = f"{k.current}" if isinstance(k.current, str) else f"{k.current:g}"
+        rows += f"""<tr>
+            <td style="text-align:left">{_esc(k.name)}</td>
+            <td class="{trend_cls}">{val}{_esc(k.unit)} {k.trend}</td>
+            <td style="font-size:12px;color:var(--text-dim)">{_esc(k.note)}</td>
+        </tr>"""
+
+    highlights = "".join(f'<li style="color:var(--green)">{_esc(h)}</li>' for h in kpi.highlights)
+    concerns = "".join(f'<li style="color:var(--yellow)">{_esc(c)}</li>' for c in kpi.concerns)
+
+    return f"""<div class="section">
+    <h2>核心 KPI 仪表盘 · {_esc(kpi.business_type)}</h2>
+    <table class="sens-table">
+        <tr><th style="text-align:left">指标</th><th>当前值</th><th style="text-align:left">说明</th></tr>
+        {rows}
+    </table>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
+        <div style="background:var(--green-bg);border-radius:8px;padding:12px">
+            <div style="font-weight:600;color:var(--green);margin-bottom:8px">核心发现</div>
+            <ul style="font-size:13px;padding-left:16px">{highlights}</ul>
+        </div>
+        <div style="background:var(--yellow-bg);border-radius:8px;padding:12px">
+            <div style="font-weight:600;color:var(--yellow);margin-bottom:8px">核心隐忧</div>
+            <ul style="font-size:13px;padding-left:16px">{concerns}</ul>
+        </div>
+    </div>
+</div>"""
+
+
+def _render_mgmt_section(mgmt: ManagementSignals | None) -> str:
+    if mgmt is None:
+        return ""
+
+    guidance_rows = ""
+    for g in mgmt.guidance_track:
+        icon = "✅" if g.hit else "❌"
+        guidance_rows += f"<tr><td>{icon}</td><td>{_esc(g.metric)}</td><td>{_esc(g.guidance)}</td><td>{_esc(g.actual)}</td></tr>"
+
+    actions_html = ""
+    for a in mgmt.insider_actions:
+        sig_cls = "positive" if a.signal == "正面" else ("negative" if a.signal == "负面" else "text-dim")
+        actions_html += f'<div style="margin-bottom:8px"><span class="{sig_cls}" style="font-weight:600">{_esc(a.action_type)}</span> {_esc(a.amount)} ({_esc(a.period)}) — {_esc(a.detail)}</div>'
+
+    flags_html = ""
+    if mgmt.red_flags:
+        flags = "".join(f"<li>{_esc(f)}</li>" for f in mgmt.red_flags)
+        flags_html = f'<div class="warn-box" style="margin-top:12px"><div style="font-weight:600">⚠ 风险信号</div><ul style="padding-left:16px;margin-top:4px">{flags}</ul></div>'
+
+    return f"""<div class="section">
+    <h2>管理层信号</h2>
+    {f'<table class="sens-table"><tr><th></th><th style="text-align:left">指标</th><th style="text-align:left">指引</th><th style="text-align:left">实际</th></tr>{guidance_rows}</table>' if guidance_rows else '<div style="color:var(--text-muted)">管理层未提供前瞻指引</div>'}
+    <div style="margin-top:8px;font-size:13px;color:var(--text-dim)">指引可信度: {_esc(mgmt.guidance_credibility)}</div>
+    {f'<div style="margin-top:16px"><div style="font-weight:600;margin-bottom:8px">内部人行为</div>{actions_html}</div>' if actions_html else ''}
+    <div style="margin-top:16px;padding:12px;background:var(--bg);border-radius:8px">
+        <div style="font-size:13px;color:var(--text-dim)"><strong>资本配置:</strong> {_esc(mgmt.capital_allocation_summary)}</div>
+        <div style="font-size:13px;color:var(--text-dim);margin-top:8px"><strong>业绩会 tone:</strong> {_esc(mgmt.tone_summary)}</div>
+        {f'<div style="font-size:13px;color:var(--blue);margin-top:4px">vs 上期: {_esc(mgmt.tone_shift)}</div>' if mgmt.tone_shift else ''}
+    </div>
+    {flags_html}
+</div>"""
+
+
+def _render_variant_section(variant: VariantView | None) -> str:
+    if variant is None:
+        return ""
+
+    debates = "".join(f"<li>{_esc(d)}</li>" for d in variant.key_debates)
+    catalysts = "".join(f'<li style="color:var(--green)">{_esc(c)}</li>' for c in variant.catalysts)
+    anti_catalysts = "".join(f'<li style="color:var(--red)">{_esc(c)}</li>' for c in variant.anti_catalysts)
+    kills = "".join(f"<li>{_esc(k)}</li>" for k in variant.kill_conditions)
+
+    return f"""<div class="section">
+    <h2>Variant View — 市场共识 vs 我们的判断</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div style="background:var(--bg);border-radius:8px;padding:16px;border-left:3px solid var(--text-dim)">
+            <div style="font-weight:600;color:var(--text-dim);margin-bottom:8px">市场共识</div>
+            <div style="font-size:14px">{_esc(variant.consensus)}</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:8px">{_esc(variant.consensus_implied_growth)}</div>
+        </div>
+        <div style="background:var(--bg);border-radius:8px;padding:16px;border-left:3px solid var(--blue)">
+            <div style="font-weight:600;color:var(--blue);margin-bottom:8px">我们的判断</div>
+            <div style="font-size:14px">{_esc(variant.our_view)}</div>
+        </div>
+    </div>
+    <div style="background:var(--yellow-bg);border-radius:8px;padding:16px;margin-top:16px">
+        <div style="font-weight:600;color:var(--yellow);margin-bottom:8px">市场错在哪</div>
+        <div style="font-size:14px">{_esc(variant.why_market_wrong)}</div>
+    </div>
+    <div style="margin-top:16px"><div style="font-weight:600;margin-bottom:8px">关键分歧</div><ul style="font-size:14px;padding-left:16px">{debates}</ul></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
+        <div><div style="font-weight:600;color:var(--green);margin-bottom:8px">正面催化剂</div><ul style="font-size:13px;padding-left:16px">{catalysts}</ul></div>
+        <div><div style="font-weight:600;color:var(--red);margin-bottom:8px">负面催化剂</div><ul style="font-size:13px;padding-left:16px">{anti_catalysts}</ul></div>
+    </div>
+    <div class="warn-box" style="margin-top:16px">
+        <div style="font-weight:600">Kill Conditions — 论点证伪条件</div>
+        <ul style="padding-left:16px;margin-top:4px;font-size:14px">{kills}</ul>
+    </div>
+</div>"""
 
 
 def _next_steps_html(inp: ReportInput) -> str:
