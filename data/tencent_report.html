@@ -65,11 +65,16 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
 .next-steps { list-style: none; padding: 0; }
 .next-steps li { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
 .next-steps li::before { content: "→ "; color: var(--blue); font-weight: 700; }
+.warn-box { background: var(--yellow-bg); border: 1px solid rgba(210,153,34,0.3); border-radius: 8px; padding: 12px 16px; margin-top: 12px; font-size: 13px; color: var(--yellow); }
+.portfolio-box { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-top: 12px; }
+.portfolio-box .portfolio-title { font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--text-dim); }
+.back-link { display: inline-block; margin-bottom: 16px; font-size: 14px; }
 .footer { text-align: center; color: var(--text-muted); font-size: 12px; margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); }
 </style>
 </head>
 <body>
 
+<a href="/" class="back-link">← 返回首页</a>
 <div class="header">
     <h1>腾讯 (0700.HK)</h1>
     <div class="meta">
@@ -95,7 +100,7 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
     <div class="data-card">
         <div class="label">内在价值</div>
         <div class="value">27868.9<small> 亿</small></div>
-        <div class="sub">零增长 22748.0 + 净现金 -576.0</div>
+        <div class="sub">零增长 22748.0 + 净现金 -576.0 + 投资 5696.9</div>
     </div>
     <div class="data-card">
         <div class="label">安全边际</div>
@@ -109,10 +114,11 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
     <h2>1. Owner's Earnings 计算</h2>
     <table class="calc-table">
         <tr><td></td><td>经营性现金流 (CFO)</td><td>2879.80 亿</td></tr>
-        <tr><td class="op">−</td><td>维持性资本支出</td><td>605.00 亿</td></tr>
+        <tr><td class="op">−</td><td>维持性资本支出  ⚠ 估算</td><td>605.00 亿</td></tr>
         <tr class="separator result"><td class="op">=</td><td>Owner's Earnings</td><td>2274.80 亿</td></tr>
         <tr><td></td><td colspan="2" style="font-size:13px;color:var(--text-dim)">扩张性 Capex 266.20 亿 (总 871.2 − 维持性 605.0) | OE Margin 27.5%</td></tr>
     </table>
+    <div class="warn-box">⚠ 维持性Capex为估算值: 财报附注(d)仅说明Capex含IT基础设施/数据中心/土地/办公/知识产权，未拆分维持性vs扩张性。以EBITDA-经营盈利差额推算折旧摊销~692亿人民币为上限，取FY2024折旧摊销~500亿上浮至550亿人民币作为维持性Capex保守估计</div>
 </div>
 
 <!-- 净现金 -->
@@ -131,6 +137,7 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
         <tr><td class="op">−</td><td>海外现金回流折扣 (15%)</td><td>30.00 亿</td></tr>
         <tr class="separator result"><td class="op">=</td><td>可分配净现金</td><td>-575.96 亿</td></tr>
     </table>
+    <div class="portfolio-box"><div class="portfolio-title">投资组合（保守 50% 折扣）</div><table class="calc-table"><tr><td></td><td>上市投资公允价值</td><td>7399.70 亿</td></tr><tr><td class="op">+</td><td>非上市投资账面价值</td><td>3994.10 亿</td></tr><tr class="separator"><td class="op">=</td><td>投资组合总值</td><td>11393.80 亿</td></tr><tr class="separator result"><td class="op">×</td><td>(1 − 50%) 折扣后</td><td>5696.90 亿</td></tr></table></div>
 </div>
 
 <!-- 估值 -->
@@ -139,6 +146,7 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
     <table class="calc-table">
         <tr><td></td><td>零增长估值 = OE / r</td><td>2274.8 / 10% = 22748.00 亿</td></tr>
         <tr><td class="op">+</td><td>可分配净现金</td><td>-575.96 亿</td></tr>
+        <tr><td class="op">+</td><td>投资组合 (折扣后)</td><td>5696.90 亿</td></tr>
         <tr class="separator result"><td class="op">=</td><td>内在价值</td><td>27868.94 亿</td></tr>
         <tr><td class="op">−</td><td>当前市值</td><td>42000.00 亿</td></tr>
         <tr class="separator result"><td class="op">=</td><td>安全边际</td><td class="negative">-14131.06 亿 (-33.6%)</td></tr>
