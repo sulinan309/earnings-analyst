@@ -11,11 +11,17 @@ from src.frameworks.odds_matrix import MatrixResult
 from src.frameworks.kpi_dashboard import get_kpi_dashboard, KPIDashboard
 from src.frameworks.management_signals import get_management_signals, ManagementSignals
 from src.frameworks.variant_view import get_variant_view, VariantView
+from src.frameworks.deep_analysis import DeepAnalysis
 from src.output.report_generator import ReportInput
 
 
-def generate_html(inp: ReportInput) -> str:
-    """生成完整的 HTML 报告"""
+def generate_html(inp: ReportInput, deep=None) -> str:
+    """生成完整的 HTML 报告
+
+    Args:
+        inp: 基础报告输入
+        deep: FullAnalysisResult（可选），有的话渲染 9 个新 section
+    """
     oe = inp.oe_result
     fd = inp.financial_data
     ca = inp.combo_a
@@ -26,6 +32,13 @@ def generate_html(inp: ReportInput) -> str:
     kpi = get_kpi_dashboard(inp.ticker)
     mgmt = get_management_signals(inp.ticker)
     variant = get_variant_view(inp.ticker)
+
+    # 从 deep (FullAnalysisResult) 中提取 DeepAnalysis 和 capex_sim
+    deep_analysis = None
+    capex_sim = None
+    if deep is not None:
+        deep_analysis = getattr(deep, 'deep', None)
+        capex_sim = getattr(deep, 'capex_sim', None)
 
     margin_class = "positive" if oe.has_safety_margin else "negative"
     margin_label = "存在安全边际" if oe.has_safety_margin else "无安全边际"
@@ -155,8 +168,10 @@ body {{ background: var(--bg); color: var(--text); font-family: -apple-system, '
     </div>
 </div>
 
+{_render_exec_summary(deep_analysis)}
+
 <!-- 核心指标 -->
-<div class="data-grid">
+<div class="data-grid" style="margin-bottom:16px">
     <div class="data-card">
         <div class="label">Owner's Earnings</div>
         <div class="value">{oe.oe:.1f}<small> 亿</small></div>
@@ -231,11 +246,23 @@ body {{ background: var(--bg); color: var(--text); font-family: -apple-system, '
     </div>
 </div>
 
+{_render_revenue_section(deep_analysis)}
+
+{_render_profitability_section(deep_analysis)}
+
 {_render_kpi_section(kpi)}
+
+{_render_capex_sim_section(capex_sim)}
+
+{_render_competition_section(deep_analysis)}
 
 {_render_mgmt_section(mgmt)}
 
 {_render_variant_section(variant)}
+
+{_render_philosophies_section(deep_analysis)}
+
+{_render_premortem_section(deep_analysis)}
 
 <!-- Combo A -->
 <div class="section">
@@ -281,6 +308,135 @@ body {{ background: var(--bg); color: var(--text); font-family: -apple-system, '
 
 </body>
 </html>"""
+
+
+def _render_exec_summary(deep: DeepAnalysis | None) -> str:
+    if deep is None or deep.executive_summary is None:
+        return ""
+    es = deep.executive_summary
+    tldr = "".join(f"<li>{_esc(t)}</li>" for t in es.tldr)
+    kf_html = ""
+    for kf in deep.key_forces:
+        kf_html += f"""<div style="background:var(--bg);border-left:3px solid var(--blue);border-radius:8px;padding:12px 16px;margin-bottom:8px">
+            <div style="font-weight:600;color:var(--blue)">{_esc(kf.title)}</div>
+            <div style="font-size:13px;margin-top:4px">{_esc(kf.body)}</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:4px">OE含义: {_esc(kf.oe_implication)}</div>
+        </div>"""
+    return f"""<div class="section" style="border-color:var(--blue)">
+    <h2 style="font-size:22px;border:none;padding:0;margin-bottom:8px">{_esc(es.headline)}</h2>
+    <div style="background:var(--blue-bg);color:var(--blue);display:inline-block;padding:4px 16px;border-radius:20px;font-weight:600;font-size:14px;margin-bottom:16px">{_esc(es.action)}</div>
+    <div style="margin-bottom:16px"><ul style="font-size:14px;padding-left:16px;display:flex;flex-direction:column;gap:4px">{tldr}</ul></div>
+    <div style="font-size:14px;color:var(--text-dim);line-height:1.8;white-space:pre-line">{_esc(es.body)}</div>
+    {f'<div style="margin-top:20px"><div style="font-weight:600;margin-bottom:8px">Key Forces（决定性力量）</div>{kf_html}</div>' if kf_html else ''}
+</div>"""
+
+
+def _render_revenue_section(deep: DeepAnalysis | None) -> str:
+    if deep is None or not deep.revenue_breakdown or not deep.revenue_breakdown.segments:
+        return ""
+    rows = ""
+    for s in deep.revenue_breakdown.segments:
+        rows += f"<tr><td style='text-align:left'>{_esc(str(s.get('name','')))}</td><td>{s.get('fy2025','')}</td><td>{_esc(str(s.get('yoy','')))}</td><td>{_esc(str(s.get('share','')))}</td><td style='font-size:12px;color:var(--text-dim)'>{_esc(str(s.get('trend','')))}</td></tr>"
+    return f"""<div class="section">
+    <h2>收入拆分</h2>
+    <table class="sens-table">
+        <tr><th style="text-align:left">业务线</th><th>FY2025(亿)</th><th>同比</th><th>占比</th><th style="text-align:left">趋势</th></tr>
+        {rows}
+    </table>
+</div>"""
+
+
+def _render_profitability_section(deep: DeepAnalysis | None) -> str:
+    if deep is None or not deep.profitability or not deep.profitability.metrics:
+        return ""
+    rows = ""
+    for m in deep.profitability.metrics:
+        rows += f"<tr><td style='text-align:left'>{_esc(str(m.get('name','')))}</td><td>{m.get('fy2024','')}</td><td>{m.get('fy2025','')}</td><td>{_esc(str(m.get('change','')))}</td></tr>"
+    insight = f'<div style="margin-top:12px;font-size:13px;color:var(--text-dim)">💡 {_esc(deep.profitability.insight)}</div>' if deep.profitability.insight else ""
+    return f"""<div class="section">
+    <h2>盈利能力趋势</h2>
+    <table class="sens-table">
+        <tr><th style="text-align:left">指标</th><th>FY2024</th><th>FY2025</th><th>变化</th></tr>
+        {rows}
+    </table>
+    {insight}
+</div>"""
+
+
+def _render_capex_sim_section(capex_sim) -> str:
+    if not capex_sim:
+        return ""
+    rows = ""
+    for s in capex_sim:
+        oe_cls = "positive" if s.oe > 0 else "negative"
+        fcf_cls = "positive" if s.fcf > 0 else "negative"
+        rows += f"<tr><td style='text-align:left'>{_esc(s.label)}</td><td>{s.cfo:.0f}</td><td>{s.total_capex:.0f}</td><td>{s.maintenance_capex:.0f}</td><td class='{oe_cls}'>{s.oe:.0f}</td><td class='{fcf_cls}'>{s.fcf:.0f}</td></tr>"
+    return f"""<div class="section">
+    <h2>CapEx 冲击模拟</h2>
+    <table class="sens-table">
+        <tr><th style="text-align:left">场景</th><th>CFO</th><th>总Capex</th><th>维持性</th><th>OE</th><th>FCF</th></tr>
+        {rows}
+    </table>
+    <div style="font-size:12px;color:var(--text-muted);margin-top:8px">基准: CFO温和增长+Capex持平 · 悲观: CFO不增长+Capex大幅增长</div>
+</div>"""
+
+
+def _render_competition_section(deep: DeepAnalysis | None) -> str:
+    if deep is None or not deep.competition or not deep.competition.dimensions:
+        return ""
+    d0 = deep.competition.dimensions[0]
+    rows = ""
+    for d in deep.competition.dimensions:
+        rows += f"<tr><td style='text-align:left'>{_esc(str(d.get('metric','')))}</td><td>{_esc(str(d.get('company_value','')))}</td><td>{_esc(str(d.get('comp1_value','')))}</td><td>{_esc(str(d.get('comp2_value','')))}</td></tr>"
+    moat = f'<div style="margin-top:12px;padding:12px;background:var(--bg);border-radius:8px;font-size:13px"><strong>护城河评估:</strong> {_esc(deep.competition.moat_assessment)}</div>' if deep.competition.moat_assessment else ""
+    return f"""<div class="section">
+    <h2>竞争格局</h2>
+    <table class="sens-table">
+        <tr><th style="text-align:left">维度</th><th>本公司</th><th>{_esc(str(d0.get('comp1_name','竞对1')))}</th><th>{_esc(str(d0.get('comp2_name','竞对2')))}</th></tr>
+        {rows}
+    </table>
+    {moat}
+</div>"""
+
+
+def _render_philosophies_section(deep: DeepAnalysis | None) -> str:
+    if deep is None or not deep.philosophies:
+        return ""
+    verdict_map = {"看多": ("🟢", "positive"), "轻多": ("🟡", ""), "观望": ("⚪", "text-dim"), "看空": ("🔴", "negative")}
+    rows = ""
+    for p in deep.philosophies:
+        icon, cls = verdict_map.get(p.verdict, ("⚪", "text-dim"))
+        rows += f"""<div style="display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border)">
+            <div style="font-size:20px;min-width:28px">{icon}</div>
+            <div style="flex:1">
+                <div><span class="{cls}" style="font-weight:700">{_esc(p.verdict)}</span> <span style="font-weight:600">{_esc(p.name)}</span> <span style="color:var(--text-muted);font-size:13px">({_esc(p.representative)})</span></div>
+                <div style="font-size:13px;color:var(--text-dim);margin-top:2px">{_esc(p.reasoning)}</div>
+            </div>
+        </div>"""
+    return f"""<div class="section">
+    <h2>6大投资哲学视角</h2>
+    {rows}
+</div>"""
+
+
+def _render_premortem_section(deep: DeepAnalysis | None) -> str:
+    if deep is None or deep.pre_mortem is None:
+        return ""
+    pm = deep.pre_mortem
+    paths = "".join(f'<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border)"><span style="font-size:14px">{_esc(fp.get("description",""))}</span><span style="color:var(--yellow);font-weight:600;min-width:40px;text-align:right">{_esc(str(fp.get("probability","")))}</span></div>' for fp in pm.failure_paths)
+    biases = "".join(f'<tr><td style="text-align:left;font-weight:600">{_esc(str(cb.get("bias","")))}</td><td style="text-align:left;color:var(--red)">{_esc(str(cb.get("risk","")))}</td><td style="text-align:left;color:var(--green)">{_esc(str(cb.get("check","")))}</td></tr>' for cb in pm.cognitive_biases)
+    return f"""<div class="section">
+    <h2>Pre-Mortem & Anti-Bias</h2>
+    <div style="background:var(--red-bg);border-radius:8px;padding:16px;margin-bottom:16px">
+        <div style="font-weight:600;color:var(--red);margin-bottom:12px">{_esc(pm.failure_scenario)}</div>
+        {paths}
+    </div>
+    <div style="font-weight:600;margin-bottom:8px">认知偏差自检</div>
+    <table class="sens-table">
+        <tr><th style="text-align:left">偏差</th><th style="text-align:left">风险</th><th style="text-align:left">检查</th></tr>
+        {biases}
+    </table>
+</div>"""
 
 
 def _esc(s: str) -> str:
