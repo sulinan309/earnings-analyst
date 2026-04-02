@@ -1,0 +1,52 @@
+{
+  "watchlist": [
+    {
+      "name": "美团",
+      "ticker": "3690.HK",
+      "focus": "核心本地商业利润率、新业务亏损收窄",
+      "asset_tier": "顶级资产",
+      "odds_threshold": 0.40,
+      "key_metrics": ["核心本地商业OPM", "新业务亏损率", "外卖单均利润"]
+    },
+    {
+      "name": "快手",
+      "ticker": "1024.HK",
+      "focus": "电商GMV变现率、可灵商业化、海外投入节奏",
+      "asset_tier": "中等质量",
+      "odds_threshold": 0.70,
+      "key_metrics": ["电商GMV", "take_rate", "海外DAU", "可灵收入"]
+    },
+    {
+      "name": "小米",
+      "ticker": "1810.HK",
+      "focus": "汽车业务Capex对OE的侵蚀",
+      "asset_tier": "中等质量",
+      "odds_threshold": 0.70,
+      "key_metrics": ["汽车交付量", "单车毛利", "汽车Capex", "IoT收入增速"]
+    },
+    {
+      "name": "腾讯",
+      "ticker": "0700.HK",
+      "focus": "投资组合公允价值、回购力度",
+      "asset_tier": "顶级资产",
+      "odds_threshold": 0.40,
+      "key_metrics": ["游戏收入增速", "视频号商业化", "投资组合估值", "回购金额"]
+    },
+    {
+      "name": "阿里",
+      "ticker": "9988.HK",
+      "focus": "云业务利润率拐点、资产剥离进度",
+      "asset_tier": "中等质量",
+      "odds_threshold": 0.70,
+      "key_metrics": ["云业务收入增速", "云业务EBITA利润率", "淘天GMV", "资产剥离进展"]
+    }
+  ],
+  "global_params": {
+    "discount_rate_range": [0.08, 0.12],
+    "default_discount_rate": 0.10,
+    "operating_reserve_months": 1.5,
+    "overseas_cash_discount": 0.15,
+    "currency": "HKD",
+    "precision_unit": "亿"
+  }
+}

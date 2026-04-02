@@ -1,0 +1,12 @@
+[project]
+name = "earnings-analyst"
+version = "0.1.0"
+description = "港股财报分析工具 - 基于李录 Owner's Earnings 框架"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.4",
+]
