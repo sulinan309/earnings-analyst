@@ -141,11 +141,16 @@ body {{ background: var(--bg); color: var(--text); font-family: -apple-system, '
 .next-steps {{ list-style: none; padding: 0; }}
 .next-steps li {{ padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; }}
 .next-steps li::before {{ content: "→ "; color: var(--blue); font-weight: 700; }}
+.warn-box {{ background: var(--yellow-bg); border: 1px solid rgba(210,153,34,0.3); border-radius: 8px; padding: 12px 16px; margin-top: 12px; font-size: 13px; color: var(--yellow); }}
+.portfolio-box {{ background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-top: 12px; }}
+.portfolio-box .portfolio-title {{ font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--text-dim); }}
+.back-link {{ display: inline-block; margin-bottom: 16px; font-size: 14px; }}
 .footer {{ text-align: center; color: var(--text-muted); font-size: 12px; margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); }}
 </style>
 </head>
 <body>
 
+<a href="/" class="back-link">← 返回首页</a>
 <div class="header">
     <h1>{_esc(inp.company_name)} ({_esc(inp.ticker)})</h1>
     <div class="meta">
@@ -171,7 +176,7 @@ body {{ background: var(--bg); color: var(--text); font-family: -apple-system, '
     <div class="data-card">
         <div class="label">内在价值</div>
         <div class="value">{oe.intrinsic_value:.1f}<small> 亿</small></div>
-        <div class="sub">零增长 {oe.zero_growth_value:.1f} + 净现金 {oe.distributable_net_cash:.1f}</div>
+        <div class="sub">零增长 {oe.zero_growth_value:.1f} + 净现金 {oe.distributable_net_cash:.1f}{f' + 投资 {oe.investment_portfolio_value:.1f}' if oe.investment_portfolio_value else ''}</div>
     </div>
     <div class="data-card">
         <div class="label">安全边际</div>
@@ -185,10 +190,11 @@ body {{ background: var(--bg); color: var(--text); font-family: -apple-system, '
     <h2>1. Owner's Earnings 计算</h2>
     <table class="calc-table">
         <tr><td></td><td>经营性现金流 (CFO)</td><td>{oe.cfo:.2f} 亿</td></tr>
-        <tr><td class="op">−</td><td>维持性资本支出</td><td>{oe.maintenance_capex:.2f} 亿</td></tr>
+        <tr><td class="op">−</td><td>维持性资本支出{'  ⚠ 估算' if oe.maintenance_capex_is_estimated else ''}</td><td>{oe.maintenance_capex:.2f} 亿</td></tr>
         <tr class="separator result"><td class="op">=</td><td>Owner's Earnings</td><td>{oe.oe:.2f} 亿</td></tr>
         <tr><td></td><td colspan="2" style="font-size:13px;color:var(--text-dim)">扩张性 Capex {oe.growth_capex:.2f} 亿 (总 {fd.total_capex:.1f} − 维持性 {oe.maintenance_capex:.1f}) | OE Margin {oe.oe_margin_pct:.1f}%</td></tr>
     </table>
+    {'<div class="warn-box">⚠ 维持性Capex为估算值: ' + _esc(oe.maintenance_capex_note) + '</div>' if oe.maintenance_capex_is_estimated and oe.maintenance_capex_note else ''}
 </div>
 
 <!-- 净现金 -->
@@ -207,6 +213,7 @@ body {{ background: var(--bg); color: var(--text); font-family: -apple-system, '
         <tr><td class="op">−</td><td>海外现金回流折扣 (15%)</td><td>{fd.overseas_cash * 0.15:.2f} 亿</td></tr>
         <tr class="separator result"><td class="op">=</td><td>可分配净现金</td><td>{oe.distributable_net_cash:.2f} 亿</td></tr>
     </table>
+    {'<div class="portfolio-box"><div class="portfolio-title">投资组合（保守 ' + f'{oe.investment_discount_rate:.0%}' + ' 折扣）</div><table class="calc-table"><tr><td></td><td>上市投资公允价值</td><td>' + f'{fd.listed_investments_fv:.2f}' + ' 亿</td></tr><tr><td class="op">+</td><td>非上市投资账面价值</td><td>' + f'{fd.unlisted_investments_bv:.2f}' + ' 亿</td></tr><tr class="separator"><td class="op">=</td><td>投资组合总值</td><td>' + f'{oe.investment_portfolio_gross:.2f}' + ' 亿</td></tr><tr class="separator result"><td class="op">×</td><td>(1 − ' + f'{oe.investment_discount_rate:.0%}' + ') 折扣后</td><td>' + f'{oe.investment_portfolio_value:.2f}' + ' 亿</td></tr></table></div>' if oe.investment_portfolio_gross > 0 else ''}
 </div>
 
 <!-- 估值 -->
@@ -215,6 +222,7 @@ body {{ background: var(--bg); color: var(--text); font-family: -apple-system, '
     <table class="calc-table">
         <tr><td></td><td>零增长估值 = OE / r</td><td>{oe.oe:.1f} / {oe.discount_rate:.0%} = {oe.zero_growth_value:.2f} 亿</td></tr>
         <tr><td class="op">+</td><td>可分配净现金</td><td>{oe.distributable_net_cash:.2f} 亿</td></tr>
+        {'<tr><td class="op">+</td><td>投资组合 (折扣后)</td><td>' + f'{oe.investment_portfolio_value:.2f}' + ' 亿</td></tr>' if oe.investment_portfolio_value else ''}
         <tr class="separator result"><td class="op">=</td><td>内在价值</td><td>{oe.intrinsic_value:.2f} 亿</td></tr>
         <tr><td class="op">−</td><td>当前市值</td><td>{oe.market_cap:.2f} 亿</td></tr>
         <tr class="separator result"><td class="op">=</td><td>安全边际</td><td class="{margin_class}">{oe.safety_margin:+.2f} 亿 ({oe.safety_margin_pct:+.1f}%)</td></tr>

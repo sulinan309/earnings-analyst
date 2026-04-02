@@ -76,21 +76,24 @@ class TestHTMLContent:
 
 class TestWebServer:
     def test_build_report(self):
-        from web import build_report_html
-        html = build_report_html("1024.HK")
+        from web import build_report_input
+        inp = build_report_input("1024.HK")
+        assert inp is not None
+        html = generate_html(inp)
         assert "快手" in html
         assert "<!DOCTYPE html>" in html
 
     def test_build_all_tickers(self):
-        from web import build_report_html
+        from web import build_report_input
         for ticker in ["1024.HK", "3690.HK", "0700.HK"]:
-            html = build_report_html(ticker)
+            inp = build_report_input(ticker)
+            assert inp is not None
+            html = generate_html(inp)
             assert "<!DOCTYPE html>" in html
 
     def test_unknown_ticker(self):
-        from web import build_report_html
-        html = build_report_html("9999.HK")
-        assert "未找到" in html
+        from web import build_report_input
+        assert build_report_input("9999.HK") is None
 
     def test_index_page(self):
         from web import make_index_html

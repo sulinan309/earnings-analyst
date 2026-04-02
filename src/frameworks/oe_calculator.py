@@ -32,9 +32,16 @@ class FinancialData:
     revenue: float                      # 营业收入
     market_cap: float                   # 当前市值
 
+    # ── 投资组合（可选）──
+    listed_investments_fv: float = 0.0  # 上市投资公司权益公允价值
+    unlisted_investments_bv: float = 0.0  # 非上市投资公司权益账面价值
+    investment_discount: float = 0.5    # 投资组合保守折扣率（默认50%）
+
     # ── 元数据 ──
-    period: str                         # 财报期间，如 "2025FY"
+    period: str = ""                    # 财报期间，如 "2025FY"
     ticker: str = ""                    # 股票代码
+    maintenance_capex_is_estimated: bool = False  # 维持性Capex是否为估算值
+    maintenance_capex_note: str = ""    # 维持性Capex估算说明
 
 
 @dataclass
@@ -47,26 +54,33 @@ class OEResult:
     maintenance_capex: float
     growth_capex: float                 # 扩张性 Capex = total - maintenance
     oe_margin_pct: float | None         # OE / 营收 (%)
+    maintenance_capex_is_estimated: bool = False
+    maintenance_capex_note: str = ""
 
     # ── Step 2: 净现金 ──
-    gross_net_cash: float               # 毛净现金
-    operating_reserve: float            # 运营储备扣除额
-    total_deductions: float             # 总扣除额
-    distributable_net_cash: float       # 可分配净现金
+    gross_net_cash: float = 0.0         # 毛净现金
+    operating_reserve: float = 0.0      # 运营储备扣除额
+    total_deductions: float = 0.0       # 总扣除额
+    distributable_net_cash: float = 0.0 # 可分配净现金
+
+    # ── Step 2b: 投资组合 ──
+    investment_portfolio_value: float = 0.0  # 折扣后的投资组合价值
+    investment_portfolio_gross: float = 0.0  # 折扣前的投资组合总值
+    investment_discount_rate: float = 0.5    # 使用的折扣率
 
     # ── Step 3: 零增长估值 ──
-    discount_rate: float
-    zero_growth_value: float            # OE / r
-    intrinsic_value: float              # 零增长估值 + 可分配净现金
+    discount_rate: float = 0.0
+    zero_growth_value: float = 0.0      # OE / r
+    intrinsic_value: float = 0.0        # 零增长估值 + 可分配净现金 + 投资组合
 
     # ── Step 4: 安全边际 ──
-    market_cap: float
-    safety_margin: float                # 内在价值 - 市值
-    safety_margin_pct: float            # 安全边际 / 市值 (%)
-    has_safety_margin: bool
-    odds: float                         # (内在价值 - 市值) / 市值
+    market_cap: float = 0.0
+    safety_margin: float = 0.0          # 内在价值 - 市值
+    safety_margin_pct: float = 0.0      # 安全边际 / 市值 (%)
+    has_safety_margin: bool = False
+    odds: float = 0.0                   # (内在价值 - 市值) / 市值
 
-    period: str
+    period: str = ""
 
 
 class OECalculator:
@@ -126,9 +140,13 @@ class OECalculator:
 
         distributable_net_cash = gross_net_cash - total_deductions
 
+        # ── Step 2b: 投资组合保守估值 ──
+        investment_gross = data.listed_investments_fv + data.unlisted_investments_bv
+        investment_portfolio_value = investment_gross * (1 - data.investment_discount)
+
         # ── Step 3: 零增长估值（禁止多阶段 DCF）──
         zero_growth_value = oe / self.discount_rate
-        intrinsic_value = zero_growth_value + distributable_net_cash
+        intrinsic_value = zero_growth_value + distributable_net_cash + investment_portfolio_value
 
         # ── Step 4: 安全边际判断 ──
         safety_margin = intrinsic_value - data.market_cap
@@ -141,10 +159,15 @@ class OECalculator:
             maintenance_capex=data.maintenance_capex,
             growth_capex=round(growth_capex, 2),
             oe_margin_pct=oe_margin_pct,
+            maintenance_capex_is_estimated=data.maintenance_capex_is_estimated,
+            maintenance_capex_note=data.maintenance_capex_note,
             gross_net_cash=round(gross_net_cash, 2),
             operating_reserve=round(operating_reserve, 2),
             total_deductions=round(total_deductions, 2),
             distributable_net_cash=round(distributable_net_cash, 2),
+            investment_portfolio_value=round(investment_portfolio_value, 2),
+            investment_portfolio_gross=round(investment_gross, 2),
+            investment_discount_rate=data.investment_discount,
             discount_rate=self.discount_rate,
             zero_growth_value=round(zero_growth_value, 2),
             intrinsic_value=round(intrinsic_value, 2),
