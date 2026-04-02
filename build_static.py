@@ -11,12 +11,12 @@ import os
 import webbrowser
 from datetime import date
 
-from main import DEMO_DATA
 from src.frameworks.oe_calculator import OECalculator, FinancialData
 from src.signals.combo_scanner import ComboScanner, ComboAInput
 from src.frameworks.odds_matrix import OddsMatrix
 from src.output.report_generator import ReportInput
 from src.output.html_report import generate_html
+from analyze_all import COMPANIES
 
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "docs")
 CONFIG_PATH = os.path.join(os.path.dirname(__file__), "config", "watchlist.json")
@@ -28,24 +28,25 @@ def _esc(s: str) -> str:
 
 
 def build_report_input(ticker: str, rate: float = 0.10) -> ReportInput | None:
-    demo = DEMO_DATA.get(ticker)
-    if demo is None:
+    co = COMPANIES.get(ticker)
+    if co is None:
         return None
-    oe_result = OECalculator(discount_rate=rate).calculate(demo["financial_data"])
+    fd = co["data"]
+    oe_result = OECalculator(discount_rate=rate).calculate(fd)
     combo_a = ComboScanner().scan_combo_a(
         oe_result,
         ComboAInput(
-            asset_tier=demo["asset_tier"],
-            quarterly_oes=demo["quarterly_oes"],
-            oe_multiple_percentile=demo["oe_multiple_percentile"],
-            structural_deterioration=demo["structural_deterioration"],
+            asset_tier=co["asset_tier"],
+            quarterly_oes=co["quarterly_oes"],
+            oe_multiple_percentile=co["oe_percentile"],
+            structural_deterioration=False,
         ),
     )
-    matrix_result = OddsMatrix().evaluate(combo_a, oe_result.odds, demo["asset_tier"])
+    matrix_result = OddsMatrix().evaluate(combo_a, oe_result.odds, co["asset_tier"])
     return ReportInput(
-        company_name=demo["company_name"], ticker=ticker,
-        asset_tier=demo["asset_tier"], focus=demo["focus"],
-        financial_data=demo["financial_data"], oe_result=oe_result,
+        company_name=co["name"], ticker=ticker,
+        asset_tier=co["asset_tier"], focus=co["focus"],
+        financial_data=fd, oe_result=oe_result,
         combo_a=combo_a, matrix_result=matrix_result,
         report_date=date.today(),
     )
@@ -53,26 +54,9 @@ def build_report_input(ticker: str, rate: float = 0.10) -> ReportInput | None:
 
 def build_index_html(reports: dict[str, ReportInput]) -> str:
     """生成首页：Watchlist 状态卡片"""
-    with open(CONFIG_PATH, "r", encoding="utf-8") as f:
-        config = json.load(f)
 
     cards = ""
-    for item in config["watchlist"]:
-        ticker = item["ticker"]
-        inp = reports.get(ticker)
-
-        if inp is None:
-            cards += f"""
-            <div class="stock-card no-data">
-                <div class="card-header">
-                    <span class="card-name">{_esc(item['name'])}</span>
-                    <span class="card-ticker">{_esc(ticker)}</span>
-                </div>
-                <div class="card-no-data">暂无数据</div>
-                <div class="card-footer">{_esc(item['focus'])}</div>
-            </div>"""
-            continue
-
+    for ticker, inp in reports.items():
         oe = inp.oe_result
         m = inp.matrix_result
         ca = inp.combo_a
@@ -184,7 +168,7 @@ def main():
 
     # 生成每只股票的报告
     reports: dict[str, ReportInput] = {}
-    for ticker in DEMO_DATA:
+    for ticker in COMPANIES:
         inp = build_report_input(ticker)
         if inp is None:
             continue
@@ -197,14 +181,6 @@ def main():
         with open(path, "w", encoding="utf-8") as f:
             f.write(html)
         print(f"  ✓ {path}")
-
-    # 腾讯真实财报分析（如果存在）
-    tencent_report = os.path.join(os.path.dirname(__file__), "data", "tencent_report.html")
-    if os.path.exists(tencent_report):
-        import shutil
-        dest = os.path.join(OUTPUT_DIR, "0700_HK_real.html")
-        shutil.copy2(tencent_report, dest)
-        print(f"  ✓ {dest} (真实财报)")
 
     # 首页
     index_html = build_index_html(reports)
