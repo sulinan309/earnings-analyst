@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>港股财报分析工具</title>
+<style>
+:root {
+    --bg: #0d1117; --surface: #161b22; --border: #30363d;
+    --text: #e6edf3; --text-dim: #8b949e; --text-muted: #484f58;
+    --green: #3fb950; --red: #f85149; --yellow: #d29922; --blue: #58a6ff;
+    --green-bg: rgba(63,185,80,0.12); --red-bg: rgba(248,81,73,0.12);
+    --yellow-bg: rgba(210,153,34,0.12); --blue-bg: rgba(88,166,255,0.12);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); font-family: -apple-system, 'Noto Sans SC', 'PingFang SC', sans-serif; line-height: 1.6; }
+a { color: var(--blue); text-decoration: none; }
+.container { max-width: 1080px; margin: 0 auto; padding: 32px 24px; }
+.page-header { text-align: center; margin-bottom: 40px; }
+.page-header h1 { font-size: 32px; margin-bottom: 8px; }
+.page-header p { color: var(--text-dim); font-size: 15px; }
+.stock-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+.stock-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-decoration: none !important; color: var(--text); transition: border-color 0.2s, transform 0.15s; display: flex; flex-direction: column; gap: 12px; }
+.stock-card:hover { border-color: var(--blue); transform: translateY(-2px); }
+.stock-card.no-data { opacity: 0.5; }
+.card-header { display: flex; align-items: center; gap: 8px; }
+.card-name { font-size: 20px; font-weight: 700; }
+.card-ticker { color: var(--text-dim); font-size: 14px; }
+.tag { background: var(--blue-bg); color: var(--blue); padding: 2px 10px; border-radius: 12px; font-size: 12px; margin-left: auto; }
+.card-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.metric { text-align: center; background: var(--bg); border-radius: 8px; padding: 8px 4px; }
+.metric-label { font-size: 11px; color: var(--text-muted); }
+.metric-value { font-size: 18px; font-weight: 700; font-family: 'SF Mono', monospace; }
+.metric-value small { font-size: 12px; font-weight: 400; }
+.card-action { text-align: center; font-weight: 700; font-size: 15px; padding: 6px; border-radius: 8px; }
+.action-heavy { background: var(--green-bg); color: var(--green); }
+.action-standard { background: var(--blue-bg); color: var(--blue); }
+.action-light { background: var(--yellow-bg); color: var(--yellow); }
+.action-pass { background: var(--red-bg); color: var(--red); }
+.card-footer { font-size: 12px; color: var(--text-muted); }
+.card-no-data { color: var(--text-muted); font-size: 14px; padding: 20px 0; text-align: center; }
+.positive { color: var(--green); }
+.negative { color: var(--red); }
+.text-dim { color: var(--text-dim); }
+.footer { text-align: center; color: var(--text-muted); font-size: 12px; margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="page-header">
+        <h1>港股财报分析工具</h1>
+        <p>基于李录 Owner's Earnings 框架 · 聚焦现金流质量与保守估值 · 更新于 2026-04-02</p>
+    </div>
+    <div class="stock-grid">
+        <a href="3690_HK.html" class="stock-card">
+            <div class="card-header">
+                <span class="card-name">美团</span>
+                <span class="card-ticker">3690.HK</span>
+                <span class="tag">顶级资产</span>
+            </div>
+            <div class="card-metrics">
+                <div class="metric">
+                    <div class="metric-label">OE</div>
+                    <div class="metric-value">325<small>亿</small></div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">安全边际</div>
+                    <div class="metric-value negative">-35.7%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Combo A</div>
+                    <div class="metric-value text-dim">1/4</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">胜率×赔率</div>
+                    <div class="metric-value">1×1</div>
+                </div>
+            </div>
+            <div class="card-action action-pass">不参与</div>
+            <div class="card-footer">核心本地商业利润率、新业务亏损收窄 · FY2024</div>
+        </a>
+        <a href="1024_HK.html" class="stock-card">
+            <div class="card-header">
+                <span class="card-name">快手</span>
+                <span class="card-ticker">1024.HK</span>
+                <span class="tag">中等质量</span>
+            </div>
+            <div class="card-metrics">
+                <div class="metric">
+                    <div class="metric-label">OE</div>
+                    <div class="metric-value">180<small>亿</small></div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">安全边际</div>
+                    <div class="metric-value positive">+32.5%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Combo A</div>
+                    <div class="metric-value positive">3/4</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">胜率×赔率</div>
+                    <div class="metric-value">3×2</div>
+                </div>
+            </div>
+            <div class="card-action action-pass">不参与</div>
+            <div class="card-footer">电商GMV变现率、可灵商业化、海外投入节奏 · FY2024</div>
+        </a>
+            <div class="stock-card no-data">
+                <div class="card-header">
+                    <span class="card-name">小米</span>
+                    <span class="card-ticker">1810.HK</span>
+                </div>
+                <div class="card-no-data">暂无数据</div>
+                <div class="card-footer">汽车业务Capex对OE的侵蚀</div>
+            </div>
+        <a href="0700_HK.html" class="stock-card">
+            <div class="card-header">
+                <span class="card-name">腾讯</span>
+                <span class="card-ticker">0700.HK</span>
+                <span class="tag">顶级资产</span>
+            </div>
+            <div class="card-metrics">
+                <div class="metric">
+                    <div class="metric-label">OE</div>
+                    <div class="metric-value">1600<small>亿</small></div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">安全边际</div>
+                    <div class="metric-value negative">-56.1%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Combo A</div>
+                    <div class="metric-value text-dim">1/4</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">胜率×赔率</div>
+                    <div class="metric-value">1×1</div>
+                </div>
+            </div>
+            <div class="card-action action-pass">不参与</div>
+            <div class="card-footer">投资组合公允价值、回购力度 · FY2024</div>
+        </a>
+            <div class="stock-card no-data">
+                <div class="card-header">
+                    <span class="card-name">阿里</span>
+                    <span class="card-ticker">9988.HK</span>
+                </div>
+                <div class="card-no-data">暂无数据</div>
+                <div class="card-footer">云业务利润率拐点、资产剥离进度</div>
+            </div></div>
+    <div class="footer">
+        港股财报分析工具 · 数据来源: 公司财报原文 &gt; 港交所公告 &gt; 管理层业绩会纪要<br>
+        PDF 上传解析功能请在本地运行: <code>python web.py</code>
+    </div>
+</div>
+</body>
+</html>
