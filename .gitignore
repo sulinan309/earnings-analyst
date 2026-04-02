@@ -13,4 +13,5 @@ venv/
 .ruff_cache/
 preview.html
 *.pdf
-data/reports/
+data/reports/*.pdf
+!data/reports/.gitkeep
