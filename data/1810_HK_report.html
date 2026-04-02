@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小米 (1810.HK) 分析报告</title>
+<style>
+:root {
+    --bg: #0d1117; --surface: #161b22; --border: #30363d;
+    --text: #e6edf3; --text-dim: #8b949e; --text-muted: #484f58;
+    --green: #3fb950; --red: #f85149; --yellow: #d29922; --blue: #58a6ff;
+    --green-bg: rgba(63,185,80,0.12); --red-bg: rgba(248,81,73,0.12);
+    --yellow-bg: rgba(210,153,34,0.12); --blue-bg: rgba(88,166,255,0.12);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); font-family: -apple-system, 'Noto Sans SC', sans-serif; line-height: 1.6; padding: 24px; max-width: 960px; margin: 0 auto; }
+.header { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 32px; margin-bottom: 24px; }
+.header h1 { font-size: 28px; margin-bottom: 8px; }
+.header .meta { color: var(--text-dim); font-size: 14px; display: flex; gap: 16px; flex-wrap: wrap; }
+.tag { background: var(--blue-bg); color: var(--blue); padding: 2px 10px; border-radius: 12px; font-size: 13px; }
+.section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 16px; }
+.section h2 { font-size: 18px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.calc-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.calc-table td { padding: 6px 12px; }
+.calc-table td:last-child { text-align: right; font-family: 'SF Mono', 'Fira Code', monospace; }
+.calc-table .separator td { border-top: 1px solid var(--border); }
+.calc-table .result td { font-weight: 700; font-size: 16px; }
+.calc-table .op { color: var(--text-dim); width: 20px; }
+.positive { color: var(--green); }
+.negative { color: var(--red); }
+.data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+.data-card { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+.data-card .label { font-size: 13px; color: var(--text-dim); margin-bottom: 4px; }
+.data-card .value { font-size: 24px; font-weight: 700; font-family: 'SF Mono', monospace; }
+.data-card .sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+.sens-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+.sens-table th, .sens-table td { padding: 8px 12px; text-align: right; font-size: 14px; }
+.sens-table th { color: var(--text-dim); border-bottom: 1px solid var(--border); font-weight: 500; }
+.sens-table td { border-bottom: 1px solid var(--border); font-family: 'SF Mono', monospace; }
+.sens-table tr.current { background: var(--blue-bg); }
+.condition { padding: 12px 16px; border-radius: 8px; margin-bottom: 8px; }
+.condition.triggered { background: var(--green-bg); border-left: 3px solid var(--green); }
+.condition.not-triggered { background: var(--red-bg); border-left: 3px solid var(--red); }
+.condition-header { font-weight: 600; margin-bottom: 4px; }
+.icon-check::before { content: "✅ "; }
+.icon-cross::before { content: "❌ "; }
+.condition-detail { font-size: 13px; color: var(--text-dim); }
+.gap { font-size: 13px; color: var(--yellow); margin-top: 4px; }
+.missing-box { background: var(--yellow-bg); border: 1px solid rgba(210,153,34,0.3); border-radius: 8px; padding: 16px; margin-top: 16px; }
+.missing-title { font-weight: 600; color: var(--yellow); margin-bottom: 8px; }
+.missing-box ul { padding-left: 20px; font-size: 14px; }
+.missing-box li { margin-bottom: 4px; }
+.decision-box { text-align: center; padding: 24px; border-radius: 12px; margin: 16px 0; }
+.action-heavy { background: var(--green-bg); border: 2px solid var(--green); }
+.action-standard { background: var(--blue-bg); border: 2px solid var(--blue); }
+.action-light { background: var(--yellow-bg); border: 2px solid var(--yellow); }
+.action-pass { background: var(--red-bg); border: 2px solid var(--red); }
+.decision-box .action { font-size: 32px; font-weight: 800; }
+.decision-box .position { font-size: 18px; color: var(--text-dim); margin-top: 4px; }
+.score-bar { display: flex; gap: 16px; justify-content: center; margin: 16px 0; }
+.score-item { text-align: center; }
+.score-item .score-label { font-size: 13px; color: var(--text-dim); }
+.score-item .score-value { font-size: 36px; font-weight: 800; font-family: 'SF Mono', monospace; }
+.reasoning { font-size: 14px; color: var(--text-dim); text-align: center; margin-top: 8px; max-width: 600px; margin-left: auto; margin-right: auto; }
+.next-steps { list-style: none; padding: 0; }
+.next-steps li { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+.next-steps li::before { content: "→ "; color: var(--blue); font-weight: 700; }
+.warn-box { background: var(--yellow-bg); border: 1px solid rgba(210,153,34,0.3); border-radius: 8px; padding: 12px 16px; margin-top: 12px; font-size: 13px; color: var(--yellow); }
+.portfolio-box { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-top: 12px; }
+.portfolio-box .portfolio-title { font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--text-dim); }
+.back-link { display: inline-block; margin-bottom: 16px; font-size: 14px; }
+.footer { text-align: center; color: var(--text-muted); font-size: 12px; margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<a href="/" class="back-link">← 返回首页</a>
+<div class="header">
+    <h1>小米 (1810.HK)</h1>
+    <div class="meta">
+        <span>报告日期: 2026-04-02</span>
+        <span>财报期间: FY2025</span>
+        <span class="tag">中等质量</span>
+        <span>汽车业务Capex对OE的侵蚀、IoT生态变现</span>
+    </div>
+</div>
+
+<!-- 核心指标 -->
+<div class="data-grid">
+    <div class="data-card">
+        <div class="label">Owner's Earnings</div>
+        <div class="value">578.6<small> 亿</small></div>
+        <div class="sub">OE Margin 11.5%</div>
+    </div>
+    <div class="data-card">
+        <div class="label">可分配净现金</div>
+        <div class="value">1018.5<small> 亿</small></div>
+        <div class="sub">毛净现金 1815.0 - 扣除 796.5</div>
+    </div>
+    <div class="data-card">
+        <div class="label">内在价值</div>
+        <div class="value">6804.5<small> 亿</small></div>
+        <div class="sub">零增长 5786.0 + 净现金 1018.5</div>
+    </div>
+    <div class="data-card">
+        <div class="label">安全边际</div>
+        <div class="value negative">-24.4%</div>
+        <div class="sub">无安全边际 | 赔率 -24.4%</div>
+    </div>
+</div>
+
+<!-- OE 计算 -->
+<div class="section">
+    <h2>1. Owner's Earnings 计算</h2>
+    <table class="calc-table">
+        <tr><td></td><td>经营性现金流 (CFO)</td><td>743.60 亿</td></tr>
+        <tr><td class="op">−</td><td>维持性资本支出  ⚠ 估算</td><td>165.00 亿</td></tr>
+        <tr class="separator result"><td class="op">=</td><td>Owner's Earnings</td><td>578.60 亿</td></tr>
+        <tr><td></td><td colspan="2" style="font-size:13px;color:var(--text-dim)">扩张性 Capex 275.00 亿 (总 440.0 − 维持性 165.0) | OE Margin 11.5%</td></tr>
+    </table>
+    <div class="warn-box">⚠ 维持性Capex为估算值: PDF字体损坏，CFO取券商预估676亿；维持性Capex取手机/IoT存量维护~150亿</div>
+</div>
+
+<!-- 净现金 -->
+<div class="section">
+    <h2>2. 净现金（保守口径）</h2>
+    <table class="calc-table">
+        <tr><td></td><td>现金及等价物</td><td>880.00 亿</td></tr>
+        <tr><td class="op">+</td><td>短期理财</td><td>1320.00 亿</td></tr>
+        <tr><td class="op">−</td><td>有息负债</td><td>385.00 亿</td></tr>
+        <tr class="separator"><td class="op">=</td><td>毛净现金</td><td><strong>1815.00 亿</strong></td></tr>
+    </table>
+    <table class="calc-table" style="margin-top:12px">
+        <tr><td class="op">−</td><td>运营储备 (1.5月营收)</td><td>628.79 亿</td></tr>
+        <tr><td class="op">−</td><td>已承诺投资款</td><td>110.00 亿</td></tr>
+        <tr><td class="op">−</td><td>受限资金</td><td>33.00 亿</td></tr>
+        <tr><td class="op">−</td><td>海外现金回流折扣 (15%)</td><td>24.75 亿</td></tr>
+        <tr class="separator result"><td class="op">=</td><td>可分配净现金</td><td>1018.46 亿</td></tr>
+    </table>
+    
+</div>
+
+<!-- 估值 -->
+<div class="section">
+    <h2>3. 零增长估值与安全边际</h2>
+    <table class="calc-table">
+        <tr><td></td><td>零增长估值 = OE / r</td><td>578.6 / 10% = 5786.00 亿</td></tr>
+        <tr><td class="op">+</td><td>可分配净现金</td><td>1018.46 亿</td></tr>
+        
+        <tr class="separator result"><td class="op">=</td><td>内在价值</td><td>6804.46 亿</td></tr>
+        <tr><td class="op">−</td><td>当前市值</td><td>9000.00 亿</td></tr>
+        <tr class="separator result"><td class="op">=</td><td>安全边际</td><td class="negative">-2195.54 亿 (-24.4%)</td></tr>
+    </table>
+    <h3 style="font-size:15px;margin-top:20px;margin-bottom:4px;color:var(--text-dim)">折现率敏感性分析</h3>
+    <table class="sens-table">
+        <tr><th>折现率</th><th>零增长估值</th><th>内在价值</th><th>安全边际</th><th>赔率</th></tr>
+        
+            <tr class="">
+                <td>8%</td>
+                <td>7232.5</td>
+                <td>8251.0</td>
+                <td class="negative">-8.3%</td>
+                <td>-8.3%</td>
+            </tr>
+            <tr class="current">
+                <td>10%</td>
+                <td>5786.0</td>
+                <td>6804.5</td>
+                <td class="negative">-24.4%</td>
+                <td>-24.4%</td>
+            </tr>
+            <tr class="">
+                <td>12%</td>
+                <td>4821.7</td>
+                <td>5840.1</td>
+                <td class="negative">-35.1%</td>
+                <td>-35.1%</td>
+            </tr>
+    </table>
+</div>
+
+<!-- Combo A -->
+<div class="section">
+    <h2>4. Combo A · 估值安全边际型 [1/4] ❌ 未触发</h2>
+    
+        <div class="condition not-triggered">
+            <div class="condition-header">
+                <span class="icon-cross"></span>
+                <span class="condition-name">市值 &lt; 零增长OE估值 + 可分配净现金</span>
+            </div>
+            <div class="condition-detail">市值 9000.0 亿 vs 内在价值 6804.5 亿 (边际 -24.4%)</div>
+            <div class="gap">→ 市值高出内在价值 2195.5 亿，需下跌 24.4% 或 OE 提升</div>
+        </div>
+        <div class="condition not-triggered">
+            <div class="condition-header">
+                <span class="icon-cross"></span>
+                <span class="condition-name">赔率达标（中等质量 ≥70%）</span>
+            </div>
+            <div class="condition-detail">赔率 -24.4%，阈值 70%</div>
+            <div class="gap">→ 当前赔率 -24.4%，中等质量需 ≥70%，需市值降至 4003 亿或内在价值提升至 15300 亿</div>
+        </div>
+        <div class="condition triggered">
+            <div class="condition-header">
+                <span class="icon-check"></span>
+                <span class="condition-name">过去12个月OE为正且稳定</span>
+            </div>
+            <div class="condition-detail">近4季OE: [144.7, 144.7, 144.7, 144.7] 亿，全正=是，稳定=是</div>
+            
+        </div>
+        <div class="condition not-triggered">
+            <div class="condition-header">
+                <span class="icon-cross"></span>
+                <span class="condition-name">市值/OE历史低分位 + 无结构性恶化</span>
+            </div>
+            <div class="condition-detail">历史分位 50%，结构性恶化=否</div>
+            <div class="gap">→ 市值/OE 分位 50%（需 ≤30%）</div>
+        </div>
+    
+        <div class="missing-box">
+            <div class="missing-title">未达标项 (3 条)</div>
+            <ul><li><strong>市值 &lt; 零增长OE估值 + 可分配净现金</strong>: 市值高出内在价值 2195.5 亿，需下跌 24.4% 或 OE 提升</li><li><strong>赔率达标</strong>: 当前赔率 -24.4%，中等质量需 ≥70%，需市值降至 4003 亿或内在价值提升至 15300 亿</li><li><strong>市值/OE历史低分位 + 无结构性恶化</strong>: 市值/OE 分位 50%（需 ≤30%）</li></ul>
+        </div>
+</div>
+
+<!-- 决策 -->
+<div class="section">
+    <h2>5. 仓位决策</h2>
+    <div class="score-bar">
+        <div class="score-item">
+            <div class="score-label">胜率</div>
+            <div class="score-value">1<small style="font-size:16px;color:var(--text-dim)">/5</small></div>
+            <div class="score-label">低胜率</div>
+        </div>
+        <div class="score-item" style="font-size:36px;color:var(--text-muted);padding-top:20px">×</div>
+        <div class="score-item">
+            <div class="score-label">赔率</div>
+            <div class="score-value">1<small style="font-size:16px;color:var(--text-dim)">/5</small></div>
+            <div class="score-label">低赔率</div>
+        </div>
+    </div>
+    <div class="decision-box action-pass">
+        <div class="action">不参与</div>
+        <div class="position">建议仓位: 0%</div>
+    </div>
+    <div class="reasoning">无投资价值；Combo A 缺 3 条: 市值 &lt; 零增长OE估值 + 可分配净现金, 赔率达标, 市值/OE历史低分位 + 无结构性恶化；赔率为负 (-24.4%)，无安全边际</div>
+</div>
+
+<!-- 后续跟踪 -->
+<div class="section">
+    <h2>6. 后续跟踪要点</h2>
+    <ul class="next-steps">
+        <li>赔率达标: 需市值降至 4003 亿以下（当前 9000 亿）</li><li>或 OE 提升: 需 OE 从 579 亿提升至使内在价值覆盖 70% 赔率</li><li>关注下季财报是否出现 Combo B（基本面拐点）信号</li>
+    </ul>
+</div>
+
+<div class="footer">
+    港股财报分析工具 · 基于李录 Owner's Earnings 框架 · 数据来源: 公司财报原文 > 港交所公告 > 管理层业绩会纪要
+</div>
+
+</body>
+</html>
