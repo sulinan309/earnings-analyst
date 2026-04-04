@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>美团 (3690.HK) 分析报告</title>
+<style>
+:root {
+    --bg: #0d1117; --surface: #161b22; --border: #30363d;
+    --text: #e6edf3; --text-dim: #8b949e; --text-muted: #484f58;
+    --green: #3fb950; --red: #f85149; --yellow: #d29922; --blue: #58a6ff;
+    --green-bg: rgba(63,185,80,0.12); --red-bg: rgba(248,81,73,0.12);
+    --yellow-bg: rgba(210,153,34,0.12); --blue-bg: rgba(88,166,255,0.12);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); font-family: -apple-system, 'Noto Sans SC', sans-serif; line-height: 1.6; padding: 24px; max-width: 960px; margin: 0 auto; }
+.header { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 32px; margin-bottom: 24px; }
+.header h1 { font-size: 28px; margin-bottom: 8px; }
+.header .meta { color: var(--text-dim); font-size: 14px; display: flex; gap: 16px; flex-wrap: wrap; }
+.tag { background: var(--blue-bg); color: var(--blue); padding: 2px 10px; border-radius: 12px; font-size: 13px; }
+.section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 16px; }
+.section h2 { font-size: 18px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.calc-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.calc-table td { padding: 6px 12px; }
+.calc-table td:last-child { text-align: right; font-family: 'SF Mono', 'Fira Code', monospace; }
+.calc-table .separator td { border-top: 1px solid var(--border); }
+.calc-table .result td { font-weight: 700; font-size: 16px; }
+.calc-table .op { color: var(--text-dim); width: 20px; }
+.positive { color: var(--green); }
+.negative { color: var(--red); }
+.data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+.data-card { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+.data-card .label { font-size: 13px; color: var(--text-dim); margin-bottom: 4px; }
+.data-card .value { font-size: 24px; font-weight: 700; font-family: 'SF Mono', monospace; }
+.data-card .sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+.sens-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+.sens-table th, .sens-table td { padding: 8px 12px; text-align: right; font-size: 14px; }
+.sens-table th { color: var(--text-dim); border-bottom: 1px solid var(--border); font-weight: 500; }
+.sens-table td { border-bottom: 1px solid var(--border); font-family: 'SF Mono', monospace; }
+.sens-table tr.current { background: var(--blue-bg); }
+.condition { padding: 12px 16px; border-radius: 8px; margin-bottom: 8px; }
+.condition.triggered { background: var(--green-bg); border-left: 3px solid var(--green); }
+.condition.not-triggered { background: var(--red-bg); border-left: 3px solid var(--red); }
+.condition-header { font-weight: 600; margin-bottom: 4px; }
+.icon-check::before { content: "✅ "; }
+.icon-cross::before { content: "❌ "; }
+.condition-detail { font-size: 13px; color: var(--text-dim); }
+.gap { font-size: 13px; color: var(--yellow); margin-top: 4px; }
+.missing-box { background: var(--yellow-bg); border: 1px solid rgba(210,153,34,0.3); border-radius: 8px; padding: 16px; margin-top: 16px; }
+.missing-title { font-weight: 600; color: var(--yellow); margin-bottom: 8px; }
+.missing-box ul { padding-left: 20px; font-size: 14px; }
+.missing-box li { margin-bottom: 4px; }
+.decision-box { text-align: center; padding: 24px; border-radius: 12px; margin: 16px 0; }
+.action-heavy { background: var(--green-bg); border: 2px solid var(--green); }
+.action-standard { background: var(--blue-bg); border: 2px solid var(--blue); }
+.action-light { background: var(--yellow-bg); border: 2px solid var(--yellow); }
+.action-pass { background: var(--red-bg); border: 2px solid var(--red); }
+.decision-box .action { font-size: 32px; font-weight: 800; }
+.decision-box .position { font-size: 18px; color: var(--text-dim); margin-top: 4px; }
+.score-bar { display: flex; gap: 16px; justify-content: center; margin: 16px 0; }
+.score-item { text-align: center; }
+.score-item .score-label { font-size: 13px; color: var(--text-dim); }
+.score-item .score-value { font-size: 36px; font-weight: 800; font-family: 'SF Mono', monospace; }
+.reasoning { font-size: 14px; color: var(--text-dim); text-align: center; margin-top: 8px; max-width: 600px; margin-left: auto; margin-right: auto; }
+.next-steps { list-style: none; padding: 0; }
+.next-steps li { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+.next-steps li::before { content: "→ "; color: var(--blue); font-weight: 700; }
+.warn-box { background: var(--yellow-bg); border: 1px solid rgba(210,153,34,0.3); border-radius: 8px; padding: 12px 16px; margin-top: 12px; font-size: 13px; color: var(--yellow); }
+.portfolio-box { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-top: 12px; }
+.portfolio-box .portfolio-title { font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--text-dim); }
+.back-link { display: inline-block; margin-bottom: 16px; font-size: 14px; }
+.footer { text-align: center; color: var(--text-muted); font-size: 12px; margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<a href="/" class="back-link">← 返回首页</a>
+<div class="header">
+    <h1>美团 (3690.HK)</h1>
+    <div class="meta">
+        <span>报告日期: 2026-04-04</span>
+        <span>财报期间: FY2025</span>
+        <span class="tag">顶级资产</span>
+        <span>外卖补贴战终战时点、正常化利润率恢复、67%集中度减仓</span>
+    </div>
+</div>
+
+<div class="section" style="border-color:var(--blue)">
+    <h2 style="font-size:22px;border:none;padding:0;margin-bottom:8px">美团从年赚524亿到年亏69亿——外卖大战是暂时性战争创伤还是护城河永久性损伤？这个判断价值592亿</h2>
+    <div style="background:var(--blue-bg);color:var(--blue);display:inline-block;padding:4px 16px;border-radius:20px;font-weight:600;font-size:14px;margin-bottom:16px">观察/持有减仓 — 当前84 HKD略高于Base(76)，处于观察区。67%集中度是最紧迫的风险</div>
+    <div style="margin-bottom:16px"><ul style="font-size:14px;padding-left:16px;display:flex;flex-direction:column;gap:4px"><li>v4.3估值：保守35 / 基准76 / 乐观119 HKD。当前84处于观察区(Base上方10%)</li><li>592亿利润翻转：核心本地商业从+524亿→-69亿，几乎全部因外卖补贴大战</li><li>关键信号：监管总局转发《外卖大战该结束了》+美团保住60%+份额——战后利润恢复概率高</li><li>正常化利润率12-16%(非2024年的20.9%峰值)——竞争格局已永久性改变，恢复幅度被市场高估</li></ul></div>
+    <div style="font-size:14px;color:var(--text-dim);line-height:1.8;white-space:pre-line">美团2025年报是五家分析中最戏剧性的：收入3649亿(+8%)，但净利润从+358亿直接翻转至-234亿，核心本地商业从经营溢利524亿变成亏损69亿——592亿的利润蒸发几乎全部来自外卖补贴大战。
+
+但有一个关键信号：3月25日国家市场监管总局转发《外卖大战该结束了》——市场将此解读为监管层叫停恶性竞争的明确信号。如果外卖补贴战在2026年H1确实降温，美团核心本地商业有望在2026年下半年回归正向经营利润。美团保住了60%+ GTV份额——花了大价钱但买到了份额防守。
+
+v4.3估值：正常化OE 250亿(Layer A核心业务300亿 + Layer B新业务-50亿)，g=3%, r=11%。基准内在价值76 HKD vs 当前84——略贵10%。乐观场景(补贴战结束+利润率16%)给出119 HKD。Payback 18.2年(normalized base)。不是最便宜的标的——资金优先级：快手&gt;腾讯&gt;美团&gt;小米。</div>
+    <div style="margin-top:20px"><div style="font-weight:600;margin-bottom:8px">Key Forces（决定性力量）</div><div style="background:var(--bg);border-left:3px solid var(--blue);border-radius:8px;padding:12px 16px;margin-bottom:8px">
+            <div style="font-weight:600;color:var(--blue)">#1 外卖补贴大战何时终战（决定性力量）</div>
+            <div style="font-size:13px;margin-top:4px">2025年核心本地商业利润蒸发的直接原因：为应对阿里(淘宝闪购/饿了么)和京东的补贴攻势，美团被迫跟进大规模用户补贴。Q4单均UE约-2元，单季外卖补贴约130亿。但美团保住了60%+ GTV份额——花钱买的是份额防守而非份额流失。监管总局转发《外卖大战该结束了》是可能改变游戏规则的政策信号。</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:4px">OE含义: 正常化OE的核心变量。补贴战结束→核心利润率从负数恢复至12-16%→OE从负数恢复至200-400亿。每延迟一个季度≈损失~80亿OE。</div>
+        </div><div style="background:var(--bg);border-left:3px solid var(--blue);border-radius:8px;padding:12px 16px;margin-bottom:8px">
+            <div style="font-weight:600;color:var(--blue)">#2 '正常化'盈利能力——524亿是峰值不是常态</div>
+            <div style="font-size:13px;margin-top:4px">2024年核心本地商业利润524亿(利润率20.9%)是'和平峰值'——彼时阿里忙于重组、京东外卖尚未入场。2025年亏损69亿是'战时极端值'。真实正常化水平在300-400亿之间——假设竞争烈度从极端回归但不完全回到2024年水平(竞争格局已永久性改变)。</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:4px">OE含义: 市场期望利润恢复至500亿+。我们认为正常化仅300-400亿(利润率12-16%)。这个分歧决定了Base vs Optimistic的选择。</div>
+        </div><div style="background:var(--bg);border-left:3px solid var(--blue);border-radius:8px;padding:12px 16px;margin-bottom:8px">
+            <div style="font-weight:600;color:var(--blue)">#3 新业务(Keeta海外+小象超市)——方向正确但短期是纯费用项</div>
+            <div style="font-size:13px;margin-top:4px">新业务亏损从74亿扩大到101亿。Keeta在沙特/科威特/阿联酋/巴西扩张，小象超市进入39个城市。这些方向有长期价值(美团在中东+东南亚复制本地生活平台)，但短期是纯费用项——Layer B OE在保守/基准场景中为负。</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:4px">OE含义: Layer B每年拖累OE 50-100亿。如果Keeta在2027年开始在中东盈利，Layer B转正将为估值提供额外上行空间。</div>
+        </div></div>
+</div>
+
+<!-- 核心指标 -->
+<div class="data-grid" style="margin-bottom:16px">
+    <div class="data-card">
+        <div class="label">Owner's Earnings</div>
+        <div class="value">-330.0<small> 亿</small></div>
+        <div class="sub">OE Margin -8.2%</div>
+    </div>
+    <div class="data-card">
+        <div class="label">可分配净现金</div>
+        <div class="value">383.8<small> 亿</small></div>
+        <div class="sub">毛净现金 990.0 - 扣除 606.2</div>
+    </div>
+    <div class="data-card">
+        <div class="label">内在价值</div>
+        <div class="value">-2916.2<small> 亿</small></div>
+        <div class="sub">零增长 -3300.0 + 净现金 383.8</div>
+    </div>
+    <div class="data-card">
+        <div class="label">安全边际</div>
+        <div class="value negative">-156.1%</div>
+        <div class="sub">无安全边际 | 赔率 -156.1%</div>
+    </div>
+</div>
+
+<!-- OE 计算 -->
+<div class="section">
+    <h2>1. Owner's Earnings 计算</h2>
+    <table class="calc-table">
+        <tr><td></td><td>经营性现金流 (CFO)</td><td>-220.00 亿</td></tr>
+        <tr><td class="op">−</td><td>维持性资本支出  ⚠ 估算</td><td>110.00 亿</td></tr>
+        <tr class="separator result"><td class="op">=</td><td>Owner's Earnings</td><td>-330.00 亿</td></tr>
+        <tr><td></td><td colspan="2" style="font-size:13px;color:var(--text-dim)">扩张性 Capex 165.00 亿 (总 275.0 − 维持性 110.0) | OE Margin -8.2%</td></tr>
+    </table>
+    <div class="warn-box">⚠ 维持性Capex为估算值: 2025年FCF为大幅负数(估-200至-300亿)。当前OE无意义，须用'正常化OE'方法估值</div>
+</div>
+
+<!-- 净现金 -->
+<div class="section">
+    <h2>2. 净现金（保守口径）</h2>
+    <table class="calc-table">
+        <tr><td></td><td>现金及等价物</td><td>660.00 亿</td></tr>
+        <tr><td class="op">+</td><td>短期理财</td><td>550.00 亿</td></tr>
+        <tr><td class="op">−</td><td>有息负债</td><td>220.00 亿</td></tr>
+        <tr class="separator"><td class="op">=</td><td>毛净现金</td><td><strong>990.00 亿</strong></td></tr>
+    </table>
+    <table class="calc-table" style="margin-top:12px">
+        <tr><td class="op">−</td><td>运营储备 (1.5月营收)</td><td>501.74 亿</td></tr>
+        <tr><td class="op">−</td><td>已承诺投资款</td><td>55.00 亿</td></tr>
+        <tr><td class="op">−</td><td>受限资金</td><td>33.00 亿</td></tr>
+        <tr><td class="op">−</td><td>海外现金回流折扣 (15%)</td><td>16.50 亿</td></tr>
+        <tr class="separator result"><td class="op">=</td><td>可分配净现金</td><td>383.76 亿</td></tr>
+    </table>
+    
+</div>
+
+<!-- 估值 -->
+<div class="section">
+    <h2>3. 零增长估值与安全边际</h2>
+    <table class="calc-table">
+        <tr><td></td><td>零增长估值 = OE / r</td><td>-330.0 / 10% = -3300.00 亿</td></tr>
+        <tr><td class="op">+</td><td>可分配净现金</td><td>383.76 亿</td></tr>
+        
+        <tr class="separator result"><td class="op">=</td><td>内在价值</td><td>-2916.24 亿</td></tr>
+        <tr><td class="op">−</td><td>当前市值</td><td>5200.00 亿</td></tr>
+        <tr class="separator result"><td class="op">=</td><td>安全边际</td><td class="negative">-8116.24 亿 (-156.1%)</td></tr>
+    </table>
+    <h3 style="font-size:15px;margin-top:20px;margin-bottom:4px;color:var(--text-dim)">三情景估值对比</h3>
+    <table class="sens-table">
+        <tr><th style="text-align:left">情景</th><th>OE</th><th>内在价值</th><th>安全边际</th></tr>
+        <tr class=""><td style="text-align:left">保守</td><td>-352</td><td>-2728</td><td class="negative">-152.5%</td></tr><tr class="current"><td style="text-align:left">★ 中性</td><td>-330</td><td>-2916</td><td class="negative">-156.1%</td></tr><tr class=""><td style="text-align:left">乐观</td><td>-319</td><td>-9978</td><td class="negative">-291.9%</td></tr>
+    </table>
+    <div style="font-size:12px;color:var(--text-muted);margin-top:8px">
+        保守: r=12%零增长,Capex×1.2 · 中性: r=10%零增长,当前OE · 乐观: r=8%,g=5%,Capex×0.9
+    </div>
+</div>
+
+<div class="section">
+    <h2>收入拆分</h2>
+    <table class="sens-table">
+        <tr><th style="text-align:left">业务线</th><th>FY2025(亿)</th><th>同比</th><th>占比</th><th style="text-align:left">趋势</th></tr>
+        <tr><td style='text-align:left'>核心本地商业</td><td>2868.8</td><td>+4.2%</td><td>71%</td><td style='font-size:12px;color:var(--text-dim)'>经营利润从+524亿→-69亿。外卖GTV份额保住60%+，但代价是592亿利润蒸发</td></tr><tr><td style='text-align:left'>— 配送服务(Q4)</td><td>236亿(Q4)</td><td>-9.9%</td><td>-</td><td style='font-size:12px;color:var(--text-dim)'>补贴抵消实际收入</td></tr><tr><td style='text-align:left'>— 广告收入(Q4)</td><td>131亿(Q4)</td><td>+2.3%</td><td>-</td><td style='font-size:12px;color:var(--text-dim)'>最稳定的高质量收入</td></tr><tr><td style='text-align:left'>新业务(Keeta+小象)</td><td>1144.0</td><td>+19%</td><td>29%</td><td style='font-size:12px;color:var(--text-dim)'>亏损从74亿扩大到101亿。Keeta进入沙特/科威特/阿联酋/巴西</td></tr>
+    </table>
+</div>
+
+<div class="section">
+    <h2>盈利能力趋势</h2>
+    <table class="sens-table">
+        <tr><th style="text-align:left">指标</th><th>FY2024</th><th>FY2025</th><th>变化</th></tr>
+        <tr><td style='text-align:left'>毛利率</td><td>38.4%</td><td>30.4%</td><td>-8.0ppt ⚠⚠</td></tr><tr><td style='text-align:left'>核心本地商业经营利润</td><td>+524亿</td><td>-69亿</td><td>-592亿 翻转</td></tr><tr><td style='text-align:left'>新业务经营亏损</td><td>-74亿</td><td>-101亿</td><td>亏损扩大</td></tr><tr><td style='text-align:left'>净利润</td><td>+358亿</td><td>-234亿</td><td>-592亿 翻转</td></tr><tr><td style='text-align:left'>经调整净利润</td><td>+438亿</td><td>-187亿</td><td>-625亿</td></tr><tr><td style='text-align:left'>销售营销支出</td><td>640亿</td><td>1029亿</td><td>+60.9% ⚠</td></tr><tr><td style='text-align:left'>研发投入</td><td>211亿</td><td>260亿</td><td>+23%</td></tr>
+    </table>
+    <div style="margin-top:12px;font-size:13px;color:var(--text-dim)">💡 2025年报是五家中最戏剧性的：从年赚524亿到年亏69亿——592亿利润蒸发几乎全部来自外卖补贴大战。毛利率从38.4%暴跌至30.4%(-8ppt)，销售营销支出暴增60.9%至1029亿。但关键信号：3月25日国家市场监管总局转发《外卖大战该结束了》——监管叫停恶性竞争的明确信号。正常化利润率在12-16%(非2024年的20.9%峰值)——竞争格局已永久性改变。</div>
+</div>
+
+
+
+<div class="section">
+    <h2>CapEx 冲击模拟</h2>
+    <table class="sens-table">
+        <tr><th style="text-align:left">场景</th><th>CFO</th><th>总Capex</th><th>维持性</th><th>OE</th><th>FCF</th></tr>
+        <tr><td style='text-align:left'>FY2025 实际</td><td>-220</td><td>275</td><td>110</td><td class='negative'>-330</td><td class='negative'>-495</td></tr><tr><td style='text-align:left'>FY2026 基准</td><td>-220</td><td>275</td><td>116</td><td class='negative'>-336</td><td class='negative'>-495</td></tr><tr><td style='text-align:left'>FY2026 悲观</td><td>-220</td><td>330</td><td>121</td><td class='negative'>-341</td><td class='negative'>-550</td></tr>
+    </table>
+    <div style="font-size:12px;color:var(--text-muted);margin-top:8px">基准: CFO温和增长+Capex持平 · 悲观: CFO不增长+Capex大幅增长</div>
+</div>
+
+<div class="section">
+    <h2>竞争格局</h2>
+    <table class="sens-table">
+        <tr><th style="text-align:left">维度</th><th>本公司</th><th>饿了么</th><th>京东外卖</th></tr>
+        <tr><td style='text-align:left'>外卖GTV份额</td><td>60%+</td><td>~25%</td><td>&lt;5%</td></tr><tr><td style='text-align:left'>核心本地商业利润</td><td>-69亿(战时)</td><td>持续亏损</td><td>烧钱期</td></tr><tr><td style='text-align:left'>到店/酒旅利润率</td><td>25%+</td><td>烧钱获客</td><td>~20%</td></tr><tr><td style='text-align:left'>2024年正常化利润</td><td>+524亿</td><td>-</td><td>-</td></tr><tr><td style='text-align:left'>现金储备</td><td>~1100亿</td><td>5600亿但FCF为负</td><td>~2000亿</td></tr>
+    </table>
+    <div style="margin-top:12px;padding:12px;background:var(--bg);border-radius:8px;font-size:13px"><strong>护城河评估:</strong> 美团在外卖市场维持60%+ GTV份额——这是整份分析中最重要的数据点。花了大价钱但买到了份额防守。如果补贴战结束，这个份额可以重新变现为利润。补贴战是'谁先扛不住'的消耗战：阿里FCF已负数，京东外卖规模有限，监管已释放'该停了'信号。美团作为最大份额方+手持最多现金的一方，有最高概率在消耗战中存活并在战后恢复利润。</div>
+</div>
+
+
+
+
+
+<div class="section">
+    <h2>6大投资哲学视角</h2>
+    <div style="display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border)">
+            <div style="font-size:20px;min-width:28px">⚪</div>
+            <div style="flex:1">
+                <div><span class="text-dim" style="font-weight:700">观望</span> <span style="font-weight:600">品质复利</span> <span style="color:var(--text-muted);font-size:13px">(巴菲特/芒格)</span></div>
+                <div style="font-size:13px;color:var(--text-dim);margin-top:2px">本地生活网络效应是强护城河(60%份额)，但利润率波动性太大(524→-69亿)。ROIC当前为负——需等利润恢复后重新评估</div>
+            </div>
+        </div><div style="display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border)">
+            <div style="font-size:20px;min-width:28px">🟡</div>
+            <div style="flex:1">
+                <div><span class="" style="font-weight:700">轻多</span> <span style="font-weight:600">想象力成长</span> <span style="color:var(--text-muted);font-size:13px">(Baillie Gifford/ARK)</span></div>
+                <div style="font-size:13px;color:var(--text-dim);margin-top:2px">Keeta海外+小象超市+AI配送如果全部跑通，收入规模可达万亿级。但从-234亿亏损起步，想象力需要很长的跑道</div>
+            </div>
+        </div><div style="display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border)">
+            <div style="font-size:20px;min-width:28px">⚪</div>
+            <div style="flex:1">
+                <div><span class="text-dim" style="font-weight:700">观望</span> <span style="font-weight:600">基本面多空</span> <span style="color:var(--text-muted);font-size:13px">(Tiger Cubs)</span></div>
+                <div style="font-size:13px;color:var(--text-dim);margin-top:2px">当前84 HKD对应的是'利润恢复的期望值'而非'当前盈利能力'。需要等2026Q1-Q2数据确认利润拐点再行动</div>
+            </div>
+        </div><div style="display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border)">
+            <div style="font-size:20px;min-width:28px">🟡</div>
+            <div style="flex:1">
+                <div><span class="" style="font-weight:700">轻多</span> <span style="font-weight:600">深度价值</span> <span style="color:var(--text-muted);font-size:13px">(Klarman/Marks)</span></div>
+                <div style="font-size:13px;color:var(--text-dim);margin-top:2px">如果补贴战确实结束，300亿正常化利润对应~17x PE并不贵。1100亿现金提供安全垫。但需要验证</div>
+            </div>
+        </div><div style="display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border)">
+            <div style="font-size:20px;min-width:28px">🟢</div>
+            <div style="flex:1">
+                <div><span class="positive" style="font-weight:700">看多</span> <span style="font-weight:600">催化剂驱动</span> <span style="color:var(--text-muted);font-size:13px">(Tepper/Ackman)</span></div>
+                <div style="font-size:13px;color:var(--text-dim);margin-top:2px">监管叫停补贴战是明确催化剂。如果2026Q1核心业务转正→股价可能快速反弹至100+</div>
+            </div>
+        </div><div style="display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border)">
+            <div style="font-size:20px;min-width:28px">⚪</div>
+            <div style="flex:1">
+                <div><span class="text-dim" style="font-weight:700">观望</span> <span style="font-weight:600">宏观策略</span> <span style="color:var(--text-muted);font-size:13px">(Druckenmiller)</span></div>
+                <div style="font-size:13px;color:var(--text-dim);margin-top:2px">港股beta承压+本地生活受消费信心影响。但消费复苏如果发生，美团是最直接受益者</div>
+            </div>
+        </div>
+</div>
+
+<div class="section">
+    <h2>Pre-Mortem & Anti-Bias</h2>
+    <div style="background:var(--red-bg);border-radius:8px;padding:16px;margin-bottom:16px">
+        <div style="font-weight:600;color:var(--red);margin-bottom:12px">假设18个月后亏损30%+，最可能原因是...</div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border)"><span style="font-size:14px">补贴战不结束：阿里/京东继续砸钱，美团被迫跟进，2026年仍亏损</span><span style="color:var(--yellow);font-weight:600;min-width:40px;text-align:right">25%</span></div><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border)"><span style="font-size:14px">骑手社保成本超预期：每单+0.2-0.5元且无法转嫁→利润恢复大幅延迟</span><span style="color:var(--yellow);font-weight:600;min-width:40px;text-align:right">20%</span></div><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border)"><span style="font-size:14px">到店业务被抖音侵蚀：抖音团购持续加码，到店利润率降至15%以下</span><span style="color:var(--yellow);font-weight:600;min-width:40px;text-align:right">20%</span></div><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border)"><span style="font-size:14px">Keeta海外失败：中东地缘冲突+巴西竞争激烈，烧钱无回报</span><span style="color:var(--yellow);font-weight:600;min-width:40px;text-align:right">15%</span></div><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border)"><span style="font-size:14px">管理层战略失误：过度关注AI叙事而忽视核心业务利润恢复</span><span style="color:var(--yellow);font-weight:600;min-width:40px;text-align:right">20%</span></div>
+    </div>
+    <div style="font-weight:600;margin-bottom:8px">认知偏差自检</div>
+    <table class="sens-table">
+        <tr><th style="text-align:left">偏差</th><th style="text-align:left">风险</th><th style="text-align:left">检查</th></tr>
+        <tr><td style="text-align:left;font-weight:600">锚定偏差(CRITICAL)</td><td style="text-align:left;color:var(--red)">Grant price ~200 HKD vs 当前84——大脑不断说'等回到200再卖'</td><td style="text-align:left;color:var(--green)">200 HKD对价值判断零关系。唯一相关问题：从84出发，未来2年expected return是多少？</td></tr><tr><td style="text-align:left;font-weight:600">沉没成本</td><td style="text-align:left;color:var(--red)">已经在这个仓位上浮亏58%，不愿割肉</td><td style="text-align:left;color:var(--green)">浮亏是沉没成本，不应影响对未来的判断。如果今天没有持仓，以84会买入吗？</td></tr><tr><td style="text-align:left;font-weight:600">集中度风险(最紧迫)</td><td style="text-align:left;color:var(--red)">12400股占总资产67%——不管估值如何，这是不可接受的风险暴露</td><td style="text-align:left;color:var(--green)">Position sizing比stock picking更重要。目标减至20%以下(~3500股)</td></tr>
+    </table>
+</div>
+
+<!-- Combo A -->
+<div class="section">
+    <h2>Combo A · 估值安全边际型 [1/4] ❌ 未触发</h2>
+    
+        <div class="condition not-triggered">
+            <div class="condition-header">
+                <span class="icon-cross"></span>
+                <span class="condition-name">市值 &lt; 零增长OE估值 + 可分配净现金</span>
+            </div>
+            <div class="condition-detail">市值 5200.0 亿 vs 内在价值 -2916.2 亿 (边际 -156.1%)</div>
+            <div class="gap">→ 市值高出内在价值 8116.2 亿，需下跌 156.1% 或 OE 提升</div>
+        </div>
+        <div class="condition not-triggered">
+            <div class="condition-header">
+                <span class="icon-cross"></span>
+                <span class="condition-name">赔率达标（顶级资产 ≥40%）</span>
+            </div>
+            <div class="condition-detail">赔率 -156.1%，阈值 40%</div>
+            <div class="gap">→ 当前赔率 -156.1%，顶级资产需 ≥40%，需市值降至 -2083 亿或内在价值提升至 7280 亿</div>
+        </div>
+        <div class="condition triggered">
+            <div class="condition-header">
+                <span class="icon-check"></span>
+                <span class="condition-name">过去12个月OE为正且稳定</span>
+            </div>
+            <div class="condition-detail">近4季OE: [0.2, 0.2, 0.2, 0.2] 亿，全正=是，稳定=是</div>
+            
+        </div>
+        <div class="condition not-triggered">
+            <div class="condition-header">
+                <span class="icon-cross"></span>
+                <span class="condition-name">市值/OE历史低分位 + 无结构性恶化</span>
+            </div>
+            <div class="condition-detail">历史分位 80%，结构性恶化=是</div>
+            <div class="gap">→ 市值/OE 分位 80%（需 ≤30%）；增长质量存在结构性恶化</div>
+        </div>
+    
+        <div class="missing-box">
+            <div class="missing-title">未达标项 (3 条)</div>
+            <ul><li><strong>市值 &lt; 零增长OE估值 + 可分配净现金</strong>: 市值高出内在价值 8116.2 亿，需下跌 156.1% 或 OE 提升</li><li><strong>赔率达标</strong>: 当前赔率 -156.1%，顶级资产需 ≥40%，需市值降至 -2083 亿或内在价值提升至 7280 亿</li><li><strong>市值/OE历史低分位 + 无结构性恶化</strong>: 市值/OE 分位 80%（需 ≤30%）；增长质量存在结构性恶化</li></ul>
+        </div>
+</div>
+
+<!-- 决策 -->
+<div class="section">
+    <h2>仓位决策</h2>
+    <div class="score-bar">
+        <div class="score-item">
+            <div class="score-label">胜率</div>
+            <div class="score-value">1<small style="font-size:16px;color:var(--text-dim)">/5</small></div>
+            <div class="score-label">低胜率</div>
+        </div>
+        <div class="score-item" style="font-size:36px;color:var(--text-muted);padding-top:20px">×</div>
+        <div class="score-item">
+            <div class="score-label">赔率</div>
+            <div class="score-value">1<small style="font-size:16px;color:var(--text-dim)">/5</small></div>
+            <div class="score-label">低赔率</div>
+        </div>
+    </div>
+    <div class="decision-box action-pass">
+        <div class="action">不参与</div>
+        <div class="position">建议仓位: 0%</div>
+    </div>
+    <div class="reasoning">无投资价值；Combo A 缺 3 条: 市值 &lt; 零增长OE估值 + 可分配净现金, 赔率达标, 市值/OE历史低分位 + 无结构性恶化；赔率为负 (-156.1%)，无安全边际</div>
+</div>
+
+<!-- 后续跟踪 -->
+<div class="section">
+    <h2>6. 后续跟踪要点</h2>
+    <ul class="next-steps">
+        <li>赔率达标: 需市值降至 -1715 亿以下（当前 5200 亿）</li><li>或 OE 提升: 需 OE 从 -330 亿提升至使内在价值覆盖 70% 赔率</li><li>关注下季财报是否出现 Combo B（基本面拐点）信号</li>
+    </ul>
+</div>
+
+<div class="footer">
+    港股财报分析工具 · 基于李录 Owner's Earnings 框架 · 数据来源: 公司财报原文 > 港交所公告 > 管理层业绩会纪要
+</div>
+
+</body>
+</html>
