@@ -70,6 +70,18 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
 .portfolio-box .portfolio-title { font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--text-dim); }
 .back-link { display: inline-block; margin-bottom: 16px; font-size: 14px; }
 .footer { text-align: center; color: var(--text-muted); font-size: 12px; margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); }
+.combo-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.combo-badge { padding: 3px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+.combo-badge.buy-triggered { background: var(--green-bg); color: var(--green); border: 1px solid rgba(63,185,80,0.3); }
+.combo-badge.buy-not { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
+.combo-badge.sell-triggered { background: var(--red-bg); color: var(--red); border: 1px solid rgba(248,81,73,0.3); }
+.combo-badge.sell-not { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
+.change-pos { color: var(--green); font-weight: 600; }
+.change-neg { color: var(--red); font-weight: 600; }
+.judgment { font-size: 16px; text-align: center; min-width: 32px; }
+.core-metric-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); font-size: 14px; }
+.core-metric-table th { padding: 8px 12px; text-align: left; color: var(--text-dim); border-bottom: 1px solid var(--border); font-weight: 500; font-size: 14px; }
+.subtitle { font-size: 14px; color: var(--text-dim); margin-top: 4px; }
 </style>
 </head>
 <body>
@@ -77,12 +89,13 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
 <a href="/" class="back-link">← 返回首页</a>
 <div class="header">
     <h1>阿里 (9988.HK)</h1>
+    <div class="subtitle">FY2025 Deep Dive · v4.3 OE Framework</div>
     <div class="meta">
         <span>报告日期: 2026-04-04</span>
         <span>财报期间: FY2025</span>
         <span class="tag">中等质量</span>
-        <span>3800亿AI投入ROI、淘天份额保卫战、FCF恢复路径</span>
     </div>
+    <div class="combo-badges"><span class="combo-badge buy-not">A·估值安全边际 [2/4]</span><span class="combo-badge buy-triggered">Combo B · 基本面拐点型 [3/4]</span><span class="combo-badge buy-triggered">Combo C · 政策催化型 [3/4]</span><span class="combo-badge buy-triggered">Combo D2 · 内部人确认型 [3/4]</span><span class="combo-badge sell-not">Combo F · 基本面恶化型 [1/4]</span><span class="combo-badge sell-not">Combo H · 逻辑证伪型 [0/4]</span></div>
 </div>
 
 <div class="section" style="border-color:var(--blue)">
@@ -189,17 +202,59 @@ v4.3估值：Guard Rail要求OE≤1.2×正常化FCF≈1440亿。分层估值：L
     <h2>收入拆分</h2>
     <table class="sens-table">
         <tr><th style="text-align:left">业务线</th><th>FY2025(亿)</th><th>同比</th><th>占比</th><th style="text-align:left">趋势</th></tr>
-        <tr><td style='text-align:left'>淘天集团</td><td>4947.8</td><td>+3%</td><td>45%</td><td style='font-size:12px;color:var(--text-dim)'>CMR(Q4+12%)靠Take Rate提升，非GMV驱动。88VIP破5000万</td></tr><tr><td style='text-align:left'>AIDC（国际）</td><td>1455.3</td><td>+29%</td><td>13%</td><td style='font-size:12px;color:var(--text-dim)'>Lazada/AliExpress增长强劲但仍亏损</td></tr><tr><td style='text-align:left'>云智能</td><td>1298.0</td><td>+11%</td><td>12%</td><td style='font-size:12px;color:var(--text-dim)'>Q3加速至+34%，AI产品连续多季度三位数增长</td></tr><tr><td style='text-align:left'>本地生活</td><td>682.0</td><td>+10-12%</td><td>6%</td><td style='font-size:12px;color:var(--text-dim)'>饿了么+高德，闪购烧钱中</td></tr><tr><td style='text-align:left'>其他（含剥离）</td><td>2576.2</td><td>下降</td><td>24%</td><td style='font-size:12px;color:var(--text-dim)'>出售高鑫零售+银泰，聚焦核心</td></tr>
+        <tr><td style='text-align:left'>淘天集团</td><td>4947.8</td><td class='change-pos'>+3%</td><td>45%</td><td style='font-size:12px;color:var(--text-dim)'>CMR(Q4+12%)靠Take Rate提升，非GMV驱动。88VIP破5000万</td></tr><tr><td style='text-align:left'>AIDC（国际）</td><td>1455.3</td><td class='change-pos'>+29%</td><td>13%</td><td style='font-size:12px;color:var(--text-dim)'>Lazada/AliExpress增长强劲但仍亏损</td></tr><tr><td style='text-align:left'>云智能</td><td>1298.0</td><td class='change-pos'>+11%</td><td>12%</td><td style='font-size:12px;color:var(--text-dim)'>Q3加速至+34%，AI产品连续多季度三位数增长</td></tr><tr><td style='text-align:left'>本地生活</td><td>682.0</td><td class='change-pos'>+10-12%</td><td>6%</td><td style='font-size:12px;color:var(--text-dim)'>饿了么+高德，闪购烧钱中</td></tr><tr><td style='text-align:left'>其他（含剥离）</td><td>2576.2</td><td class=''>下降</td><td>24%</td><td style='font-size:12px;color:var(--text-dim)'>出售高鑫零售+银泰，聚焦核心</td></tr>
+        <tr style="font-weight:700;border-top:2px solid var(--border)"><td style="text-align:left">合计</td><td>10959.3</td><td></td><td>100%</td><td></td></tr>
     </table>
+    
 </div>
 
 <div class="section">
     <h2>盈利能力趋势</h2>
     <table class="sens-table">
         <tr><th style="text-align:left">指标</th><th>FY2024</th><th>FY2025</th><th>变化</th></tr>
-        <tr><td style='text-align:left'>经调整EBITA</td><td>1813.9</td><td>1904.1</td><td>+5%</td></tr><tr><td style='text-align:left'>Non-GAAP净利润</td><td>1739.1</td><td>1739.1</td><td>持平</td></tr><tr><td style='text-align:left'>GAAP净利润</td><td>784.3</td><td>1386.0</td><td>+77%(低基数+投资收益)</td></tr><tr><td style='text-align:left'>FCF</td><td>1718.2</td><td>812.9</td><td>-53% ⚠⚠</td></tr><tr><td style='text-align:left'>OCF</td><td>2008.6</td><td>1798.5</td><td>-10%</td></tr><tr><td style='text-align:left'>Non-GAAP隐含PE</td><td>-</td><td>~10x</td><td>看似便宜</td></tr><tr><td style='text-align:left'>FCF隐含PE</td><td>-</td><td>~25x</td><td>⚠ 不便宜</td></tr>
+        <tr><td style='text-align:left'>经调整EBITA</td><td>1813.9</td><td>1904.1</td><td class='change-pos'>+5%</td></tr><tr><td style='text-align:left'>Non-GAAP净利润</td><td>1739.1</td><td>1739.1</td><td class=''>持平</td></tr><tr><td style='text-align:left'>GAAP净利润</td><td>784.3</td><td>1386.0</td><td class='change-pos'>+77%(低基数+投资收益)</td></tr><tr><td style='text-align:left'>FCF</td><td>1718.2</td><td>812.9</td><td class='change-neg'>-53% ⚠⚠</td></tr><tr><td style='text-align:left'>OCF</td><td>2008.6</td><td>1798.5</td><td class='change-neg'>-10%</td></tr><tr><td style='text-align:left'>Non-GAAP隐含PE</td><td>-</td><td>~10x</td><td class=''>看似便宜</td></tr><tr><td style='text-align:left'>FCF隐含PE</td><td>-</td><td>~25x</td><td class='change-neg'>⚠ 不便宜</td></tr>
     </table>
     <div style="margin-top:12px;font-size:13px;color:var(--text-dim)">💡 核心矛盾：Non-GAAP利润1581亿(持平)看似稳健，但FCF从1562亿暴跌53%至739亿——差额被3800亿AI投入(年均~1267亿CapEx)吞噬。用Non-GAAP算PE=10x看似便宜，用FCF算'真实PE'=25x+——不便宜。FY2026H1 FCF更是净流出407亿。最新季度(FY2026Q2)经调整EBITA仅91亿(-78%)——闪购烧钱+AI投入加速的双重打击。</div>
+</div>
+
+
+<div class="section">
+    <h2>阿里云+AI — Reality Check — 3800亿投入的回报预期</h2>
+    <table class="core-metric-table" style="width:100%;border-collapse:collapse">
+        <tr><th>指标</th><th>数值</th><th style="text-align:center">判断</th><th>备注</th></tr>
+        <tr>
+                <td>云收入(FY2025)</td>
+                <td style="font-weight:600">1180亿</td>
+                <td class="judgment">🟢</td>
+                <td style="font-size:12px;color:var(--text-dim)">+11%，Q4加速至+34%</td>
+            </tr><tr>
+                <td>AI收入增速</td>
+                <td style="font-weight:600">三位数</td>
+                <td class="judgment">🟢</td>
+                <td style="font-size:12px;color:var(--text-dim)">连续多季三位数增长</td>
+            </tr><tr>
+                <td>3年投入计划</td>
+                <td style="font-weight:600">3800亿</td>
+                <td class="judgment">🔴</td>
+                <td style="font-size:12px;color:var(--text-dim)">FCF已腰斩，还要加码</td>
+            </tr><tr>
+                <td>云利润率</td>
+                <td style="font-weight:600">拐点初现</td>
+                <td class="judgment">🟡</td>
+                <td style="font-size:12px;color:var(--text-dim)">EBITA转正但margin仍低</td>
+            </tr><tr>
+                <td>通义千问竞争力</td>
+                <td style="font-weight:600">第一梯队</td>
+                <td class="judgment">🟢</td>
+                <td style="font-size:12px;color:var(--text-dim)">开源策略+API定价有优势</td>
+            </tr><tr>
+                <td>ROI验证期</td>
+                <td style="font-weight:600">2026-2027</td>
+                <td class="judgment">⚪</td>
+                <td style="font-size:12px;color:var(--text-dim)">2年内需看到利润率改善</td>
+            </tr>
+    </table>
+    <div style="margin-top:12px;font-size:13px;color:var(--text-dim)">💡 云AI是阿里最大的战略赌注。收入增速强劲但利润率尚未证明。3800亿投入使FCF承压——如果2年内利润率未改善，OE将持续恶化。</div>
 </div>
 
 <div class="section">
@@ -251,6 +306,7 @@ v4.3估值：Guard Rail要求OE≤1.2×正常化FCF≈1440亿。分层估值：L
         <tr><td style='text-align:left'>FY2025 实际</td><td>1798</td><td>986</td><td>440</td><td class='positive'>1358</td><td class='positive'>813</td></tr><tr><td style='text-align:left'>FY2026 基准</td><td>1798</td><td>1183</td><td>462</td><td class='positive'>1336</td><td class='positive'>616</td></tr><tr><td style='text-align:left'>FY2026 悲观</td><td>1798</td><td>1380</td><td>484</td><td class='positive'>1314</td><td class='positive'>419</td></tr>
     </table>
     <div style="font-size:12px;color:var(--text-muted);margin-top:8px">基准: CFO温和增长+Capex持平 · 悲观: CFO不增长+Capex大幅增长</div>
+    <div class="warn-box">⚠ 3年3800亿AI投入计划(FY2026~2028)。CapEx从896亿可能升至1200亿+。FCF已从1562亿暴跌53%至739亿——这是趋势而非一次性</div>
 </div>
 
 <div class="section">
@@ -398,6 +454,168 @@ v4.3估值：Guard Rail要求OE≤1.2×正常化FCF≈1440亿。分层估值：L
             <div class="missing-title">未达标项 (2 条)</div>
             <ul><li><strong>市值 &lt; 零增长OE估值 + 可分配净现金</strong>: 市值高出内在价值 6104.6 亿，需下跌 28.1% 或 OE 提升</li><li><strong>赔率达标</strong>: 当前赔率 -28.1%，中等质量需 ≥70%，需市值降至 9174 亿或内在价值提升至 36890 亿</li></ul>
         </div>
+</div>
+
+
+<div class="section">
+    <h2>Combo B · 基本面拐点型 [3/4] ✅ 触发</h2>
+    
+            <div class="condition triggered">
+                <div class="condition-header">
+                    <span class="icon-check"></span>
+                    <span class="condition-name">核心收入增速连续2季回升</span>
+                </div>
+                <div class="condition-detail">云+34%(Q4)，AIDC+29%，淘天CMR+12%</div>
+            </div>
+            <div class="condition not-triggered">
+                <div class="condition-header">
+                    <span class="icon-cross"></span>
+                    <span class="condition-name">OCF margin同比扩张&gt;3pct</span>
+                </div>
+                <div class="condition-detail">OCF margin下降，因CapEx大增侵蚀</div>
+            </div>
+            <div class="condition not-triggered">
+                <div class="condition-header">
+                    <span class="icon-cross"></span>
+                    <span class="condition-name">维持性CapEx占收入比下降</span>
+                </div>
+                <div class="condition-detail">总CapEx占比从5%升至9%</div>
+            </div>
+            <div class="condition triggered">
+                <div class="condition-header">
+                    <span class="icon-check"></span>
+                    <span class="condition-name">核心竞争力指标改善</span>
+                </div>
+                <div class="condition-detail">88VIP破5000万, 云AI收入三位数增长</div>
+            </div>
+</div>
+<div class="section">
+    <h2>Combo C · 政策催化型 [3/4] ✅ 触发</h2>
+    
+            <div class="condition triggered">
+                <div class="condition-header">
+                    <span class="icon-check"></span>
+                    <span class="condition-name">监管表态明确转向友好</span>
+                </div>
+                <div class="condition-detail">反垄断罚款已落地，监管转向支持</div>
+            </div>
+            <div class="condition not-triggered">
+                <div class="condition-header">
+                    <span class="icon-cross"></span>
+                    <span class="condition-name">行业竞争格局收缩</span>
+                </div>
+                <div class="condition-detail">拼多多+抖音电商仍在抢份额</div>
+            </div>
+            <div class="condition triggered">
+                <div class="condition-header">
+                    <span class="icon-check"></span>
+                    <span class="condition-name">公司处于政策直接受益位置</span>
+                </div>
+                <div class="condition-detail">AI云基建直接受益于数字经济政策</div>
+            </div>
+            <div class="condition triggered">
+                <div class="condition-header">
+                    <span class="icon-check"></span>
+                    <span class="condition-name">海外同类公司已先行验证</span>
+                </div>
+                <div class="condition-detail">AWS/Azure验证了云AI变现路径</div>
+            </div>
+</div>
+<div class="section">
+    <h2>Combo D2 · 内部人确认型 [3/4] ✅ 触发</h2>
+    
+            <div class="condition triggered">
+                <div class="condition-header">
+                    <span class="icon-check"></span>
+                    <span class="condition-name">公司加速回购</span>
+                </div>
+                <div class="condition-detail">FY2025回购超120亿美元</div>
+            </div>
+            <div class="condition not-triggered">
+                <div class="condition-header">
+                    <span class="icon-cross"></span>
+                    <span class="condition-name">管理层增持</span>
+                </div>
+                <div class="condition-detail">蔡崇信/吴泳铭未公开增持</div>
+            </div>
+            <div class="condition triggered">
+                <div class="condition-header">
+                    <span class="icon-check"></span>
+                    <span class="condition-name">特别分红</span>
+                </div>
+                <div class="condition-detail">分红+回购年化收益率~5%</div>
+            </div>
+            <div class="condition triggered">
+                <div class="condition-header">
+                    <span class="icon-check"></span>
+                    <span class="condition-name">资本配置动作与买入逻辑一致</span>
+                </div>
+                <div class="condition-detail">回购+分红+AI投入，方向一致</div>
+            </div>
+</div>
+<div class="section">
+    <h2>Combo F · 基本面恶化型 [1/4] ❌ 未触发</h2>
+    
+            <div class="condition not-triggered">
+                <div class="condition-header">
+                    <span class="icon-cross"></span>
+                    <span class="condition-name">OE连续2季下滑</span>
+                </div>
+                <div class="condition-detail">OE同比仍增长(云+淘天拉动)</div>
+            </div>
+            <div class="condition triggered">
+                <div class="condition-header">
+                    <span class="icon-check"></span>
+                    <span class="condition-name">FCF转负且非高回报扩张</span>
+                </div>
+                <div class="condition-detail">FCF暴跌53%至739亿，AI投入ROI未验证</div>
+            </div>
+            <div class="condition not-triggered">
+                <div class="condition-header">
+                    <span class="icon-cross"></span>
+                    <span class="condition-name">CapEx扩张无回报路径</span>
+                </div>
+                <div class="condition-detail">云AI收入三位数增长，有初步验证</div>
+            </div>
+            <div class="condition not-triggered">
+                <div class="condition-header">
+                    <span class="icon-cross"></span>
+                    <span class="condition-name">核心市场份额持续下滑</span>
+                </div>
+                <div class="condition-detail">淘天份额企稳，CMR拐点出现</div>
+            </div>
+</div>
+<div class="section">
+    <h2>Combo H · 逻辑证伪型 [0/4] ❌ 未触发</h2>
+    
+            <div class="condition not-triggered">
+                <div class="condition-header">
+                    <span class="icon-cross"></span>
+                    <span class="condition-name">核心假设被财报否定</span>
+                </div>
+                <div class="condition-detail">云拐点+淘天企稳，假设成立</div>
+            </div>
+            <div class="condition not-triggered">
+                <div class="condition-header">
+                    <span class="icon-cross"></span>
+                    <span class="condition-name">竞争对手颠覆性打法</span>
+                </div>
+                <div class="condition-detail">拼多多增速放缓，威胁边际减弱</div>
+            </div>
+            <div class="condition not-triggered">
+                <div class="condition-header">
+                    <span class="icon-cross"></span>
+                    <span class="condition-name">管理层资本配置重大失误</span>
+                </div>
+                <div class="condition-detail">3800亿AI投入需持续观察</div>
+            </div>
+            <div class="condition not-triggered">
+                <div class="condition-header">
+                    <span class="icon-cross"></span>
+                    <span class="condition-name">监管风险明确落地</span>
+                </div>
+                <div class="condition-detail">监管已过最坏时期</div>
+            </div>
 </div>
 
 <!-- 决策 -->

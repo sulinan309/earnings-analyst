@@ -11,7 +11,7 @@ from src.frameworks.odds_matrix import MatrixResult
 from src.frameworks.kpi_dashboard import get_kpi_dashboard, KPIDashboard
 from src.frameworks.management_signals import get_management_signals, ManagementSignals
 from src.frameworks.variant_view import get_variant_view, VariantView
-from src.frameworks.deep_analysis import DeepAnalysis
+from src.frameworks.deep_analysis import DeepAnalysis, ComboSignal, CoreProduct
 from src.output.report_generator import ReportInput
 
 
@@ -153,6 +153,18 @@ body {{ background: var(--bg); color: var(--text); font-family: -apple-system, '
 .portfolio-box .portfolio-title {{ font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--text-dim); }}
 .back-link {{ display: inline-block; margin-bottom: 16px; font-size: 14px; }}
 .footer {{ text-align: center; color: var(--text-muted); font-size: 12px; margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); }}
+.combo-badges {{ display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }}
+.combo-badge {{ padding: 3px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; }}
+.combo-badge.buy-triggered {{ background: var(--green-bg); color: var(--green); border: 1px solid rgba(63,185,80,0.3); }}
+.combo-badge.buy-not {{ background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }}
+.combo-badge.sell-triggered {{ background: var(--red-bg); color: var(--red); border: 1px solid rgba(248,81,73,0.3); }}
+.combo-badge.sell-not {{ background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }}
+.change-pos {{ color: var(--green); font-weight: 600; }}
+.change-neg {{ color: var(--red); font-weight: 600; }}
+.judgment {{ font-size: 16px; text-align: center; min-width: 32px; }}
+.core-metric-table td {{ padding: 8px 12px; border-bottom: 1px solid var(--border); font-size: 14px; }}
+.core-metric-table th {{ padding: 8px 12px; text-align: left; color: var(--text-dim); border-bottom: 1px solid var(--border); font-weight: 500; font-size: 14px; }}
+.subtitle {{ font-size: 14px; color: var(--text-dim); margin-top: 4px; }}
 </style>
 </head>
 <body>
@@ -160,12 +172,13 @@ body {{ background: var(--bg); color: var(--text); font-family: -apple-system, '
 <a href="/" class="back-link">← 返回首页</a>
 <div class="header">
     <h1>{_esc(inp.company_name)} ({_esc(inp.ticker)})</h1>
+    {f'<div class="subtitle">{_esc(deep_analysis.header_subtitle)}</div>' if deep_analysis and deep_analysis.header_subtitle else ''}
     <div class="meta">
         <span>报告日期: {d.isoformat()}</span>
         <span>财报期间: {_esc(oe.period)}</span>
         <span class="tag">{_esc(inp.asset_tier)}</span>
-        <span>{_esc(inp.focus)}</span>
     </div>
+    {_render_combo_badges(ca, deep_analysis)}
 </div>
 
 {_render_exec_summary(deep_analysis)}
@@ -250,9 +263,11 @@ body {{ background: var(--bg); color: var(--text); font-family: -apple-system, '
 
 {_render_profitability_section(deep_analysis)}
 
+{_render_core_products(deep_analysis)}
+
 {_render_kpi_section(kpi)}
 
-{_render_capex_sim_section(capex_sim)}
+{_render_capex_sim_section(capex_sim, deep_analysis.capex_warning if deep_analysis else '')}
 
 {_render_competition_section(deep_analysis)}
 
@@ -270,6 +285,8 @@ body {{ background: var(--bg); color: var(--text); font-family: -apple-system, '
     {combo_rows}
     {missing_html}
 </div>
+
+{_render_combo_signals(deep_analysis)}
 
 <!-- 决策 -->
 <div class="section">
@@ -334,15 +351,40 @@ def _render_exec_summary(deep: DeepAnalysis | None) -> str:
 def _render_revenue_section(deep: DeepAnalysis | None) -> str:
     if deep is None or not deep.revenue_breakdown or not deep.revenue_breakdown.segments:
         return ""
+    # Check if quarterly data exists
+    has_quarterly = any(s.get('q1') for s in deep.revenue_breakdown.segments)
+    q_headers = '<th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th>' if has_quarterly else ''
+
     rows = ""
+    total_fy = 0
     for s in deep.revenue_breakdown.segments:
-        rows += f"<tr><td style='text-align:left'>{_esc(str(s.get('name','')))}</td><td>{s.get('fy2025','')}</td><td>{_esc(str(s.get('yoy','')))}</td><td>{_esc(str(s.get('share','')))}</td><td style='font-size:12px;color:var(--text-dim)'>{_esc(str(s.get('trend','')))}</td></tr>"
+        yoy_cls = _change_color_class(str(s.get('yoy', '')))
+        fy_val = s.get('fy2025', '')
+        # Try to accumulate total
+        try:
+            total_fy += float(fy_val) if isinstance(fy_val, (int, float)) else 0
+        except (ValueError, TypeError):
+            pass
+        q_cols = ''
+        if has_quarterly:
+            q_cols = f"<td>{s.get('q1','')}</td><td>{s.get('q2','')}</td><td>{s.get('q3','')}</td><td>{s.get('q4','')}</td>"
+        rows += f"<tr><td style='text-align:left'>{_esc(str(s.get('name','')))}</td><td>{fy_val}</td><td class='{yoy_cls}'>{_esc(str(s.get('yoy','')))}</td><td>{_esc(str(s.get('share','')))}</td>{q_cols}<td style='font-size:12px;color:var(--text-dim)'>{_esc(str(s.get('trend','')))}</td></tr>"
+
+    # Totals row
+    total_row = ''
+    if total_fy > 0:
+        q_empty = '<td></td><td></td><td></td><td></td>' if has_quarterly else ''
+        total_row = f'<tr style="font-weight:700;border-top:2px solid var(--border)"><td style="text-align:left">合计</td><td>{total_fy:.1f}</td><td></td><td>100%</td>{q_empty}<td></td></tr>'
+
+    warn = f'<div class="warn-box">{_esc(deep.revenue_breakdown.warning)}</div>' if deep.revenue_breakdown.warning else ''
     return f"""<div class="section">
     <h2>收入拆分</h2>
     <table class="sens-table">
-        <tr><th style="text-align:left">业务线</th><th>FY2025(亿)</th><th>同比</th><th>占比</th><th style="text-align:left">趋势</th></tr>
+        <tr><th style="text-align:left">业务线</th><th>FY2025(亿)</th><th>同比</th><th>占比</th>{q_headers}<th style="text-align:left">趋势</th></tr>
         {rows}
+        {total_row}
     </table>
+    {warn}
 </div>"""
 
 
@@ -351,7 +393,9 @@ def _render_profitability_section(deep: DeepAnalysis | None) -> str:
         return ""
     rows = ""
     for m in deep.profitability.metrics:
-        rows += f"<tr><td style='text-align:left'>{_esc(str(m.get('name','')))}</td><td>{m.get('fy2024','')}</td><td>{m.get('fy2025','')}</td><td>{_esc(str(m.get('change','')))}</td></tr>"
+        change_str = str(m.get('change', ''))
+        change_cls = _change_color_class(change_str)
+        rows += f"<tr><td style='text-align:left'>{_esc(str(m.get('name','')))}</td><td>{m.get('fy2024','')}</td><td>{m.get('fy2025','')}</td><td class='{change_cls}'>{_esc(change_str)}</td></tr>"
     insight = f'<div style="margin-top:12px;font-size:13px;color:var(--text-dim)">💡 {_esc(deep.profitability.insight)}</div>' if deep.profitability.insight else ""
     return f"""<div class="section">
     <h2>盈利能力趋势</h2>
@@ -363,7 +407,7 @@ def _render_profitability_section(deep: DeepAnalysis | None) -> str:
 </div>"""
 
 
-def _render_capex_sim_section(capex_sim) -> str:
+def _render_capex_sim_section(capex_sim, capex_warning: str = '') -> str:
     if not capex_sim:
         return ""
     rows = ""
@@ -371,6 +415,7 @@ def _render_capex_sim_section(capex_sim) -> str:
         oe_cls = "positive" if s.oe > 0 else "negative"
         fcf_cls = "positive" if s.fcf > 0 else "negative"
         rows += f"<tr><td style='text-align:left'>{_esc(s.label)}</td><td>{s.cfo:.0f}</td><td>{s.total_capex:.0f}</td><td>{s.maintenance_capex:.0f}</td><td class='{oe_cls}'>{s.oe:.0f}</td><td class='{fcf_cls}'>{s.fcf:.0f}</td></tr>"
+    warn = f'<div class="warn-box">{_esc(capex_warning)}</div>' if capex_warning else ''
     return f"""<div class="section">
     <h2>CapEx 冲击模拟</h2>
     <table class="sens-table">
@@ -378,6 +423,7 @@ def _render_capex_sim_section(capex_sim) -> str:
         {rows}
     </table>
     <div style="font-size:12px;color:var(--text-muted);margin-top:8px">基准: CFO温和增长+Capex持平 · 悲观: CFO不增长+Capex大幅增长</div>
+    {warn}
 </div>"""
 
 
@@ -565,3 +611,107 @@ def _next_steps_html(inp: ReportInput) -> str:
         items.append("设定止损: 关注 Combo H（逻辑证伪）触发条件")
         items.append("设定止盈: 关注 Combo E（估值透支）触发条件")
     return "".join(f"<li>{_esc(item)}</li>" for item in items)
+
+
+def _change_color_class(change_str: str) -> str:
+    """Determine CSS class for change/YoY columns: green for positive, red for negative."""
+    s = change_str.strip()
+    if not s:
+        return ""
+    # Explicit positive indicators
+    if "✓" in s or "✅" in s:
+        return "change-pos"
+    # Explicit negative indicators
+    if "⚠" in s or "❌" in s:
+        return "change-neg"
+    # Check sign: starts with + or contains positive growth
+    if s.startswith("+"):
+        return "change-pos"
+    if s.startswith("-"):
+        return "change-neg"
+    return ""
+
+
+# Buy combos: A, B, C, D1, D2. Sell combos: E, F, G, H, I, J
+_SELL_COMBOS = {"Combo E", "Combo F", "Combo G", "Combo H", "Combo I", "Combo J"}
+
+
+def _render_combo_badges(ca, deep_analysis) -> str:
+    """Render combo status badges in header area."""
+    badges = []
+    # Combo A badge from scan result
+    a_cls = "buy-triggered" if ca.triggered else "buy-not"
+    badges.append(f'<span class="combo-badge {a_cls}">A·估值安全边际 [{ca.triggered_count}/{ca.total_count}]</span>')
+
+    # Additional combo badges from deep_analysis
+    if deep_analysis and deep_analysis.combo_signals:
+        for cs in deep_analysis.combo_signals:
+            is_sell = any(cs.name.startswith(s) for s in _SELL_COMBOS)
+            if cs.triggered:
+                cls = "sell-triggered" if is_sell else "buy-triggered"
+            else:
+                cls = "sell-not" if is_sell else "buy-not"
+            short_name = cs.name.split("·")[0].strip() if "·" in cs.name else cs.name
+            badges.append(f'<span class="combo-badge {cls}">{_esc(cs.name)} [{_esc(cs.count)}]</span>')
+
+    if not badges:
+        return ""
+    return f'<div class="combo-badges">{"".join(badges)}</div>'
+
+
+def _render_combo_signals(deep: DeepAnalysis | None) -> str:
+    """Render full Combo B-J signal details."""
+    if deep is None or not deep.combo_signals:
+        return ""
+    sections = ""
+    for cs in deep.combo_signals:
+        status = "✅ 触发" if cs.triggered else "❌ 未触发"
+        rows = ""
+        for sc in cs.sub_conditions:
+            triggered = sc.get("triggered", False)
+            icon = "check" if triggered else "cross"
+            cls = "triggered" if triggered else "not-triggered"
+            detail = sc.get("detail", "")
+            rows += f"""
+            <div class="condition {cls}">
+                <div class="condition-header">
+                    <span class="icon-{icon}"></span>
+                    <span class="condition-name">{_esc(sc.get('name', ''))}</span>
+                </div>
+                <div class="condition-detail">{_esc(detail)}</div>
+            </div>"""
+        sections += f"""
+<div class="section">
+    <h2>{_esc(cs.name)} [{_esc(cs.count)}] {status}</h2>
+    {rows}
+</div>"""
+    return sections
+
+
+def _render_core_products(deep: DeepAnalysis | None) -> str:
+    """Render core product analysis sections."""
+    if deep is None or not deep.core_products:
+        return ""
+    judgment_map = {"正面": "🟢", "负面": "🔴", "中性": "🟡", "观察": "⚪"}
+    sections = ""
+    for cp in deep.core_products:
+        rows = ""
+        for m in cp.metrics:
+            j_emoji = judgment_map.get(m.get("judgment", ""), "⚪")
+            rows += f"""<tr>
+                <td>{_esc(str(m.get('metric', '')))}</td>
+                <td style="font-weight:600">{_esc(str(m.get('value', '')))}</td>
+                <td class="judgment">{j_emoji}</td>
+                <td style="font-size:12px;color:var(--text-dim)">{_esc(str(m.get('note', '')))}</td>
+            </tr>"""
+        insight_html = f'<div style="margin-top:12px;font-size:13px;color:var(--text-dim)">💡 {_esc(cp.insight)}</div>' if cp.insight else ''
+        sections += f"""
+<div class="section">
+    <h2>{_esc(cp.name)} — {_esc(cp.subtitle)}</h2>
+    <table class="core-metric-table" style="width:100%;border-collapse:collapse">
+        <tr><th>指标</th><th>数值</th><th style="text-align:center">判断</th><th>备注</th></tr>
+        {rows}
+    </table>
+    {insight_html}
+</div>"""
+    return sections

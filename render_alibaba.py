@@ -7,6 +7,7 @@ from src.frameworks.auto_analysis import CompanyProfile, run_full_analysis
 from src.frameworks.deep_analysis import (
     DeepAnalysis, ExecutiveSummary, KeyForce, RevenueBreakdown,
     ProfitabilityTrend, CompetitionTable, InvestmentPhilosophy, PreMortem,
+    ComboSignal, CoreProduct,
 )
 from src.signals.combo_scanner import ComboScanner, ComboAInput
 from src.frameworks.odds_matrix import OddsMatrix
@@ -177,6 +178,58 @@ deep_analysis = DeepAnalysis(
              "check": "问自己：如果今天没有持仓，以当前价格会买入吗？"},
         ],
     ),
+
+    header_subtitle="FY2025 Deep Dive · v4.3 OE Framework",
+    capex_warning="⚠ 3年3800亿AI投入计划(FY2026~2028)。CapEx从896亿可能升至1200亿+。FCF已从1562亿暴跌53%至739亿——这是趋势而非一次性",
+
+    combo_signals=[
+        ComboSignal("Combo B · 基本面拐点型", True, "3/4", [
+            {"name": "核心收入增速连续2季回升", "triggered": True, "detail": "云+34%(Q4)，AIDC+29%，淘天CMR+12%"},
+            {"name": "OCF margin同比扩张>3pct", "triggered": False, "detail": "OCF margin下降，因CapEx大增侵蚀"},
+            {"name": "维持性CapEx占收入比下降", "triggered": False, "detail": "总CapEx占比从5%升至9%"},
+            {"name": "核心竞争力指标改善", "triggered": True, "detail": "88VIP破5000万, 云AI收入三位数增长"},
+        ]),
+        ComboSignal("Combo C · 政策催化型", True, "3/4", [
+            {"name": "监管表态明确转向友好", "triggered": True, "detail": "反垄断罚款已落地，监管转向支持"},
+            {"name": "行业竞争格局收缩", "triggered": False, "detail": "拼多多+抖音电商仍在抢份额"},
+            {"name": "公司处于政策直接受益位置", "triggered": True, "detail": "AI云基建直接受益于数字经济政策"},
+            {"name": "海外同类公司已先行验证", "triggered": True, "detail": "AWS/Azure验证了云AI变现路径"},
+        ]),
+        ComboSignal("Combo D2 · 内部人确认型", True, "3/4", [
+            {"name": "公司加速回购", "triggered": True, "detail": "FY2025回购超120亿美元"},
+            {"name": "管理层增持", "triggered": False, "detail": "蔡崇信/吴泳铭未公开增持"},
+            {"name": "特别分红", "triggered": True, "detail": "分红+回购年化收益率~5%"},
+            {"name": "资本配置动作与买入逻辑一致", "triggered": True, "detail": "回购+分红+AI投入，方向一致"},
+        ]),
+        ComboSignal("Combo F · 基本面恶化型", False, "1/4", [
+            {"name": "OE连续2季下滑", "triggered": False, "detail": "OE同比仍增长(云+淘天拉动)"},
+            {"name": "FCF转负且非高回报扩张", "triggered": True, "detail": "FCF暴跌53%至739亿，AI投入ROI未验证"},
+            {"name": "CapEx扩张无回报路径", "triggered": False, "detail": "云AI收入三位数增长，有初步验证"},
+            {"name": "核心市场份额持续下滑", "triggered": False, "detail": "淘天份额企稳，CMR拐点出现"},
+        ]),
+        ComboSignal("Combo H · 逻辑证伪型", False, "0/4", [
+            {"name": "核心假设被财报否定", "triggered": False, "detail": "云拐点+淘天企稳，假设成立"},
+            {"name": "竞争对手颠覆性打法", "triggered": False, "detail": "拼多多增速放缓，威胁边际减弱"},
+            {"name": "管理层资本配置重大失误", "triggered": False, "detail": "3800亿AI投入需持续观察"},
+            {"name": "监管风险明确落地", "triggered": False, "detail": "监管已过最坏时期"},
+        ]),
+    ],
+
+    core_products=[
+        CoreProduct(
+            name="阿里云+AI",
+            subtitle="Reality Check — 3800亿投入的回报预期",
+            metrics=[
+                {"metric": "云收入(FY2025)", "value": "1180亿", "judgment": "正面", "note": "+11%，Q4加速至+34%"},
+                {"metric": "AI收入增速", "value": "三位数", "judgment": "正面", "note": "连续多季三位数增长"},
+                {"metric": "3年投入计划", "value": "3800亿", "judgment": "负面", "note": "FCF已腰斩，还要加码"},
+                {"metric": "云利润率", "value": "拐点初现", "judgment": "中性", "note": "EBITA转正但margin仍低"},
+                {"metric": "通义千问竞争力", "value": "第一梯队", "judgment": "正面", "note": "开源策略+API定价有优势"},
+                {"metric": "ROI验证期", "value": "2026-2027", "judgment": "观察", "note": "2年内需看到利润率改善"},
+            ],
+            insight="云AI是阿里最大的战略赌注。收入增速强劲但利润率尚未证明。3800亿投入使FCF承压——如果2年内利润率未改善，OE将持续恶化。",
+        ),
+    ],
 )
 
 if __name__ == "__main__":

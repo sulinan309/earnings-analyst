@@ -70,6 +70,18 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
 .portfolio-box .portfolio-title { font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--text-dim); }
 .back-link { display: inline-block; margin-bottom: 16px; font-size: 14px; }
 .footer { text-align: center; color: var(--text-muted); font-size: 12px; margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); }
+.combo-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.combo-badge { padding: 3px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+.combo-badge.buy-triggered { background: var(--green-bg); color: var(--green); border: 1px solid rgba(63,185,80,0.3); }
+.combo-badge.buy-not { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
+.combo-badge.sell-triggered { background: var(--red-bg); color: var(--red); border: 1px solid rgba(248,81,73,0.3); }
+.combo-badge.sell-not { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
+.change-pos { color: var(--green); font-weight: 600; }
+.change-neg { color: var(--red); font-weight: 600; }
+.judgment { font-size: 16px; text-align: center; min-width: 32px; }
+.core-metric-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); font-size: 14px; }
+.core-metric-table th { padding: 8px 12px; text-align: left; color: var(--text-dim); border-bottom: 1px solid var(--border); font-weight: 500; font-size: 14px; }
+.subtitle { font-size: 14px; color: var(--text-dim); margin-top: 4px; }
 </style>
 </head>
 <body>
@@ -77,12 +89,13 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
 <a href="/" class="back-link">← 返回首页</a>
 <div class="header">
     <h1>快手 (1024.HK)</h1>
+    <div class="subtitle">FY2025 Deep Dive · v4.3 OE Framework</div>
     <div class="meta">
-        <span>报告日期: 2026-04-03</span>
+        <span>报告日期: 2026-04-04</span>
         <span>财报期间: FY2025</span>
         <span class="tag">中等质量</span>
-        <span>AI赋能广告效率、可灵AI商业化、用户天花板vs变现深度</span>
     </div>
+    <div class="combo-badges"><span class="combo-badge buy-triggered">A·估值安全边际 [3/4]</span><span class="combo-badge buy-triggered">Combo B · 基本面拐点型 [3/4]</span><span class="combo-badge buy-not">Combo C · 政策催化型 [1/4]</span><span class="combo-badge buy-triggered">Combo D2 · 内部人确认型 [3/4]</span><span class="combo-badge sell-not">Combo E · 估值透支型 [0/4]</span><span class="combo-badge sell-not">Combo H · 逻辑证伪型 [0/4]</span></div>
 </div>
 
 <div class="section" style="border-color:var(--blue)">
@@ -189,17 +202,59 @@ v4.3估值修正：FCF=OCF 267亿-CapEx 149亿=118亿。因149亿CapEx含大量A
     <h2>收入拆分</h2>
     <table class="sens-table">
         <tr><th style="text-align:left">业务线</th><th>FY2025(亿)</th><th>同比</th><th>占比</th><th style="text-align:left">趋势</th></tr>
-        <tr><td style='text-align:left'>线上营销服务</td><td>896.5</td><td>+12.5%</td><td>57%</td><td style='font-size:12px;color:var(--text-dim)'>AI驱动广告定向+AIGC素材消耗40亿元</td></tr><tr><td style='text-align:left'>直播</td><td>430.1</td><td>+5.5%</td><td>27%</td><td style='font-size:12px;color:var(--text-dim)'>成熟期现金牛，增速放缓</td></tr><tr><td style='text-align:left'>其他服务(电商+可灵AI)</td><td>244.2</td><td>+27.6%</td><td>16%</td><td style='font-size:12px;color:var(--text-dim)'>电商GMV 1.6万亿(+15%)，可灵AI ARR 2.4亿美元</td></tr>
+        <tr><td style='text-align:left'>线上营销服务</td><td>896.5</td><td class='change-pos'>+12.5%</td><td>57%</td><td style='font-size:12px;color:var(--text-dim)'>AI驱动广告定向+AIGC素材消耗40亿元</td></tr><tr><td style='text-align:left'>直播</td><td>430.1</td><td class='change-pos'>+5.5%</td><td>27%</td><td style='font-size:12px;color:var(--text-dim)'>成熟期现金牛，增速放缓</td></tr><tr><td style='text-align:left'>其他服务(电商+可灵AI)</td><td>244.2</td><td class='change-pos'>+27.6%</td><td>16%</td><td style='font-size:12px;color:var(--text-dim)'>电商GMV 1.6万亿(+15%)，可灵AI ARR 2.4亿美元</td></tr>
+        <tr style="font-weight:700;border-top:2px solid var(--border)"><td style="text-align:left">合计</td><td>1570.8</td><td></td><td>100%</td><td></td></tr>
     </table>
+    
 </div>
 
 <div class="section">
     <h2>盈利能力趋势</h2>
     <table class="sens-table">
         <tr><th style="text-align:left">指标</th><th>FY2024</th><th>FY2025</th><th>变化</th></tr>
-        <tr><td style='text-align:left'>毛利率</td><td>54.6%</td><td>55.0%</td><td>+0.4pct</td></tr><tr><td style='text-align:left'>经调整净利润率</td><td>13.9%</td><td>14.5%</td><td>+0.6pct</td></tr><tr><td style='text-align:left'>销售费用率</td><td>32.4%</td><td>29.6%</td><td>-2.8pct ✓</td></tr><tr><td style='text-align:left'>研发费用率</td><td>9.6%</td><td>10.1%</td><td>+0.5pct(AI投入)</td></tr><tr><td style='text-align:left'>GAAP净利润</td><td>153亿</td><td>186亿</td><td>+21.4%</td></tr><tr><td style='text-align:left'>经调整净利润</td><td>177亿</td><td>206亿</td><td>+16.5%</td></tr><tr><td style='text-align:left'>GAAP vs Non-GAAP差异</td><td>~16%</td><td>~10%</td><td>差距收窄，SBC可控</td></tr>
+        <tr><td style='text-align:left'>毛利率</td><td>54.6%</td><td>55.0%</td><td class='change-pos'>+0.4pct</td></tr><tr><td style='text-align:left'>经调整净利润率</td><td>13.9%</td><td>14.5%</td><td class='change-pos'>+0.6pct</td></tr><tr><td style='text-align:left'>销售费用率</td><td>32.4%</td><td>29.6%</td><td class='change-pos'>-2.8pct ✓</td></tr><tr><td style='text-align:left'>研发费用率</td><td>9.6%</td><td>10.1%</td><td class='change-pos'>+0.5pct(AI投入)</td></tr><tr><td style='text-align:left'>GAAP净利润</td><td>153亿</td><td>186亿</td><td class='change-pos'>+21.4%</td></tr><tr><td style='text-align:left'>经调整净利润</td><td>177亿</td><td>206亿</td><td class='change-pos'>+16.5%</td></tr><tr><td style='text-align:left'>GAAP vs Non-GAAP差异</td><td>~16%</td><td>~10%</td><td class=''>差距收窄，SBC可控</td></tr>
     </table>
     <div style="margin-top:12px;font-size:13px;color:var(--text-dim)">💡 最大亮点是销售费用率-2.8pct：UAX自动化投放渗透率超70%正在结构性降低获客成本。这不是一次性节省，是AI驱动的效率提升。即使收入增速温和(12.5%)，利润增速(16.5%)持续跑赢——运营杠杆在释放。OCF 267亿 vs 净利润186亿，OCF/净利比1.43x，现金流质量优异。</div>
+</div>
+
+
+<div class="section">
+    <h2>可灵AI — Reality Check — 从概念到收入</h2>
+    <table class="core-metric-table" style="width:100%;border-collapse:collapse">
+        <tr><th>指标</th><th>数值</th><th style="text-align:center">判断</th><th>备注</th></tr>
+        <tr>
+                <td>Q4收入</td>
+                <td style="font-weight:600">3.4亿元</td>
+                <td class="judgment">🟡</td>
+                <td style="font-size:12px;color:var(--text-dim)">占总收入&lt;1%，但环比快速增长</td>
+            </tr><tr>
+                <td>12月ARR</td>
+                <td style="font-weight:600">$2.4亿</td>
+                <td class="judgment">🟢</td>
+                <td style="font-size:12px;color:var(--text-dim)">年化后已是中等SaaS规模</td>
+            </tr><tr>
+                <td>2026增速指引</td>
+                <td style="font-weight:600">&gt;100%</td>
+                <td class="judgment">🟢</td>
+                <td style="font-size:12px;color:var(--text-dim)">管理层明确承诺</td>
+            </tr><tr>
+                <td>Sora竞争</td>
+                <td style="font-weight:600">已停服</td>
+                <td class="judgment">🟢</td>
+                <td style="font-size:12px;color:var(--text-dim)">主要对手退出，窗口期</td>
+            </tr><tr>
+                <td>2026 CapEx</td>
+                <td style="font-weight:600">260亿(+73%)</td>
+                <td class="judgment">🔴</td>
+                <td style="font-size:12px;color:var(--text-dim)">AI算力投入大幅攀升</td>
+            </tr><tr>
+                <td>盈利贡献</td>
+                <td style="font-weight:600">尚未盈利</td>
+                <td class="judgment">🔴</td>
+                <td style="font-size:12px;color:var(--text-dim)">需2026年验证ROI</td>
+            </tr>
+    </table>
+    <div style="margin-top:12px;font-size:13px;color:var(--text-dim)">💡 可灵AI是快手最大的增长期权，但目前收入占比&lt;1%。不应过度放大其对估值的贡献——核心仍是广告+电商的现金流。</div>
 </div>
 
 <div class="section">
@@ -259,6 +314,7 @@ v4.3估值修正：FCF=OCF 267亿-CapEx 149亿=118亿。因149亿CapEx含大量A
         <tr><td style='text-align:left'>FY2025 实际</td><td>294</td><td>165</td><td>88</td><td class='positive'>206</td><td class='positive'>129</td></tr><tr><td style='text-align:left'>FY2026 基准</td><td>317</td><td>285</td><td>92</td><td class='positive'>225</td><td class='positive'>32</td></tr><tr><td style='text-align:left'>FY2026 悲观</td><td>294</td><td>330</td><td>97</td><td class='positive'>197</td><td class='negative'>-36</td></tr>
     </table>
     <div style="font-size:12px;color:var(--text-muted);margin-top:8px">基准: CFO温和增长+Capex持平 · 悲观: CFO不增长+Capex大幅增长</div>
+    <div class="warn-box">⚠ 2026年CapEx将从150亿激增至260亿(+73%)，主要投向可灵AI算力。若AI收入不及预期，OE将从205亿降至~140亿</div>
 </div>
 
 <div class="section">
@@ -406,6 +462,168 @@ v4.3估值修正：FCF=OCF 267亿-CapEx 149亿=118亿。因149亿CapEx含大量A
             <div class="missing-title">未达标项 (1 条)</div>
             <ul><li><strong>赔率达标</strong>: 当前赔率 30.8%，中等质量需 ≥70%，需市值降至 1538 亿或内在价值提升至 3400 亿</li></ul>
         </div>
+</div>
+
+
+<div class="section">
+    <h2>Combo B · 基本面拐点型 [3/4] ✅ 触发</h2>
+    
+            <div class="condition triggered">
+                <div class="condition-header">
+                    <span class="icon-check"></span>
+                    <span class="condition-name">核心收入增速连续2季回升</span>
+                </div>
+                <div class="condition-detail">线上营销+12.5%，连续回升</div>
+            </div>
+            <div class="condition triggered">
+                <div class="condition-header">
+                    <span class="icon-check"></span>
+                    <span class="condition-name">OCF margin同比扩张&gt;3pct</span>
+                </div>
+                <div class="condition-detail">OCF margin 18.7% vs 去年16.2%, +2.5pct</div>
+            </div>
+            <div class="condition not-triggered">
+                <div class="condition-header">
+                    <span class="icon-cross"></span>
+                    <span class="condition-name">维持性CapEx占收入比下降</span>
+                </div>
+                <div class="condition-detail">2026年CapEx大幅上升，占比反而上升</div>
+            </div>
+            <div class="condition triggered">
+                <div class="condition-header">
+                    <span class="icon-check"></span>
+                    <span class="condition-name">核心竞争力指标改善</span>
+                </div>
+                <div class="condition-detail">广告ARPU 199元(+10%), 电商GMV 1.6万亿(+15%)</div>
+            </div>
+</div>
+<div class="section">
+    <h2>Combo C · 政策催化型 [1/4] ❌ 未触发</h2>
+    
+            <div class="condition not-triggered">
+                <div class="condition-header">
+                    <span class="icon-cross"></span>
+                    <span class="condition-name">监管表态明确转向友好</span>
+                </div>
+                <div class="condition-detail">无明确表态</div>
+            </div>
+            <div class="condition not-triggered">
+                <div class="condition-header">
+                    <span class="icon-cross"></span>
+                    <span class="condition-name">行业竞争格局收缩</span>
+                </div>
+                <div class="condition-detail">抖音仍在扩张</div>
+            </div>
+            <div class="condition triggered">
+                <div class="condition-header">
+                    <span class="icon-check"></span>
+                    <span class="condition-name">公司处于政策直接受益位置</span>
+                </div>
+                <div class="condition-detail">AI产业政策利好可灵</div>
+            </div>
+            <div class="condition not-triggered">
+                <div class="condition-header">
+                    <span class="icon-cross"></span>
+                    <span class="condition-name">海外同类公司已先行验证</span>
+                </div>
+                <div class="condition-detail">Sora已停服，未验证商业模式</div>
+            </div>
+</div>
+<div class="section">
+    <h2>Combo D2 · 内部人确认型 [3/4] ✅ 触发</h2>
+    
+            <div class="condition triggered">
+                <div class="condition-header">
+                    <span class="icon-check"></span>
+                    <span class="condition-name">公司加速回购</span>
+                </div>
+                <div class="condition-detail">2025年回购+分红年化~4%</div>
+            </div>
+            <div class="condition not-triggered">
+                <div class="condition-header">
+                    <span class="icon-cross"></span>
+                    <span class="condition-name">管理层增持</span>
+                </div>
+                <div class="condition-detail">无公开增持记录</div>
+            </div>
+            <div class="condition triggered">
+                <div class="condition-header">
+                    <span class="icon-check"></span>
+                    <span class="condition-name">特别分红</span>
+                </div>
+                <div class="condition-detail">首次派发特别分红</div>
+            </div>
+            <div class="condition triggered">
+                <div class="condition-header">
+                    <span class="icon-check"></span>
+                    <span class="condition-name">资本配置动作与买入逻辑一致</span>
+                </div>
+                <div class="condition-detail">回购+分红+AI投入，三者一致</div>
+            </div>
+</div>
+<div class="section">
+    <h2>Combo E · 估值透支型 [0/4] ❌ 未触发</h2>
+    
+            <div class="condition not-triggered">
+                <div class="condition-header">
+                    <span class="icon-cross"></span>
+                    <span class="condition-name">市值&gt;乐观OE估值+净现金</span>
+                </div>
+                <div class="condition-detail">市值2000亿远低于乐观4420亿</div>
+            </div>
+            <div class="condition not-triggered">
+                <div class="condition-header">
+                    <span class="icon-cross"></span>
+                    <span class="condition-name">赔率&lt;20%停止加仓</span>
+                </div>
+                <div class="condition-detail">赔率121%&gt;&gt;20%</div>
+            </div>
+            <div class="condition not-triggered">
+                <div class="condition-header">
+                    <span class="icon-cross"></span>
+                    <span class="condition-name">市值/OE&gt;历史均值130%</span>
+                </div>
+                <div class="condition-detail">当前~10x远低于历史均值</div>
+            </div>
+            <div class="condition not-triggered">
+                <div class="condition-header">
+                    <span class="icon-cross"></span>
+                    <span class="condition-name">分析师上调空间&lt;10%</span>
+                </div>
+                <div class="condition-detail">一致预期仍有较大上调空间</div>
+            </div>
+</div>
+<div class="section">
+    <h2>Combo H · 逻辑证伪型 [0/4] ❌ 未触发</h2>
+    
+            <div class="condition not-triggered">
+                <div class="condition-header">
+                    <span class="icon-cross"></span>
+                    <span class="condition-name">核心假设被财报否定</span>
+                </div>
+                <div class="condition-detail">利润增长+现金流强劲，假设未被否定</div>
+            </div>
+            <div class="condition not-triggered">
+                <div class="condition-header">
+                    <span class="icon-cross"></span>
+                    <span class="condition-name">竞争对手颠覆性打法</span>
+                </div>
+                <div class="condition-detail">抖音优势在扩大但未颠覆</div>
+            </div>
+            <div class="condition not-triggered">
+                <div class="condition-header">
+                    <span class="icon-cross"></span>
+                    <span class="condition-name">管理层资本配置重大失误</span>
+                </div>
+                <div class="condition-detail">AI投入有收入支撑</div>
+            </div>
+            <div class="condition not-triggered">
+                <div class="condition-header">
+                    <span class="icon-cross"></span>
+                    <span class="condition-name">监管风险明确落地</span>
+                </div>
+                <div class="condition-detail">无重大监管风险</div>
+            </div>
 </div>
 
 <!-- 决策 -->

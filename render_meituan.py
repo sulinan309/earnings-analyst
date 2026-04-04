@@ -7,6 +7,7 @@ from src.frameworks.auto_analysis import CompanyProfile, run_full_analysis
 from src.frameworks.deep_analysis import (
     DeepAnalysis, ExecutiveSummary, KeyForce, RevenueBreakdown,
     ProfitabilityTrend, CompetitionTable, InvestmentPhilosophy, PreMortem,
+    ComboSignal, CoreProduct,
 )
 from src.signals.combo_scanner import ComboScanner, ComboAInput
 from src.frameworks.odds_matrix import OddsMatrix
@@ -174,6 +175,69 @@ deep_analysis = DeepAnalysis(
              "check": "Position sizing比stock picking更重要。目标减至20%以下(~3500股)"},
         ],
     ),
+
+    header_subtitle="FY2025 Deep Dive · v4.3 OE Framework",
+    capex_warning="⚠ 2025年FCF为大幅负数(估-200至-300亿)。核心本地商业从盈利524亿翻转为亏损69亿——592亿利润蒸发。当前OE无意义，须用正常化方法",
+
+    combo_signals=[
+        ComboSignal("Combo B · 基本面拐点型", False, "0/4", [
+            {"name": "核心收入增速连续2季回升", "triggered": False, "detail": "核心本地商业利润翻转为负"},
+            {"name": "OCF margin同比扩张>3pct", "triggered": False, "detail": "OCF可能为负"},
+            {"name": "维持性CapEx占收入比下降", "triggered": False, "detail": "不适用——整体FCF为负"},
+            {"name": "核心竞争力指标改善", "triggered": False, "detail": "外卖GTV份额保住但代价是利润蒸发"},
+        ]),
+        ComboSignal("Combo F · 基本面恶化型", True, "3/4", [
+            {"name": "OE连续2季下滑", "triggered": True, "detail": "从正OE翻转为负OE"},
+            {"name": "FCF转负且非高回报扩张", "triggered": True, "detail": "FCF大幅为负，补贴抢份额非高回报投资"},
+            {"name": "CapEx扩张无回报路径", "triggered": False, "detail": "Keeta海外有长期逻辑但短期烧钱"},
+            {"name": "核心市场份额持续下滑", "triggered": True, "detail": "以利润换份额——份额保住但利润归零"},
+        ]),
+        ComboSignal("Combo H · 逻辑证伪型", True, "3/4", [
+            {"name": "核心假设被财报否定", "triggered": True, "detail": "'高利润率稳定增长'假设被592亿利润蒸发彻底否定"},
+            {"name": "竞争对手颠覆性打法", "triggered": True, "detail": "抖音外卖+闪购用全域流量打穿美团护城河"},
+            {"name": "管理层资本配置重大失误", "triggered": True, "detail": "592亿利润换份额的ROI极差"},
+            {"name": "监管风险明确落地", "triggered": False, "detail": "无新增重大监管风险"},
+        ]),
+        ComboSignal("Combo E · 估值透支型", False, "1/4", [
+            {"name": "市值>乐观OE估值+净现金", "triggered": False, "detail": "OE为负，传统估值框架失效"},
+            {"name": "赔率<20%停止加仓", "triggered": True, "detail": "OE为负时赔率无意义"},
+            {"name": "市值/OE>历史均值130%", "triggered": False, "detail": "不适用"},
+            {"name": "分析师上调空间<10%", "triggered": False, "detail": "分析师大幅下调中"},
+        ]),
+        ComboSignal("Combo J · 时间成本型", True, "3/4", [
+            {"name": "核心逻辑未证伪但2-3季未兑现", "triggered": True, "detail": "利润率修复遥遥无期"},
+            {"name": "管理层持续讲故事兑现度低", "triggered": True, "detail": "Keeta烧钱进度远超收入"},
+            {"name": "资金占用过久替代机会更优", "triggered": True, "detail": "快手/腾讯赔率远优于美团"},
+            {"name": "市场不给估值的关键原因未变", "triggered": False, "detail": "竞争格局恶化是核心原因"},
+        ]),
+    ],
+
+    core_products=[
+        CoreProduct(
+            name="外卖核心业务",
+            subtitle="Reality Check — 利润率崩塌分析",
+            metrics=[
+                {"metric": "外卖GTV份额", "value": "60%+", "judgment": "正面", "note": "保住了份额"},
+                {"metric": "核心本地商业利润", "value": "-69亿", "judgment": "负面", "note": "从+524亿翻转，-592亿"},
+                {"metric": "配送收入(Q4)", "value": "236亿(-9.9%)", "judgment": "负面", "note": "补贴侵蚀"},
+                {"metric": "单均利润", "value": "大幅恶化", "judgment": "负面", "note": "补贴战+运力成本上升"},
+                {"metric": "抖音外卖威胁", "value": "持续加大", "judgment": "负面", "note": "全域流量优势明显"},
+                {"metric": "利润率恢复时间", "value": "2026H2最早", "judgment": "观察", "note": "取决于竞争格局变化"},
+            ],
+            insight="美团以592亿利润换取60%份额——ROI极差。这不是暂时的战术让步，而是结构性的竞争格局恶化。利润率恢复至少需要2-3个季度。",
+        ),
+        CoreProduct(
+            name="Keeta海外",
+            subtitle="Reality Check — 烧钱扩张节奏",
+            metrics=[
+                {"metric": "已进入市场", "value": "沙特/科威特/阿联酋/巴西", "judgment": "中性", "note": "扩张速度快"},
+                {"metric": "新业务亏损", "value": "101亿(+36%)", "judgment": "负面", "note": "亏损还在扩大"},
+                {"metric": "收入增速", "value": "+19%", "judgment": "中性", "note": "增长不够快"},
+                {"metric": "盈亏平衡预期", "value": "2028+", "judgment": "负面", "note": "遥远且不确定"},
+            ],
+            insight="Keeta的'国际化美团'故事有想象力但烧钱速度令人担忧。在核心业务利润崩塌的情况下，海外扩张的资金来源是个大问题。",
+        ),
+    ],
 )
 
 if __name__ == "__main__":

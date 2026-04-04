@@ -10,6 +10,7 @@ from src.frameworks.auto_analysis import CompanyProfile, run_full_analysis
 from src.frameworks.deep_analysis import (
     DeepAnalysis, ExecutiveSummary, KeyForce, RevenueBreakdown,
     ProfitabilityTrend, CompetitionTable, InvestmentPhilosophy, PreMortem,
+    ComboSignal, CoreProduct,
 )
 from src.frameworks.capex_simulation import simulate_capex
 from src.signals.combo_scanner import ComboScanner, ComboAInput
@@ -195,6 +196,52 @@ deep_analysis = DeepAnalysis(
              "check": "两边数据权重应对等"},
         ],
     ),
+
+    header_subtitle="FY2025 Deep Dive · v4.3 OE Framework",
+    capex_warning="⚠ 汽车工厂CapEx高峰期(2025-2027)，总CapEx 400亿中~280亿为汽车+AI扩张性投入。OE严重依赖维持性CapEx的拆分假设",
+
+    combo_signals=[
+        ComboSignal("Combo B · 基本面拐点型", True, "3/4", [
+            {"name": "核心收入增速连续2季回升", "triggered": True, "detail": "汽车+237%拉动整体+35%"},
+            {"name": "OCF margin同比扩张>3pct", "triggered": True, "detail": "OCF margin改善，但汽车仍亏损"},
+            {"name": "维持性CapEx占收入比下降", "triggered": False, "detail": "汽车工厂CapEx高峰，总CapEx占比上升至8.7%"},
+            {"name": "核心竞争力指标改善", "triggered": True, "detail": "SU7交付量超预期，单车毛利率转正"},
+        ]),
+        ComboSignal("Combo C · 政策催化型", True, "3/4", [
+            {"name": "监管表态明确转向友好", "triggered": True, "detail": "新能源汽车补贴延续，以旧换新政策"},
+            {"name": "行业竞争格局收缩", "triggered": False, "detail": "新能源汽车竞争白热化，玩家众多"},
+            {"name": "公司处于政策直接受益位置", "triggered": True, "detail": "小米汽车直接受益于新能源政策"},
+            {"name": "海外同类公司已先行验证", "triggered": True, "detail": "特斯拉验证了科技公司造车路径"},
+        ]),
+        ComboSignal("Combo E · 估值透支型", True, "3/4", [
+            {"name": "市值>乐观OE估值+净现金", "triggered": True, "detail": "市值8570亿 vs 乐观估值~7000亿"},
+            {"name": "赔率<20%停止加仓", "triggered": True, "detail": "赔率为负(市值>内在价值)"},
+            {"name": "市值/OE>历史均值130%", "triggered": True, "detail": "当前PE远高于历史均值"},
+            {"name": "分析师上调空间<10%", "triggered": False, "detail": "汽车故事仍有上调空间"},
+        ]),
+        ComboSignal("Combo H · 逻辑证伪型", False, "0/4", [
+            {"name": "核心假设被财报否定", "triggered": False, "detail": "汽车交付超预期，手机仍稳健"},
+            {"name": "竞争对手颠覆性打法", "triggered": False, "detail": "暂无颠覆性威胁"},
+            {"name": "管理层资本配置重大失误", "triggered": False, "detail": "汽车投入有章法"},
+            {"name": "监管风险明确落地", "triggered": False, "detail": "无重大监管风险"},
+        ]),
+    ],
+
+    core_products=[
+        CoreProduct(
+            name="小米SU7/YU7",
+            subtitle="Reality Check — 汽车业务盈利路径",
+            metrics=[
+                {"metric": "SU7交付量(2025)", "value": "~13.6万台", "judgment": "正面", "note": "超年初10万台指引"},
+                {"metric": "单车毛利率", "value": "~20%", "judgment": "正面", "note": "好于蔚来/小鹏同期"},
+                {"metric": "汽车业务亏损", "value": "仍亏损", "judgment": "负面", "note": "工厂折旧+研发摊销"},
+                {"metric": "YU7预订量", "value": ">10万(估)", "judgment": "正面", "note": "SUV市场更大"},
+                {"metric": "2026目标", "value": "30万台", "judgment": "中性", "note": "产能爬坡是关键瓶颈"},
+                {"metric": "对OE侵蚀", "value": "~280亿CapEx", "judgment": "负面", "note": "扩张性CapEx压低OE"},
+            ],
+            insight="小米汽车交付数据亮眼，但OE视角下280亿扩张性CapEx使其短期内无法贡献正向现金流。至少到2027年才能开始正向贡献。",
+        ),
+    ],
 )
 
 

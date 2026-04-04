@@ -7,6 +7,7 @@ from src.frameworks.auto_analysis import CompanyProfile, run_full_analysis
 from src.frameworks.deep_analysis import (
     DeepAnalysis, ExecutiveSummary, KeyForce, RevenueBreakdown,
     ProfitabilityTrend, CompetitionTable, InvestmentPhilosophy, PreMortem,
+    ComboSignal, CoreProduct,
 )
 from src.signals.combo_scanner import ComboScanner, ComboAInput
 from src.frameworks.odds_matrix import OddsMatrix
@@ -178,6 +179,58 @@ deep_analysis = DeepAnalysis(
              "check": "'低估值+低增长'可能变成'低估值+负增长'——DAU是唯一的kill条件"},
         ],
     ),
+
+    header_subtitle="FY2025 Deep Dive · v4.3 OE Framework",
+    capex_warning="⚠ 2026年CapEx将从150亿激增至260亿(+73%)，主要投向可灵AI算力。若AI收入不及预期，OE将从205亿降至~140亿",
+
+    combo_signals=[
+        ComboSignal("Combo B · 基本面拐点型", True, "3/4", [
+            {"name": "核心收入增速连续2季回升", "triggered": True, "detail": "线上营销+12.5%，连续回升"},
+            {"name": "OCF margin同比扩张>3pct", "triggered": True, "detail": "OCF margin 18.7% vs 去年16.2%, +2.5pct"},
+            {"name": "维持性CapEx占收入比下降", "triggered": False, "detail": "2026年CapEx大幅上升，占比反而上升"},
+            {"name": "核心竞争力指标改善", "triggered": True, "detail": "广告ARPU 199元(+10%), 电商GMV 1.6万亿(+15%)"},
+        ]),
+        ComboSignal("Combo C · 政策催化型", False, "1/4", [
+            {"name": "监管表态明确转向友好", "triggered": False, "detail": "无明确表态"},
+            {"name": "行业竞争格局收缩", "triggered": False, "detail": "抖音仍在扩张"},
+            {"name": "公司处于政策直接受益位置", "triggered": True, "detail": "AI产业政策利好可灵"},
+            {"name": "海外同类公司已先行验证", "triggered": False, "detail": "Sora已停服，未验证商业模式"},
+        ]),
+        ComboSignal("Combo D2 · 内部人确认型", True, "3/4", [
+            {"name": "公司加速回购", "triggered": True, "detail": "2025年回购+分红年化~4%"},
+            {"name": "管理层增持", "triggered": False, "detail": "无公开增持记录"},
+            {"name": "特别分红", "triggered": True, "detail": "首次派发特别分红"},
+            {"name": "资本配置动作与买入逻辑一致", "triggered": True, "detail": "回购+分红+AI投入，三者一致"},
+        ]),
+        ComboSignal("Combo E · 估值透支型", False, "0/4", [
+            {"name": "市值>乐观OE估值+净现金", "triggered": False, "detail": "市值2000亿远低于乐观4420亿"},
+            {"name": "赔率<20%停止加仓", "triggered": False, "detail": "赔率121%>>20%"},
+            {"name": "市值/OE>历史均值130%", "triggered": False, "detail": "当前~10x远低于历史均值"},
+            {"name": "分析师上调空间<10%", "triggered": False, "detail": "一致预期仍有较大上调空间"},
+        ]),
+        ComboSignal("Combo H · 逻辑证伪型", False, "0/4", [
+            {"name": "核心假设被财报否定", "triggered": False, "detail": "利润增长+现金流强劲，假设未被否定"},
+            {"name": "竞争对手颠覆性打法", "triggered": False, "detail": "抖音优势在扩大但未颠覆"},
+            {"name": "管理层资本配置重大失误", "triggered": False, "detail": "AI投入有收入支撑"},
+            {"name": "监管风险明确落地", "triggered": False, "detail": "无重大监管风险"},
+        ]),
+    ],
+
+    core_products=[
+        CoreProduct(
+            name="可灵AI",
+            subtitle="Reality Check — 从概念到收入",
+            metrics=[
+                {"metric": "Q4收入", "value": "3.4亿元", "judgment": "中性", "note": "占总收入<1%，但环比快速增长"},
+                {"metric": "12月ARR", "value": "$2.4亿", "judgment": "正面", "note": "年化后已是中等SaaS规模"},
+                {"metric": "2026增速指引", "value": ">100%", "judgment": "正面", "note": "管理层明确承诺"},
+                {"metric": "Sora竞争", "value": "已停服", "judgment": "正面", "note": "主要对手退出，窗口期"},
+                {"metric": "2026 CapEx", "value": "260亿(+73%)", "judgment": "负面", "note": "AI算力投入大幅攀升"},
+                {"metric": "盈利贡献", "value": "尚未盈利", "judgment": "负面", "note": "需2026年验证ROI"},
+            ],
+            insight="可灵AI是快手最大的增长期权，但目前收入占比<1%。不应过度放大其对估值的贡献——核心仍是广告+电商的现金流。",
+        ),
+    ],
 )
 
 # ═══════════════════════════════════════════

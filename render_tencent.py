@@ -7,6 +7,7 @@ from src.frameworks.auto_analysis import CompanyProfile, run_full_analysis
 from src.frameworks.deep_analysis import (
     DeepAnalysis, ExecutiveSummary, KeyForce, RevenueBreakdown,
     ProfitabilityTrend, CompetitionTable, InvestmentPhilosophy, PreMortem,
+    ComboSignal, CoreProduct,
 )
 from src.signals.combo_scanner import ComboScanner, ComboAInput
 from src.frameworks.odds_matrix import OddsMatrix
@@ -190,6 +191,57 @@ deep_analysis = DeepAnalysis(
              "check": "Bear case 20%概率下目标价359 HKD(-26%)——这个损失你能承受吗？"},
         ],
     ),
+
+    header_subtitle="FY2025 Deep Dive · v4.3 OE Framework",
+    capex_warning="⚠ AI投入2026年预计翻倍至360亿+。混元大模型+视频号AI+云智能三条线同时烧钱。若投入节奏失控，维持性CapEx将被低估",
+
+    combo_signals=[
+        ComboSignal("Combo B · 基本面拐点型", True, "4/4", [
+            {"name": "核心收入增速连续2季回升", "triggered": True, "detail": "游戏+16%, 广告+17%, 金融科技+10%"},
+            {"name": "OCF margin同比扩张>3pct", "triggered": True, "detail": "OCF margin 34.8% vs 去年31.2%, +3.6pct"},
+            {"name": "维持性CapEx占收入比下降", "triggered": True, "detail": "550/7518=7.3% vs 去年8.5%"},
+            {"name": "核心竞争力指标改善", "triggered": True, "detail": "视频号DAU+广告收入双增长，微信生态闭环加强"},
+        ]),
+        ComboSignal("Combo C · 政策催化型", True, "3/4", [
+            {"name": "监管表态明确转向友好", "triggered": True, "detail": "游戏版号常态化恢复，反垄断风暴已过"},
+            {"name": "行业竞争格局收缩", "triggered": True, "detail": "中小游戏公司出清，腾讯份额提升"},
+            {"name": "公司处于政策直接受益位置", "triggered": True, "detail": "企业微信+政务云直接受益于数字化政策"},
+            {"name": "海外同类公司已先行验证", "triggered": False, "detail": "Meta验证了广告AI化，但腾讯游戏路径不同"},
+        ]),
+        ComboSignal("Combo D2 · 内部人确认型", True, "4/4", [
+            {"name": "公司加速回购", "triggered": True, "detail": "2025年回购1120亿港币，史上最大规模"},
+            {"name": "管理层增持", "triggered": True, "detail": "Pony Ma持续不减持"},
+            {"name": "特别分红", "triggered": True, "detail": "分拆美团股票作特别分派"},
+            {"name": "资本配置动作与买入逻辑一致", "triggered": True, "detail": "回购+分红+投资组合优化，三线并进"},
+        ]),
+        ComboSignal("Combo E · 估值透支型", False, "1/4", [
+            {"name": "市值>乐观OE估值+净现金", "triggered": False, "detail": "市值44200亿 vs 乐观58000亿+"},
+            {"name": "赔率<20%停止加仓", "triggered": True, "detail": "赔率~42%接近40%阈值(顶级资产)"},
+            {"name": "市值/OE>历史均值130%", "triggered": False, "detail": "当前~19x低于历史均值"},
+            {"name": "分析师上调空间<10%", "triggered": False, "detail": "一致预期目标价仍有上调空间"},
+        ]),
+        ComboSignal("Combo H · 逻辑证伪型", False, "0/4", [
+            {"name": "核心假设被财报否定", "triggered": False, "detail": "全线增长，假设成立"},
+            {"name": "竞争对手颠覆性打法", "triggered": False, "detail": "字节跳动竞争激烈但未颠覆腾讯社交护城河"},
+            {"name": "管理层资本配置重大失误", "triggered": False, "detail": "回购时机精准，投资组合优化持续"},
+            {"name": "监管风险明确落地", "triggered": False, "detail": "监管周期已过底部"},
+        ]),
+    ],
+
+    core_products=[
+        CoreProduct(
+            name="微信生态",
+            subtitle="Reality Check — 流量变现效率",
+            metrics=[
+                {"metric": "微信MAU", "value": "13.8亿", "judgment": "正面", "note": "持平，已是天花板"},
+                {"metric": "视频号DAU", "value": "~5亿(估)", "judgment": "正面", "note": "仍在增长，广告加载率有提升空间"},
+                {"metric": "小程序GMV", "value": "万亿级", "judgment": "正面", "note": "电商闭环逐步形成"},
+                {"metric": "广告增速", "value": "+17%", "judgment": "正面", "note": "AI驱动精准投放"},
+                {"metric": "视频号变现率", "value": "远低于抖音", "judgment": "中性", "note": "变现潜力大但执行需时间"},
+            ],
+            insight="微信是全球最强的超级App，MAU接近天花板但单用户变现仍有巨大空间。视频号是未来3年最大增量。",
+        ),
+    ],
 )
 
 # ═══════════════════════════════════════════
