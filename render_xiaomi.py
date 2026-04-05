@@ -27,8 +27,8 @@ def cnb(v): return round(v * FX, 2)
 # ═══════════════════════════════════════════
 
 financial_data = FinancialData(
-    cfo=cnb(676),                   # 券商预估全年CFO ~676亿
-    maintenance_capex=cnb(120),     # ≈折旧 ~120亿（文档K0）
+    cfo=cnb(340),                   # 归一化OCF: Layer A ~300 + Layer B汽车 ~40
+    maintenance_capex=cnb(100),     # 归一化维持性CapEx → OE = 340-100 = 240亿 RMB
     total_capex=cnb(400),           # 汽车工厂+AI
     cash_and_equivalents=cnb(800),
     short_term_investments=cnb(1200),
@@ -37,10 +37,10 @@ financial_data = FinancialData(
     restricted_cash=cnb(30),
     overseas_cash=cnb(150),
     revenue=cnb(4573),
-    market_cap=8570.0,              # ~32 HKD × 255亿股 ≈ 8570亿港币
+    market_cap=8160.0,              # 255亿股 × 32 HKD
     period="FY2025", ticker="1810.HK",
     maintenance_capex_is_estimated=True,
-    maintenance_capex_note="Maintenance CapEx ≈ 折旧~120亿（保守代理假设），文档K0方法",
+    maintenance_capex_note="小米未单独披露FY2025全年FCF。Q4 OCF仅6亿[A]。估计全年FCF~200亿[D1]。Layer A(手机+IoT+互联网) OE~200亿 + Layer B(汽车+AI) OE~40亿 = Base OE 240亿 RMB。当前32 HKD处于回避区(>Optimistic 27)",
 )
 
 
@@ -63,13 +63,14 @@ profile = CompanyProfile(
     ],
 
     profitability_metrics=[
-        {"name": "集团毛利率", "fy2024": "20.9%", "fy2025": "22.3%", "change": "+1.4pct"},
-        {"name": "手机毛利率", "fy2024": "12.6%", "fy2025": "10.9%", "change": "-1.7pct ⚠"},
-        {"name": "手机Q4毛利率", "fy2024": "~12%", "fy2025": "8.3%", "change": "历史低位 ⚠⚠"},
-        {"name": "IoT毛利率", "fy2024": "20.3%", "fy2025": "23.1%", "change": "+2.8pct"},
-        {"name": "汽车毛利率", "fy2024": "18.5%", "fy2025": "24.3%", "change": "+5.8pct"},
-        {"name": "互联网服务毛利率", "fy2024": "76.3%", "fy2025": "76.5%", "change": "稳定"},
-        {"name": "经调整净利润率", "fy2024": "7.4%", "fy2025": "8.6%", "change": "+1.2pct"},
+        {"name": "收入", "fy2024": "3659亿", "fy2025": "4573亿(+25%)", "change": "+25%"},
+        {"name": "经调整净利润", "fy2024": "272亿", "fy2025": "392亿", "change": "+44%"},
+        {"name": "手机毛利率", "fy2024": "12.6%", "fy2025": "10.9%(Q4仅8.3%)", "change": "-1.7pct ⚠"},
+        {"name": "IoT毛利率", "fy2024": "20.3%", "fy2025": "23.8%", "change": "+3.5pct"},
+        {"name": "互联网毛利率", "fy2024": "76.3%", "fy2025": "76.5%", "change": "稳定"},
+        {"name": "汽车经营收益", "fy2024": "亏损", "fy2025": "9亿(首次转正)", "change": "里程碑"},
+        {"name": "FCF(估)", "fy2024": "N/A", "fy2025": "~200亿", "change": "远低于净利润"},
+        {"name": "Q4 OCF", "fy2024": "N/A", "fy2025": "仅6亿[A]", "change": "⚠"},
     ],
     profitability_insight=(
         "集团毛利率+1.4pct的改善掩盖了严重的结构性分化：汽车毛利率24.3%已高于手机×AIoT分部的21.7%，"
@@ -102,52 +103,52 @@ profile = CompanyProfile(
 
 deep_analysis = DeepAnalysis(
     executive_summary=ExecutiveSummary(
-        headline='小米v4.3：32 HKD处于回避区——Payback 30年，三家中最贵。经调整利润392亿 vs FCF仅~200亿，市场在为"故事"而非"现金流"定价',
-        action="回避/减持 — 当前32 HKD高于乐观估值(27 HKD)约19%，在v4.3框架下明确超出估值上限",
+        headline='小米——汽车梦想照进现实但OE框架下32 HKD已超出乐观估值。手机毛利率跌至10.9%是隐忧',
+        action="Swing Trade定位 — 当前32 HKD处于回避区(>Optimistic 27)。Low Conviction(价值框架)",
         tldr=[
-            "v4.3估值：保守16 / 基准22 / 乐观27 HKD。当前32处于回避区(>27)，Payback 30年(三家最贵)",
-            "核心问题：经调整净利润392亿 vs FCF仅~200亿——Guard Rail要求OE≤240亿，远低于市场隐含的利润预期",
-            "分层估值：手机×AIoT×互联网(Layer A) OE~200亿 + 汽车×AI(Layer B) OE~0-60亿",
-            "按李录/价值框架不应持有。400股@33.47定位为swing trade(非价值买入)，34.5+考虑减持释放资金给快手/腾讯",
+            "v4.3估值：Conservative 16 / Base 22 / Optimistic 27 HKD。当前32高于乐观值19%——回避区",
+            "Layer A(手机+IoT+互联网) OE~200亿是基本盘。Layer B(汽车+AI) OE仅~40亿",
+            "Payback 29.9年(base)——三家中最贵。按价值框架不应持有或加仓",
+            "400股@33.47属于成长股定价买入，非价值买入。34.5+考虑减持，释放资金给快手",
         ],
         body=(
             "2025年报整体符合'史上最强'叙事——全年营收4573亿(+25%)，经调整净利润392亿(+44%)，"
             "汽车业务首破千亿且年度经营收益转正至9亿。然而Q4单季暴露的结构性隐忧不容忽视：手机毛利率"
-            "跌至8.3%历史低位，Q4经营现金流仅6亿。\n\n"
+            "全年10.9%(Q4仅8.3%历史低位)，Q4经营现金流仅6亿[A]。\n\n"
             "v4.3估值修正：Guard Rail要求OE≤1.2×FCF。FCF估计~200亿(远低于经调整净利润392亿)——"
-            "OE上限240亿。分层估值：Layer A(手机+IoT+互联网) OE~200亿，Layer B(汽车+AI) OE~0-60亿。"
+            "OE上限240亿。分层估值：Layer A(手机+IoT+互联网) OE~200亿，Layer B(汽车+AI) OE~40亿。"
             "基准OE 240亿(g=3%, r=11%) → 基准内在价值22 HKD。当前32 HKD高出45%。\n\n"
-            "Payback 30年(base, static)是三家中最长——每投入1港币需要30年通过现金流回收。"
+            "Payback 29.9年(base, static)是三家中最长——每投入1港币需要约30年通过现金流回收。"
             "按李录/价值框架，32 HKD处于回避区。400股@33.47应定位为swing trade而非价值持仓。"
-            "34.5+考虑减持，释放资金优先配置快手(明确加仓区)和腾讯(等回落)。"
+            "34.5+考虑减持，释放资金优先配置快手(明确加仓区)。"
         ),
     ),
 
     key_forces=[
         KeyForce(
-            title="#1 汽车业务从'烧钱'到'利润贡献者'的跨越速度",
-            body=(
-                "2025年已实现年度经营收益转正。2026年目标交付55万辆，北京+武汉双工厂总产能~120万辆。"
-                "汽车业务24.3%的全年毛利率已高于手机×AIoT分部的21.7%，如果汽车规模持续放大，"
-                "将结构性地拉升集团毛利率。新一代SU7开售34分钟锁单15000台。"
-            ),
-            oe_implication="汽车Capex目前大部分是扩张性的（不计入OE），但随着规模化，折旧替换部分将逐步转为维持性Capex，需持续跟踪。",
-        ),
-        KeyForce(
-            title="#2 手机业务的成本-收入剪刀差（存储涨价危机）",
+            title="#1 手机毛利率下滑是被忽视的风险(10.9%, Q4仅8.3%[A])",
             body=(
                 "存储芯片长周期涨价（管理层判断可能持续到2027年底）正在侵蚀手机毛利。"
-                "2025年手机毛利率从12.6%降至10.9%，Q4更跌至8.3%。手机仍贡献41%的收入，"
-                "如果毛利率持续承压，将显著拖累集团利润增速。"
+                "2025年手机毛利率从12.6%降至10.9%，Q4更跌至8.3%[A]历史低位。手机仍贡献41%的收入，"
+                "如果毛利率持续承压，将显著拖累集团利润增速。市场被汽车叙事吸引，严重低估了手机基本盘的恶化。"
             ),
-            oe_implication="手机毛利率每下降1pct，约减少19亿利润。如果毛利率长期维持8-9%，OE将被压缩~60-80亿。",
+            oe_implication="手机毛利率每下降1pct，约减少19亿利润。如果毛利率长期维持8-9%，Layer A OE将被压缩~60-80亿，直接影响基准估值。",
         ),
         KeyForce(
-            title="#3 AI生态 + '人车家'协同效应的货币化",
+            title="#2 汽车经营收益9亿首次转正但对OE贡献极小",
+            body=(
+                "2025年汽车业务年度经营收益首次转正至9亿[A]，全年毛利率24.3%已高于手机×AIoT分部的21.7%。"
+                "2026年目标交付55万辆，北京+武汉双工厂总产能~120万辆。但从OE角度看，"
+                "汽车对Layer B OE贡献仅~40亿，远低于市场对汽车业务的想象空间。"
+            ),
+            oe_implication="汽车Capex目前大部分是扩张性的（不计入OE），9亿经营收益转正是里程碑但对整体OE几乎无影响。Layer B OE~40亿中汽车贡献有限。",
+        ),
+        KeyForce(
+            title="#3 600亿AI投入(3年)——又一个CapEx故事",
             body=(
                 "MiMo大模型全球排名第八、国内第二。miclaw AI Agent正在封测。AI眼镜出货全球第三。"
                 "但这些目前均不构成独立收入线——AI是费用项不是收入项。未来三年600亿AI投入意味着："
-                "如果AI未能有效货币化，将持续压制利润增速。"
+                "如果AI未能有效货币化，将持续压制FCF和OE。"
             ),
             oe_implication="600亿AI投入/3年 = 年均200亿费用项。如果归类为扩张性Capex不影响OE，但如果被视为维持竞争力的'必要投入'则应计入维持性Capex。",
         ),
@@ -198,7 +199,7 @@ deep_analysis = DeepAnalysis(
     ),
 
     header_subtitle="FY2025 Deep Dive · v4.3 OE Framework",
-    capex_warning="⚠ 汽车工厂CapEx高峰期(2025-2027)，总CapEx 400亿中~280亿为汽车+AI扩张性投入。OE严重依赖维持性CapEx的拆分假设",
+    capex_warning="⚠ Q4经营活动现金仅6亿[A]。未来3年AI投入≥600亿[B]+汽车产能扩张。手机毛利率已跌至10.9%[A]。Layer A(手机+IoT+互联网)才是OE基本盘——汽车对OE贡献极小",
 
     combo_signals=[
         ComboSignal("Combo B · 基本面拐点型", True, "3/4", [
@@ -230,16 +231,16 @@ deep_analysis = DeepAnalysis(
     core_products=[
         CoreProduct(
             name="小米SU7/YU7",
-            subtitle="Reality Check — 汽车业务盈利路径",
+            subtitle="Reality Check — 汽车经营收益9亿首次转正[A]",
             metrics=[
-                {"metric": "SU7交付量(2025)", "value": "~13.6万台", "judgment": "正面", "note": "超年初10万台指引"},
-                {"metric": "单车毛利率", "value": "~20%", "judgment": "正面", "note": "好于蔚来/小鹏同期"},
-                {"metric": "汽车业务亏损", "value": "仍亏损", "judgment": "负面", "note": "工厂折旧+研发摊销"},
+                {"metric": "汽车交付量(2025)", "value": "41.1万台", "judgment": "正面", "note": "超年初指引，含SU7+YU7"},
+                {"metric": "汽车毛利率", "value": "24.3%", "judgment": "正面", "note": "高于手机×AIoT分部21.7%"},
+                {"metric": "汽车经营收益", "value": "9亿(首次转正)[A]", "judgment": "正面", "note": "里程碑但对OE贡献极小"},
                 {"metric": "YU7预订量", "value": ">10万(估)", "judgment": "正面", "note": "SUV市场更大"},
-                {"metric": "2026目标", "value": "30万台", "judgment": "中性", "note": "产能爬坡是关键瓶颈"},
-                {"metric": "对OE侵蚀", "value": "~280亿CapEx", "judgment": "负面", "note": "扩张性CapEx压低OE"},
+                {"metric": "2026目标", "value": "55万台", "judgment": "中性", "note": "产能爬坡是关键瓶颈"},
+                {"metric": "对OE贡献", "value": "Layer B ~40亿", "judgment": "中性", "note": "汽车+AI合计，远低于市场预期"},
             ],
-            insight="小米汽车交付数据亮眼，但OE视角下280亿扩张性CapEx使其短期内无法贡献正向现金流。至少到2027年才能开始正向贡献。",
+            insight="汽车经营收益9亿首次转正是里程碑[A]，但从OE角度看Layer B(汽车+AI)仅贡献~40亿，占Base OE 240亿的17%。市场对汽车业务的估值远超其现金流贡献。",
         ),
     ],
 )

@@ -86,13 +86,13 @@ profile = CompanyProfile(
 
 deep_analysis = DeepAnalysis(
     executive_summary=ExecutiveSummary(
-        headline='快手年赚206亿但市场只给10倍PE——v4.3确认：45 HKD处于明确加仓区，三家中最便宜',
-        action="明确加仓 — 当前45 HKD低于保守估值(54 HKD)约17%，Payback仅9.5年，High Conviction",
+        headline='快手——45 HKD低于保守估值17%，三家中最便宜。Payback仅9.5年，High Conviction',
+        action="明确加仓 — 当前45 HKD低于Conservative(54)约17%，在明确加仓区。High Conviction",
         tldr=[
-            "v4.3估值：保守54 / 基准82 / 乐观102 HKD。当前45低于保守值17%，处于明确加仓区",
-            "基准OE 180亿(g=3%, r=11%)，净现金919亿HKD(占总估值26%)——v4.3净现金权重增大使估值反而上升(+14%)",
-            "Payback 9.5年(base)是三家中最短——意味着即使零增长，9.5年回本",
-            "核心风险：DAU连续两季同比下降 = Kill condition。在40-55区间分批买至600-800股",
+            "v4.3估值：Conservative 54 / Base 82 / Optimistic 102 HKD。当前45低于保守值17%——明确加仓区",
+            "FCF=118亿[A]但149亿CapEx含大量AI成长性投入。正常化FCF~170-200亿。Base OE 180亿",
+            "净现金919亿HKD(per share 21.1 HKD)占Base估值26%——PE法无法体现的隐藏价值",
+            "在40-55区间分批买至600-800股。Kill condition：DAU连续两季同比下降",
         ],
         body=(
             "2025年报稳健——全年营收1428亿(+12.5%)，经调整净利润206亿(+16.5%)，毛利率55.0%，OCF 267亿。"
@@ -181,7 +181,7 @@ deep_analysis = DeepAnalysis(
     ),
 
     header_subtitle="FY2025 Deep Dive · v4.3 OE Framework",
-    capex_warning="⚠ 2026年CapEx将从150亿激增至260亿(+73%)，主要投向可灵AI算力。若AI收入不及预期，OE将从205亿降至~140亿",
+    capex_warning="⚠ 2026年CapEx将从149亿升至260亿(+74%)[B]，主要投向可灵AI算力。但净现金919亿HKD提供充裕安全垫。GR1通过：成长性CapEx调整后，OE 150-210亿 ≤ 1.2×正常化FCF",
 
     combo_signals=[
         ComboSignal("Combo B · 基本面拐点型", True, "3/4", [
