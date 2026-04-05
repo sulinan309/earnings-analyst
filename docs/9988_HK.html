@@ -82,32 +82,72 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
 .core-metric-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); font-size: 14px; }
 .core-metric-table th { padding: 8px 12px; text-align: left; color: var(--text-dim); border-bottom: 1px solid var(--border); font-weight: 500; font-size: 14px; }
 .subtitle { font-size: 14px; color: var(--text-dim); margin-top: 4px; }
+.headline-sub { font-size: 16px; color: var(--yellow); margin-top: 6px; font-weight: 500; }
 </style>
 </head>
 <body>
 
 <a href="/" class="back-link">← 返回首页</a>
 <div class="header">
-    <h1>阿里 (9988.HK)</h1>
-    <div class="subtitle">FY2025 Deep Dive · v4.3 OE Framework</div>
+    <h1>阿里 (9988.HK) 深度分析</h1>
+    <div class="headline-sub">阿里是一台年产1600亿现金流的机器，但3800亿AI豪赌正在吞噬这台机器的产出——FCF腰斩53%是阵痛还是价值毁灭？</div>
     <div class="meta">
-        <span>报告日期: 2026-04-04</span>
+        <span>报告日期: 2026-04-05</span>
         <span>财报期间: FY2025</span>
         <span class="tag">中等质量</span>
+        <span style="background:var(--yellow-bg);color:var(--yellow);padding:2px 10px;border-radius:12px;font-size:13px;font-weight:600">Combo A 2/4 未触发</span>
     </div>
-    <div class="combo-badges"><span class="combo-badge buy-not">A·估值安全边际 [2/4]</span><span class="combo-badge buy-triggered">Combo B · 基本面拐点型 [3/4]</span><span class="combo-badge buy-triggered">Combo C · 政策催化型 [3/4]</span><span class="combo-badge buy-triggered">Combo D2 · 内部人确认型 [3/4]</span><span class="combo-badge sell-not">Combo F · 基本面恶化型 [1/4]</span><span class="combo-badge sell-not">Combo H · 逻辑证伪型 [0/4]</span></div>
+    <div style="font-size:13px;color:var(--text-dim);margin-top:8px">3800亿AI投入ROI、淘天份额保卫战、FCF恢复路径</div>
 </div>
 
-<div class="section" style="border-color:var(--blue)">
-    <h2 style="font-size:22px;border:none;padding:0;margin-bottom:8px">阿里是一台年产1600亿现金流的机器，但3800亿AI豪赌正在吞噬这台机器的产出——FCF腰斩53%是阵痛还是价值毁灭？</h2>
-    <div style="background:var(--blue-bg);color:var(--blue);display:inline-block;padding:4px 16px;border-radius:20px;font-weight:600;font-size:14px;margin-bottom:16px">观望/小额持有 — 当前118.5 HKD处于观察区偏上(Base 101, Optimistic 131)，Medium-Low Conviction</div>
-    <div style="margin-bottom:16px"><ul style="font-size:14px;padding-left:16px;display:flex;flex-direction:column;gap:4px"><li>v4.3估值：保守62 / 基准101 / 乐观131 HKD。当前118.5处于观察区偏上，Payback 17.3年</li><li>核心矛盾：Non-GAAP利润1581亿(PE=10x)看似便宜，但FCF仅739亿(PE=25x)——用FCF定价不便宜</li><li>3800亿AI豪赌：云+34%加速增长是真实AI变现，但FY2026H1 FCF已净流出407亿</li><li>资金配置优先级：快手(明确加仓) &gt; 腾讯(等回落) &gt; 阿里(占座观望) &gt; 小米(swing trade)</li></ul></div>
-    <div style="font-size:14px;color:var(--text-dim);line-height:1.8;white-space:pre-line">FY2025年报：收入9963亿(+6%)，经营利润1409亿(+24%)，GAAP净利1260亿(+77%)，Non-GAAP净利1581亿(持平)。最刺眼的数字：FCF从1562亿暴跌53%至739亿——云基础设施支出激增所致。
+<!-- 核心指标 -->
+<div class="data-grid" style="margin-bottom:4px">
+    <div class="data-card">
+        <div class="label">Owner's Earnings</div>
+        <div class="value">1358<small> 亿</small></div>
+        <div class="sub">OE Margin 12.4% | CFO 1798 − 维持CapEx 440</div>
+    </div>
+    <div class="data-card">
+        <div class="label">可分配净现金</div>
+        <div class="value">1405<small> 亿</small></div>
+        <div class="sub">可利用资金 3182 − 扣除 1777</div>
+    </div>
+    <div class="data-card">
+        <div class="label">内在价值 (r=10%)</div>
+        <div class="value">15,595<small> 亿港元</small></div>
+        <div class="sub">零增长 13585 + 净现金 1405 + 投资 605</div>
+    </div>
+</div>
+<div class="data-grid" style="margin-bottom:16px">
+    <div class="data-card">
+        <div class="label">当前市值</div>
+        <div class="value">21,700<small> 亿港元</small></div>
+        <div class="sub">P/E 16.0x | 赔率 -28.1%</div>
+    </div>
+    <div class="data-card">
+        <div class="label">安全边际</div>
+        <div class="value negative">-28.1%</div>
+        <div class="sub">无安全边际 | 中等质量需赔率 ≥70%</div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>Executive Summary</h2>
+    <div style="background:var(--blue-bg);color:var(--blue);display:inline-block;padding:4px 16px;border-radius:20px;font-weight:600;font-size:14px;margin-bottom:16px">建议动作: 观望/小额持有 — 当前118.5 HKD处于观察区偏上(Base 101, Optimistic 131)，Medium-Low Conviction</div>
+    <div style="font-size:14px;color:var(--text);line-height:1.8;white-space:pre-line;margin-bottom:16px">FY2025年报：收入9963亿(+6%)，经营利润1409亿(+24%)，GAAP净利1260亿(+77%)，Non-GAAP净利1581亿(持平)。最刺眼的数字：FCF从1562亿暴跌53%至739亿——云基础设施支出激增所致。
 
 v4.3估值：Guard Rail要求OE≤1.2×正常化FCF≈1440亿。分层估值：Layer A(淘天+云盈利部分) OE~1000亿，Layer B(AIDC+本地+闪购+AI基建) OE=-50至+50亿。基准OE 1100亿(g=3%, r=11%) → 基准内在价值101 HKD。当前118.5高于Base约17%。
 
 关键判断：3800亿AI投入能否转化为收入增长和利润回报？云+34%增速和AI产品三位数增长是正面信号，但FY2026H1 FCF净流出407亿说明投入规模远超当前回报。闪购投入'下季度将显著缩减'——是否兑现是近期最关键验证点。维持1手占座，股价&lt;90考虑小额加仓，&gt;140减持。</div>
-    <div style="margin-top:20px"><div style="font-weight:600;margin-bottom:8px">Key Forces（决定性力量）</div><div style="background:var(--bg);border-left:3px solid var(--blue);border-radius:8px;padding:12px 16px;margin-bottom:8px">
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 16px">
+        <div style="font-weight:600;color:var(--blue);margin-bottom:6px">TL;DR:</div>
+        <ul style="font-size:14px;padding-left:16px;display:flex;flex-direction:column;gap:4px"><li>v4.3估值：保守62 / 基准101 / 乐观131 HKD。当前118.5处于观察区偏上，Payback 17.3年</li><li>核心矛盾：Non-GAAP利润1581亿(PE=10x)看似便宜，但FCF仅739亿(PE=25x)——用FCF定价不便宜</li><li>3800亿AI豪赌：云+34%加速增长是真实AI变现，但FY2026H1 FCF已净流出407亿</li><li>资金配置优先级：快手(明确加仓) &gt; 腾讯(等回落) &gt; 阿里(占座观望) &gt; 小米(swing trade)</li></ul>
+    </div>
+</div>
+
+<div class="section">
+    <h2>Key Forces（决定性力量）</h2>
+    <div style="background:var(--bg);border-left:3px solid var(--blue);border-radius:8px;padding:12px 16px;margin-bottom:8px">
             <div style="font-weight:600;color:var(--blue)">#1 3800亿AI豪赌——回报路径可见但规模不匹配</div>
             <div style="font-size:13px;margin-top:4px">阿里云Q3收入+34%，AI产品连续多季度三位数增长。千问开源模型下载3亿+。但FY2025 FCF已腰斩至739亿，FY2026H1更是净流出407亿。3800亿三年AI投入≈年均1267亿CapEx——这意味着阿里正在用存量现金支撑AI投入，造血能力已跟不上烧钱速度。管理层'不排除追加投入'更增不确定性。</div>
             <div style="font-size:12px;color:var(--text-muted);margin-top:4px">OE含义: 年均1267亿CapEx中维持性仅~400亿，增长性~867亿。增长性CapEx不计入OE，但如果3年后回报不及预期，市场会重分类为沉没成本。</div>
@@ -119,31 +159,7 @@ v4.3估值：Guard Rail要求OE≤1.2×正常化FCF≈1440亿。分层估值：L
             <div style="font-weight:600;color:var(--blue)">#3 非核心剥离+回购——方向正确但FCF萎缩制约执行</div>
             <div style="font-size:13px;margin-top:4px">出售高鑫零售+银泰是正确的战略聚焦。FY2025回购119亿美元，流通股净减5.1%——力度极大。但回购的资金来源(FCF)正在萎缩。如果FCF持续为负，回购规模必然缩减，股本下降的复利效应将中断。</div>
             <div style="font-size:12px;color:var(--text-muted);margin-top:4px">OE含义: 回购每年减少~5%股本，OE per share增速快于总OE增速5个百分点。但如果FCF不足以支撑回购，这个加速器会熄火。</div>
-        </div></div>
-</div>
-
-<!-- 核心指标 -->
-<div class="data-grid" style="margin-bottom:16px">
-    <div class="data-card">
-        <div class="label">Owner's Earnings</div>
-        <div class="value">1358.5<small> 亿</small></div>
-        <div class="sub">OE Margin 12.4%</div>
-    </div>
-    <div class="data-card">
-        <div class="label">可分配净现金</div>
-        <div class="value">1405.4<small> 亿</small></div>
-        <div class="sub">毛净现金 3182.3 - 扣除 1776.9</div>
-    </div>
-    <div class="data-card">
-        <div class="label">内在价值</div>
-        <div class="value">15595.4<small> 亿</small></div>
-        <div class="sub">零增长 13585.0 + 净现金 1405.4 + 投资 605.0</div>
-    </div>
-    <div class="data-card">
-        <div class="label">安全边际</div>
-        <div class="value negative">-28.1%</div>
-        <div class="sub">无安全边际 | 赔率 -28.1%</div>
-    </div>
+        </div>
 </div>
 
 <!-- OE 计算 -->

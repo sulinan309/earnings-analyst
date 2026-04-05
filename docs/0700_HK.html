@@ -82,32 +82,72 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
 .core-metric-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); font-size: 14px; }
 .core-metric-table th { padding: 8px 12px; text-align: left; color: var(--text-dim); border-bottom: 1px solid var(--border); font-weight: 500; font-size: 14px; }
 .subtitle { font-size: 14px; color: var(--text-dim); margin-top: 4px; }
+.headline-sub { font-size: 16px; color: var(--yellow); margin-top: 6px; font-weight: 500; }
 </style>
 </head>
 <body>
 
 <a href="/" class="back-link">← 返回首页</a>
 <div class="header">
-    <h1>腾讯 (0700.HK)</h1>
-    <div class="subtitle">FY2025 Deep Dive · v4.3 OE Framework</div>
+    <h1>腾讯 (0700.HK) 深度分析</h1>
+    <div class="headline-sub">腾讯是中国互联网最接近&quot;永续复利机器&quot;的标的——但487 HKD处于观察区，等430-460再布局</div>
     <div class="meta">
-        <span>报告日期: 2026-04-04</span>
+        <span>报告日期: 2026-04-05</span>
         <span>财报期间: FY2025</span>
         <span class="tag">顶级资产</span>
+        <span style="background:var(--yellow-bg);color:var(--yellow);padding:2px 10px;border-radius:12px;font-size:13px;font-weight:600">Combo A 1/4 未触发</span>
     </div>
-    <div class="combo-badges"><span class="combo-badge buy-not">A·估值安全边际 [1/4]</span><span class="combo-badge buy-triggered">Combo B · 基本面拐点型 [4/4]</span><span class="combo-badge buy-triggered">Combo C · 政策催化型 [3/4]</span><span class="combo-badge buy-triggered">Combo D2 · 内部人确认型 [4/4]</span><span class="combo-badge sell-not">Combo E · 估值透支型 [1/4]</span><span class="combo-badge sell-not">Combo H · 逻辑证伪型 [0/4]</span></div>
+    <div style="font-size:13px;color:var(--text-dim);margin-top:8px">高毛利业务迁移、国际游戏第二曲线、注销式回购复利</div>
 </div>
 
-<div class="section" style="border-color:var(--blue)">
-    <h2 style="font-size:22px;border:none;padding:0;margin-bottom:8px">腾讯是中国互联网最接近&quot;永续复利机器&quot;的标的——但487 HKD处于观察区，等430-460再布局</h2>
-    <div style="background:var(--blue-bg);color:var(--blue);display:inline-block;padding:4px 16px;border-radius:20px;font-weight:600;font-size:14px;margin-bottom:16px">观察/等回落 — 当前487 HKD高于Base(386)约26%，低于Optimistic(569)约14%，处于观察区</div>
-    <div style="margin-bottom:16px"><ul style="font-size:14px;padding-left:16px;display:flex;flex-direction:column;gap:4px"><li>v4.3估值：保守251 / 基准386 / 乐观569 HKD。当前487处于观察区，非明确加仓区</li><li>OE锚定FCF 1826亿，基准OE取2000亿(g=3%, r=11%)，Guard Rail约束下估值较v4.2大幅下修(-44%)</li><li>毛利率56%创历史新高+国际游戏首破100亿美元(+33%)+注销式回购EPS+18%——基本面无可挑剔</li><li>等430-460进入可布局区再从30股加到150-200股。投资组合按极保守口径(上市50%+非上市20%)仅计入51 HKD/股</li></ul></div>
-    <div style="font-size:14px;color:var(--text-dim);line-height:1.8;white-space:pre-line">2025年报堪称'六边形战士'——全年营收7518亿(+14%)，Non-IFRS归母净利润2596亿(+17%)，毛利率从53%提升至56%创历史新高，自由现金流1826亿(+18%)，全年回购800亿港元+股息410亿港元。三大业务板块毛利全部双位数增长。国际游戏774亿首破100亿美元(+33%)。
+<!-- 核心指标 -->
+<div class="data-grid" style="margin-bottom:4px">
+    <div class="data-card">
+        <div class="label">Owner's Earnings</div>
+        <div class="value">2275<small> 亿</small></div>
+        <div class="sub">OE Margin 27.5% | CFO 2880 − 维持CapEx 605</div>
+    </div>
+    <div class="data-card">
+        <div class="label">可分配净现金</div>
+        <div class="value">-576<small> 亿</small></div>
+        <div class="sub">可利用资金 665 − 扣除 1240</div>
+    </div>
+    <div class="data-card">
+        <div class="label">内在价值 (r=10%)</div>
+        <div class="value">30,308<small> 亿港元</small></div>
+        <div class="sub">零增长 22748 + 净现金 -576 + 投资 8136</div>
+    </div>
+</div>
+<div class="data-grid" style="margin-bottom:16px">
+    <div class="data-card">
+        <div class="label">当前市值</div>
+        <div class="value">44,200<small> 亿港元</small></div>
+        <div class="sub">P/E 19.4x | 赔率 -31.4%</div>
+    </div>
+    <div class="data-card">
+        <div class="label">安全边际</div>
+        <div class="value negative">-31.4%</div>
+        <div class="sub">无安全边际 | 顶级资产需赔率 ≥40%</div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>Executive Summary</h2>
+    <div style="background:var(--blue-bg);color:var(--blue);display:inline-block;padding:4px 16px;border-radius:20px;font-weight:600;font-size:14px;margin-bottom:16px">建议动作: 观察/等回落 — 当前487 HKD高于Base(386)约26%，低于Optimistic(569)约14%，处于观察区</div>
+    <div style="font-size:14px;color:var(--text);line-height:1.8;white-space:pre-line;margin-bottom:16px">2025年报堪称'六边形战士'——全年营收7518亿(+14%)，Non-IFRS归母净利润2596亿(+17%)，毛利率从53%提升至56%创历史新高，自由现金流1826亿(+18%)，全年回购800亿港元+股息410亿港元。三大业务板块毛利全部双位数增长。国际游戏774亿首破100亿美元(+33%)。
 
 v4.3估值修正：Guard Rail要求OE≤1.2×FCF=2191亿，Non-IFRS净利2596亿远超此限。基准OE取2000亿(成熟业务1800+AI/视频号效率增量200)，g=3%(基准锚定)，r=11%。基准内在价值386 HKD vs 当前487——高出26%。乐观场景(g=5%, OE=2200亿)给出569 HKD。
 
 结论：当前价格处于观察区(386-569区间)。基本面是Watchlist中最优质的，但估值不够便宜。维持30股probe buy，等450-470分批加到100-150股更审慎。430以下接近Base值，明确加仓。</div>
-    <div style="margin-top:20px"><div style="font-weight:600;margin-bottom:8px">Key Forces（决定性力量）</div><div style="background:var(--bg);border-left:3px solid var(--blue);border-radius:8px;padding:12px 16px;margin-bottom:8px">
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 16px">
+        <div style="font-weight:600;color:var(--blue);margin-bottom:6px">TL;DR:</div>
+        <ul style="font-size:14px;padding-left:16px;display:flex;flex-direction:column;gap:4px"><li>v4.3估值：保守251 / 基准386 / 乐观569 HKD。当前487处于观察区，非明确加仓区</li><li>OE锚定FCF 1826亿，基准OE取2000亿(g=3%, r=11%)，Guard Rail约束下估值较v4.2大幅下修(-44%)</li><li>毛利率56%创历史新高+国际游戏首破100亿美元(+33%)+注销式回购EPS+18%——基本面无可挑剔</li><li>等430-460进入可布局区再从30股加到150-200股。投资组合按极保守口径(上市50%+非上市20%)仅计入51 HKD/股</li></ul>
+    </div>
+</div>
+
+<div class="section">
+    <h2>Key Forces（决定性力量）</h2>
+    <div style="background:var(--bg);border-left:3px solid var(--blue);border-radius:8px;padding:12px 16px;margin-bottom:8px">
             <div style="font-weight:600;color:var(--blue)">#1 高毛利收入结构性迁移——56%毛利率不是天花板</div>
             <div style="font-size:13px;margin-top:4px">视频号广告、小游戏分成、AI云服务的毛利率70-80%，远高于基础业务综合~50%。随着这些新业务占比持续提升，集团毛利率从2023年49%→2024年53%→2025年56%，形成结构性扩张。这意味着即使收入增速温和(12-14%)，利润增速可以持续在15-20%+。</div>
             <div style="font-size:12px;color:var(--text-muted);margin-top:4px">OE含义: 毛利率每提升1pct≈增加75亿毛利。如果毛利率从56%继续升至58-60%，OE可增加150-300亿。</div>
@@ -119,31 +159,7 @@ v4.3估值修正：Guard Rail要求OE≤1.2×FCF=2191亿，Non-IFRS净利2596亿
             <div style="font-weight:600;color:var(--blue)">#3 注销式回购——EPS复合增长加速器</div>
             <div style="font-size:13px;margin-top:4px">2024年回购1120亿港元注销3.07亿股，2025年回购800亿港元注销1.53亿股。总股本从2021年的~96亿股降至~90.7亿股(十年最低)。在利润+17%的基础上EPS增长+18%。管理层已将'注销式回购+分红'确立为持续的资本配置范式——不是一次性行为。</div>
             <div style="font-size:12px;color:var(--text-muted);margin-top:4px">OE含义: 每年减少1.5-2%股本意味着OE per share的增速永久性地快于总OE增速2个百分点。10年复利效应显著。</div>
-        </div></div>
-</div>
-
-<!-- 核心指标 -->
-<div class="data-grid" style="margin-bottom:16px">
-    <div class="data-card">
-        <div class="label">Owner's Earnings</div>
-        <div class="value">2274.8<small> 亿</small></div>
-        <div class="sub">OE Margin 27.5%</div>
-    </div>
-    <div class="data-card">
-        <div class="label">可分配净现金</div>
-        <div class="value">-576.0<small> 亿</small></div>
-        <div class="sub">毛净现金 664.5 - 扣除 1240.5</div>
-    </div>
-    <div class="data-card">
-        <div class="label">内在价值</div>
-        <div class="value">30307.9<small> 亿</small></div>
-        <div class="sub">零增长 22748.0 + 净现金 -576.0 + 投资 8135.8</div>
-    </div>
-    <div class="data-card">
-        <div class="label">安全边际</div>
-        <div class="value negative">-31.4%</div>
-        <div class="sub">无安全边际 | 赔率 -31.4%</div>
-    </div>
+        </div>
 </div>
 
 <!-- OE 计算 -->

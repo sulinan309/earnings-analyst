@@ -82,32 +82,72 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
 .core-metric-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); font-size: 14px; }
 .core-metric-table th { padding: 8px 12px; text-align: left; color: var(--text-dim); border-bottom: 1px solid var(--border); font-weight: 500; font-size: 14px; }
 .subtitle { font-size: 14px; color: var(--text-dim); margin-top: 4px; }
+.headline-sub { font-size: 16px; color: var(--yellow); margin-top: 6px; font-weight: 500; }
 </style>
 </head>
 <body>
 
 <a href="/" class="back-link">← 返回首页</a>
 <div class="header">
-    <h1>快手 (1024.HK)</h1>
-    <div class="subtitle">FY2025 Deep Dive · v4.3 OE Framework</div>
+    <h1>快手 (1024.HK) 深度分析</h1>
+    <div class="headline-sub">快手年赚206亿但市场只给10倍PE——v4.3确认：45 HKD处于明确加仓区，三家中最便宜</div>
     <div class="meta">
-        <span>报告日期: 2026-04-04</span>
+        <span>报告日期: 2026-04-05</span>
         <span>财报期间: FY2025</span>
         <span class="tag">中等质量</span>
+        <span style="background:var(--green-bg);color:var(--green);padding:2px 10px;border-radius:12px;font-size:13px;font-weight:600">Combo A 3/4 触发</span>
     </div>
-    <div class="combo-badges"><span class="combo-badge buy-triggered">A·估值安全边际 [3/4]</span><span class="combo-badge buy-triggered">Combo B · 基本面拐点型 [3/4]</span><span class="combo-badge buy-not">Combo C · 政策催化型 [1/4]</span><span class="combo-badge buy-triggered">Combo D2 · 内部人确认型 [3/4]</span><span class="combo-badge sell-not">Combo E · 估值透支型 [0/4]</span><span class="combo-badge sell-not">Combo H · 逻辑证伪型 [0/4]</span></div>
+    <div style="font-size:13px;color:var(--text-dim);margin-top:8px">AI赋能广告效率、可灵AI商业化、用户天花板vs变现深度</div>
 </div>
 
-<div class="section" style="border-color:var(--blue)">
-    <h2 style="font-size:22px;border:none;padding:0;margin-bottom:8px">快手年赚206亿但市场只给10倍PE——v4.3确认：45 HKD处于明确加仓区，三家中最便宜</h2>
-    <div style="background:var(--blue-bg);color:var(--blue);display:inline-block;padding:4px 16px;border-radius:20px;font-weight:600;font-size:14px;margin-bottom:16px">明确加仓 — 当前45 HKD低于保守估值(54 HKD)约17%，Payback仅9.5年，High Conviction</div>
-    <div style="margin-bottom:16px"><ul style="font-size:14px;padding-left:16px;display:flex;flex-direction:column;gap:4px"><li>v4.3估值：保守54 / 基准82 / 乐观102 HKD。当前45低于保守值17%，处于明确加仓区</li><li>基准OE 180亿(g=3%, r=11%)，净现金919亿HKD(占总估值26%)——v4.3净现金权重增大使估值反而上升(+14%)</li><li>Payback 9.5年(base)是三家中最短——意味着即使零增长，9.5年回本</li><li>核心风险：DAU连续两季同比下降 = Kill condition。在40-55区间分批买至600-800股</li></ul></div>
-    <div style="font-size:14px;color:var(--text-dim);line-height:1.8;white-space:pre-line">2025年报稳健——全年营收1428亿(+12.5%)，经调整净利润206亿(+16.5%)，毛利率55.0%，OCF 267亿。市场给出的反应是股价从52周高点92.6 HKD腰斩至~45 HKD，Trailing PE仅~10x。
+<!-- 核心指标 -->
+<div class="data-grid" style="margin-bottom:4px">
+    <div class="data-card">
+        <div class="label">Owner's Earnings</div>
+        <div class="value">206<small> 亿</small></div>
+        <div class="sub">OE Margin 13.1% | CFO 294 − 维持CapEx 88</div>
+    </div>
+    <div class="data-card">
+        <div class="label">可分配净现金</div>
+        <div class="value">558<small> 亿</small></div>
+        <div class="sub">可利用资金 782 − 扣除 224</div>
+    </div>
+    <div class="data-card">
+        <div class="label">内在价值 (r=10%)</div>
+        <div class="value">2,615<small> 亿港元</small></div>
+        <div class="sub">零增长 2057 + 净现金 558</div>
+    </div>
+</div>
+<div class="data-grid" style="margin-bottom:16px">
+    <div class="data-card">
+        <div class="label">当前市值</div>
+        <div class="value">2,000<small> 亿港元</small></div>
+        <div class="sub">P/E 9.7x | 赔率 30.8%</div>
+    </div>
+    <div class="data-card">
+        <div class="label">安全边际</div>
+        <div class="value positive">+30.8%</div>
+        <div class="sub">存在安全边际 | 中等质量需赔率 ≥70%</div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>Executive Summary</h2>
+    <div style="background:var(--blue-bg);color:var(--blue);display:inline-block;padding:4px 16px;border-radius:20px;font-weight:600;font-size:14px;margin-bottom:16px">建议动作: 明确加仓 — 当前45 HKD低于保守估值(54 HKD)约17%，Payback仅9.5年，High Conviction</div>
+    <div style="font-size:14px;color:var(--text);line-height:1.8;white-space:pre-line;margin-bottom:16px">2025年报稳健——全年营收1428亿(+12.5%)，经调整净利润206亿(+16.5%)，毛利率55.0%，OCF 267亿。市场给出的反应是股价从52周高点92.6 HKD腰斩至~45 HKD，Trailing PE仅~10x。
 
 v4.3估值修正：FCF=OCF 267亿-CapEx 149亿=118亿。因149亿CapEx含大量AI成长性投入(2026年将升至260亿)，维护性CapEx远低于总量。正常化FCF约170-200亿，OE区间150-210亿。基准OE 180亿(核心广告+直播+电商 150亿 + AI效率增量30亿)。
 
 关键发现：净现金919亿HKD(per share 21.1 HKD)占基准估值的26%——这是PE法无法体现的隐藏价值。v4.3的Guard Rail 4要求认真对待净现金，使快手成为唯一在修正后估值上升的标的(v4.2 72→v4.3 82, +14%)。当前45 HKD低于保守值54 HKD——在三家中conviction最高。</div>
-    <div style="margin-top:20px"><div style="font-weight:600;margin-bottom:8px">Key Forces（决定性力量）</div><div style="background:var(--bg);border-left:3px solid var(--blue);border-radius:8px;padding:12px 16px;margin-bottom:8px">
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 16px">
+        <div style="font-weight:600;color:var(--blue);margin-bottom:6px">TL;DR:</div>
+        <ul style="font-size:14px;padding-left:16px;display:flex;flex-direction:column;gap:4px"><li>v4.3估值：保守54 / 基准82 / 乐观102 HKD。当前45低于保守值17%，处于明确加仓区</li><li>基准OE 180亿(g=3%, r=11%)，净现金919亿HKD(占总估值26%)——v4.3净现金权重增大使估值反而上升(+14%)</li><li>Payback 9.5年(base)是三家中最短——意味着即使零增长，9.5年回本</li><li>核心风险：DAU连续两季同比下降 = Kill condition。在40-55区间分批买至600-800股</li></ul>
+    </div>
+</div>
+
+<div class="section">
+    <h2>Key Forces（决定性力量）</h2>
+    <div style="background:var(--bg);border-left:3px solid var(--blue);border-radius:8px;padding:12px 16px;margin-bottom:8px">
             <div style="font-weight:600;color:var(--blue)">#1 AI赋能从'降本工具'到'增收引擎'的转化</div>
             <div style="font-size:13px;margin-top:4px">2025年AI技术对国内线上营销服务收入的贡献约提升5个百分点，AIGC广告素材消耗额达40亿元，OneRec生成式推荐大模型在电商场景驱动GMV增长。这不是未来故事，是已经在P&amp;L上体现的增量。如果AI对广告效率的提升持续(每年+3-5%增量)，快手在用户零增长情况下仍可维持10%+收入增长。</div>
             <div style="font-size:12px;color:var(--text-muted);margin-top:4px">OE含义: AI提效直接增加营收而不增加对应成本，是OE的纯增量。每年+5%的广告效率提升≈40亿增量OE。</div>
@@ -119,31 +159,7 @@ v4.3估值修正：FCF=OCF 267亿-CapEx 149亿=118亿。因149亿CapEx含大量A
             <div style="font-weight:600;color:var(--blue)">#3 可灵AI作为独立增长极——从零到ARR 2.4亿美元</div>
             <div style="font-size:13px;margin-top:4px">Q4收入3.4亿元，12月ARR 2.4亿美元。管理层有信心2026年实现&gt;100%收入增速。Sora已停服，可灵在全球视频生成赛道处于领先位置。2026年Capex 260亿(+110亿)主要投向AI算力——这是一个有实质收入支撑的AI投入，不是纯烧钱。</div>
             <div style="font-size:12px;color:var(--text-muted);margin-top:4px">OE含义: 260亿Capex中~100亿为维持性(计入OE)，~160亿为增长性(不计入OE但需未来验证ROI)。如果可灵AI 2026年贡献20亿+利润，增长性Capex的ROI就初步得到验证。</div>
-        </div></div>
-</div>
-
-<!-- 核心指标 -->
-<div class="data-grid" style="margin-bottom:16px">
-    <div class="data-card">
-        <div class="label">Owner's Earnings</div>
-        <div class="value">205.7<small> 亿</small></div>
-        <div class="sub">OE Margin 13.1%</div>
-    </div>
-    <div class="data-card">
-        <div class="label">可分配净现金</div>
-        <div class="value">558.3<small> 亿</small></div>
-        <div class="sub">毛净现金 781.9 - 扣除 223.6</div>
-    </div>
-    <div class="data-card">
-        <div class="label">内在价值</div>
-        <div class="value">2615.3<small> 亿</small></div>
-        <div class="sub">零增长 2057.0 + 净现金 558.3</div>
-    </div>
-    <div class="data-card">
-        <div class="label">安全边际</div>
-        <div class="value positive">+30.8%</div>
-        <div class="sub">存在安全边际 | 赔率 30.8%</div>
-    </div>
+        </div>
 </div>
 
 <!-- OE 计算 -->

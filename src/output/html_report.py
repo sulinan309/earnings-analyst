@@ -165,47 +165,58 @@ body {{ background: var(--bg); color: var(--text); font-family: -apple-system, '
 .core-metric-table td {{ padding: 8px 12px; border-bottom: 1px solid var(--border); font-size: 14px; }}
 .core-metric-table th {{ padding: 8px 12px; text-align: left; color: var(--text-dim); border-bottom: 1px solid var(--border); font-weight: 500; font-size: 14px; }}
 .subtitle {{ font-size: 14px; color: var(--text-dim); margin-top: 4px; }}
+.headline-sub {{ font-size: 16px; color: var(--yellow); margin-top: 6px; font-weight: 500; }}
 </style>
 </head>
 <body>
 
 <a href="/" class="back-link">← 返回首页</a>
 <div class="header">
-    <h1>{_esc(inp.company_name)} ({_esc(inp.ticker)})</h1>
-    {f'<div class="subtitle">{_esc(deep_analysis.header_subtitle)}</div>' if deep_analysis and deep_analysis.header_subtitle else ''}
+    <h1>{_esc(inp.company_name)} ({_esc(inp.ticker)}) 深度分析</h1>
+    {f'<div class="headline-sub">{_esc(deep_analysis.executive_summary.headline)}</div>' if deep_analysis and deep_analysis.executive_summary else ''}
     <div class="meta">
         <span>报告日期: {d.isoformat()}</span>
         <span>财报期间: {_esc(oe.period)}</span>
         <span class="tag">{_esc(inp.asset_tier)}</span>
+        {_render_combo_a_badge(ca)}
     </div>
-    {_render_combo_badges(ca, deep_analysis)}
+    <div style="font-size:13px;color:var(--text-dim);margin-top:8px">{_esc(inp.focus)}</div>
 </div>
 
-{_render_exec_summary(deep_analysis)}
-
 <!-- 核心指标 -->
-<div class="data-grid" style="margin-bottom:16px">
+<div class="data-grid" style="margin-bottom:4px">
     <div class="data-card">
         <div class="label">Owner's Earnings</div>
-        <div class="value">{oe.oe:.1f}<small> 亿</small></div>
-        <div class="sub">OE Margin {oe.oe_margin_pct:.1f}%</div>
+        <div class="value">{oe.oe:.0f}<small> 亿</small></div>
+        <div class="sub">OE Margin {oe.oe_margin_pct:.1f}% | CFO {oe.cfo:.0f} − 维持CapEx {oe.maintenance_capex:.0f}</div>
     </div>
     <div class="data-card">
         <div class="label">可分配净现金</div>
-        <div class="value">{oe.distributable_net_cash:.1f}<small> 亿</small></div>
-        <div class="sub">毛净现金 {oe.gross_net_cash:.1f} - 扣除 {oe.total_deductions:.1f}</div>
+        <div class="value">{oe.distributable_net_cash:.0f}<small> 亿</small></div>
+        <div class="sub">可利用资金 {oe.gross_net_cash:.0f} − 扣除 {oe.total_deductions:.0f}</div>
     </div>
     <div class="data-card">
-        <div class="label">内在价值</div>
-        <div class="value">{oe.intrinsic_value:.1f}<small> 亿</small></div>
-        <div class="sub">零增长 {oe.zero_growth_value:.1f} + 净现金 {oe.distributable_net_cash:.1f}{f' + 投资 {oe.investment_portfolio_value:.1f}' if oe.investment_portfolio_value else ''}</div>
+        <div class="label">内在价值 (r={oe.discount_rate:.0%})</div>
+        <div class="value">{oe.intrinsic_value:,.0f}<small> 亿港元</small></div>
+        <div class="sub">零增长 {oe.zero_growth_value:.0f} + 净现金 {oe.distributable_net_cash:.0f}{f' + 投资 {oe.investment_portfolio_value:.0f}' if oe.investment_portfolio_value else ''}</div>
+    </div>
+</div>
+<div class="data-grid" style="margin-bottom:16px">
+    <div class="data-card">
+        <div class="label">当前市值</div>
+        <div class="value">{oe.market_cap:,.0f}<small> 亿港元</small></div>
+        <div class="sub">{'P/E N/A (OE&lt;0)' if oe.oe <= 0 else f'P/E {oe.market_cap/oe.oe:.1f}x'} | 赔率 {oe.odds:.1%}</div>
     </div>
     <div class="data-card">
         <div class="label">安全边际</div>
         <div class="value {margin_class}">{oe.safety_margin_pct:+.1f}%</div>
-        <div class="sub">{margin_label} | 赔率 {oe.odds:.1%}</div>
+        <div class="sub">{margin_label} | {_esc(inp.asset_tier)}需赔率 ≥{_odds_threshold(inp.asset_tier)}</div>
     </div>
 </div>
+
+{_render_exec_summary(deep_analysis)}
+
+{_render_key_forces(deep_analysis)}
 
 <!-- OE 计算 -->
 <div class="section">
@@ -332,6 +343,20 @@ def _render_exec_summary(deep: DeepAnalysis | None) -> str:
         return ""
     es = deep.executive_summary
     tldr = "".join(f"<li>{_esc(t)}</li>" for t in es.tldr)
+    return f"""<div class="section">
+    <h2>Executive Summary</h2>
+    <div style="background:var(--blue-bg);color:var(--blue);display:inline-block;padding:4px 16px;border-radius:20px;font-weight:600;font-size:14px;margin-bottom:16px">建议动作: {_esc(es.action)}</div>
+    <div style="font-size:14px;color:var(--text);line-height:1.8;white-space:pre-line;margin-bottom:16px">{_esc(es.body)}</div>
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 16px">
+        <div style="font-weight:600;color:var(--blue);margin-bottom:6px">TL;DR:</div>
+        <ul style="font-size:14px;padding-left:16px;display:flex;flex-direction:column;gap:4px">{tldr}</ul>
+    </div>
+</div>"""
+
+
+def _render_key_forces(deep: DeepAnalysis | None) -> str:
+    if deep is None or not deep.key_forces:
+        return ""
     kf_html = ""
     for kf in deep.key_forces:
         kf_html += f"""<div style="background:var(--bg);border-left:3px solid var(--blue);border-radius:8px;padding:12px 16px;margin-bottom:8px">
@@ -339,12 +364,9 @@ def _render_exec_summary(deep: DeepAnalysis | None) -> str:
             <div style="font-size:13px;margin-top:4px">{_esc(kf.body)}</div>
             <div style="font-size:12px;color:var(--text-muted);margin-top:4px">OE含义: {_esc(kf.oe_implication)}</div>
         </div>"""
-    return f"""<div class="section" style="border-color:var(--blue)">
-    <h2 style="font-size:22px;border:none;padding:0;margin-bottom:8px">{_esc(es.headline)}</h2>
-    <div style="background:var(--blue-bg);color:var(--blue);display:inline-block;padding:4px 16px;border-radius:20px;font-weight:600;font-size:14px;margin-bottom:16px">{_esc(es.action)}</div>
-    <div style="margin-bottom:16px"><ul style="font-size:14px;padding-left:16px;display:flex;flex-direction:column;gap:4px">{tldr}</ul></div>
-    <div style="font-size:14px;color:var(--text-dim);line-height:1.8;white-space:pre-line">{_esc(es.body)}</div>
-    {f'<div style="margin-top:20px"><div style="font-weight:600;margin-bottom:8px">Key Forces（决定性力量）</div>{kf_html}</div>' if kf_html else ''}
+    return f"""<div class="section">
+    <h2>Key Forces（决定性力量）</h2>
+    {kf_html}
 </div>"""
 
 
@@ -611,6 +633,20 @@ def _next_steps_html(inp: ReportInput) -> str:
         items.append("设定止损: 关注 Combo H（逻辑证伪）触发条件")
         items.append("设定止盈: 关注 Combo E（估值透支）触发条件")
     return "".join(f"<li>{_esc(item)}</li>" for item in items)
+
+
+def _odds_threshold(asset_tier: str) -> str:
+    """Return odds threshold string for display."""
+    return {"顶级资产": "40%", "中等质量": "70%", "高波动": "100%"}.get(asset_tier, "70%")
+
+
+def _render_combo_a_badge(ca) -> str:
+    """Render Combo A status as inline tag in header meta."""
+    cls = "combo-a-triggered" if ca.triggered else "combo-a-not"
+    bg = "var(--green-bg)" if ca.triggered else "var(--yellow-bg)"
+    color = "var(--green)" if ca.triggered else "var(--yellow)"
+    label = "触发" if ca.triggered else "未触发"
+    return f'<span style="background:{bg};color:{color};padding:2px 10px;border-radius:12px;font-size:13px;font-weight:600">Combo A {ca.triggered_count}/{ca.total_count} {label}</span>'
 
 
 def _change_color_class(change_str: str) -> str:
