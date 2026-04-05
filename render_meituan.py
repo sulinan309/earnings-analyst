@@ -18,11 +18,11 @@ FX = 1.1
 def cnb(v): return round(v * FX, 2)
 
 financial_data = FinancialData(
-    cfo=cnb(-200),                  # 2025 FCF大幅为负，OCF估计也为负或极低
-    maintenance_capex=cnb(100),     # 正常化维持性CapEx
+    cfo=cnb(-138.15),               # 经营活动现金流 -138.15亿 [A]
+    maintenance_capex=cnb(100),     # 正常化维持性CapEx估算
     total_capex=cnb(250),           # 研发260亿+其他
-    cash_and_equivalents=cnb(600),
-    short_term_investments=cnb(500),
+    cash_and_equivalents=cnb(1067.71),  # 年末现金及等价物 [A]
+    short_term_investments=cnb(600.62),  # 短期treasury investments [A]
     interest_bearing_debt=cnb(200),
     committed_investments=cnb(50),
     restricted_cash=cnb(30),
@@ -31,48 +31,52 @@ financial_data = FinancialData(
     market_cap=5200.0,              # ~84 HKD × 62亿股
     period="FY2025", ticker="3690.HK",
     maintenance_capex_is_estimated=True,
-    maintenance_capex_note="2025年FCF为大幅负数(估-200至-300亿)。当前OE无意义，须用'正常化OE'方法估值",
+    maintenance_capex_note="2025年OCF -138亿 [A]，FCF深度负值。当前OE无意义，须用'正常化OE'方法——Layer A(核心业务正常化) + Layer B(新业务)",
 )
 
 profile = CompanyProfile(
     name="美团", ticker="3690.HK", asset_tier="顶级资产", period="FY2025",
     revenue_segments=[
-        {"name": "核心本地商业", "fy2025": cnb(2608), "yoy": "+4.2%", "share": "71%",
-         "trend": "经营利润从+524亿→-69亿。外卖GTV份额保住60%+，但代价是592亿利润蒸发"},
-        {"name": "— 配送服务(Q4)", "fy2025": "236亿(Q4)", "yoy": "-9.9%", "share": "-",
-         "trend": "补贴抵消实际收入"},
-        {"name": "— 广告收入(Q4)", "fy2025": "131亿(Q4)", "yoy": "+2.3%", "share": "-",
-         "trend": "最稳定的高质量收入"},
-        {"name": "新业务(Keeta+小象)", "fy2025": cnb(1040), "yoy": "+19%", "share": "29%",
-         "trend": "亏损从74亿扩大到101亿。Keeta进入沙特/科威特/阿联酋/巴西"},
+        {"name": "核心本地商业", "fy2025": 2608, "yoy": "+4.2%", "share": "71%",
+         "trend": "经营利润: +524亿→-69亿 [A]。GTV份额60%+(媒体测算)，代价592亿利润蒸发"},
+        {"name": "— 配送服务(Q4)", "fy2025": 261.95, "yoy": "同比下降", "share": "-",
+         "trend": "补贴侵蚀实际收入 [A]"},
+        {"name": "— 佣金收入(Q4)", "fy2025": 240.66, "yoy": "-", "share": "-",
+         "trend": "稳定"},
+        {"name": "— 在线营销(Q4)", "fy2025": 128.42, "yoy": "+2.3%", "share": "-",
+         "trend": "最稳定的高质量收入 [A]"},
+        {"name": "新业务(Keeta+小象)", "fy2025": 1040, "yoy": "+19%", "share": "29%",
+         "trend": "亏损74→101亿 [A]。Keeta进入沙特/科威特/阿联酋/巴西。小象进入39城"},
     ],
     profitability_metrics=[
+        {"name": "收入", "fy2024": "3,376亿", "fy2025": "3,649亿", "change": "+8%"},
         {"name": "毛利率", "fy2024": "38.4%", "fy2025": "30.4%", "change": "-8.0ppt ⚠⚠"},
+        {"name": "经营利润", "fy2024": "+451亿", "fy2025": "-170亿", "change": "-621亿 翻转"},
         {"name": "核心本地商业经营利润", "fy2024": "+524亿", "fy2025": "-69亿", "change": "-592亿 翻转"},
-        {"name": "新业务经营亏损", "fy2024": "-74亿", "fy2025": "-101亿", "change": "亏损扩大"},
+        {"name": "新业务经营亏损", "fy2024": "-74亿", "fy2025": "-101亿", "change": "-36% 亏损扩大"},
         {"name": "净利润", "fy2024": "+358亿", "fy2025": "-234亿", "change": "-592亿 翻转"},
         {"name": "经调整净利润", "fy2024": "+438亿", "fy2025": "-187亿", "change": "-625亿"},
-        {"name": "销售营销支出", "fy2024": "640亿", "fy2025": "1029亿", "change": "+60.9% ⚠"},
-        {"name": "研发投入", "fy2024": "211亿", "fy2025": "260亿", "change": "+23%"},
+        {"name": "经营活动现金流", "fy2024": "+480亿(估)", "fy2025": "-138亿", "change": "-618亿 翻转"},
     ],
     profitability_insight=(
-        "2025年报是五家中最戏剧性的：从年赚524亿到年亏69亿——592亿利润蒸发几乎全部来自外卖补贴大战。"
-        "毛利率从38.4%暴跌至30.4%(-8ppt)，销售营销支出暴增60.9%至1029亿。"
-        "但关键信号：3月25日国家市场监管总局转发《外卖大战该结束了》——监管叫停恶性竞争的明确信号。"
-        "正常化利润率在12-16%(非2024年的20.9%峰值)——竞争格局已永久性改变。"
+        "2025年报是五家中最戏剧性的：收入3649亿(+8%)，但净利润从+358亿翻转至-234亿 [A]。"
+        "毛利率从38.4%暴跌至30.4%(-8ppt)——年报将原因归结为即时零售行业竞争加剧导致的毛利率下降和用户激励、"
+        "营销推广开支大幅增加 [A]。OCF也从正~480亿翻转至-138亿——比利润亏损更严重。"
+        "但关键信号：监管总局转发《外卖大战该结束了》[C]。正常化利润率12-16%(非2024年峰值20.9%)。"
     ),
     competition_dims=[
-        {"metric": "外卖GTV份额", "company_value": "60%+", "comp1_name": "饿了么", "comp1_value": "~25%", "comp2_name": "京东外卖", "comp2_value": "<5%"},
-        {"metric": "核心本地商业利润", "company_value": "-69亿(战时)", "comp1_name": "饿了么", "comp1_value": "持续亏损", "comp2_name": "京东外卖", "comp2_value": "烧钱期"},
-        {"metric": "到店/酒旅利润率", "company_value": "25%+", "comp1_name": "抖音团购", "comp1_value": "烧钱获客", "comp2_name": "携程", "comp2_value": "~20%"},
-        {"metric": "2024年正常化利润", "company_value": "+524亿", "comp1_name": "-", "comp1_value": "-", "comp2_name": "-", "comp2_value": "-"},
-        {"metric": "现金储备", "company_value": "~1100亿", "comp1_name": "阿里(饿了么母公司)", "comp1_value": "5600亿但FCF为负", "comp2_name": "京东", "comp2_value": "~2000亿"},
+        {"metric": "外卖GTV份额(媒体测算)", "company_value": "60%+", "comp1_name": "饿了么", "comp1_value": "~25%", "comp2_name": "京东外卖", "comp2_value": "<5%(新入局)"},
+        {"metric": "核心本地商业经营利润", "company_value": "-69亿(战时)", "comp1_name": "饿了么", "comp1_value": "持续亏损", "comp2_name": "京东外卖", "comp2_value": "烧钱期"},
+        {"metric": "到店/酒旅利润率", "company_value": "25%+(利润率有所下降)", "comp1_name": "抖音团购", "comp1_value": "加码中", "comp2_name": "携程", "comp2_value": "~20%"},
+        {"metric": "2024年和平峰值利润", "company_value": "+524亿(利润率20.9%)", "comp1_name": "-", "comp1_value": "-", "comp2_name": "-", "comp2_value": "-"},
+        {"metric": "现金+短期投资[A]", "company_value": "1669亿", "comp1_name": "阿里(饿了么)", "comp1_value": "FCF为负,持续投入受限", "comp2_name": "京东", "comp2_value": "~2000亿"},
     ],
     moat_assessment=(
-        "美团在外卖市场维持60%+ GTV份额——这是整份分析中最重要的数据点。"
-        "花了大价钱但买到了份额防守。如果补贴战结束，这个份额可以重新变现为利润。"
-        "补贴战是'谁先扛不住'的消耗战：阿里FCF已负数，京东外卖规模有限，监管已释放'该停了'信号。"
-        "美团作为最大份额方+手持最多现金的一方，有最高概率在消耗战中存活并在战后恢复利润。"
+        "美团在外卖市场维持60%+ GTV份额(媒体测算)——花了大价钱买到份额防守。"
+        "年末现金+短期投资合计1669亿 [A]，短期无流动性危机。"
+        "补贴战是消耗战：阿里FY2025 FCF暴跌53%至739亿 [A]，FY2026H1 FCF净流出407亿——持续补贴的财务能力受限。"
+        "京东外卖新入局规模有限。监管已释放《外卖大战该结束了》信号 [C]。"
+        "美团作为最大份额方+现金储备最充裕方，在消耗战中存活并在战后恢复利润的概率最高。"
     ),
     capex_cfo_growth=0.0,
     capex_growth_base=0.0,
@@ -82,22 +86,22 @@ profile = CompanyProfile(
 deep_analysis = DeepAnalysis(
     executive_summary=ExecutiveSummary(
         headline='美团从年赚524亿到年亏69亿——外卖大战是暂时性战争创伤还是护城河永久性损伤？这个判断价值592亿',
-        action="观察/持有减仓 — 当前84 HKD略高于Base(76)，处于观察区。67%集中度是最紧迫的风险",
+        action="Hold existing + 加速减仓 — 当前84 HKD刚进入观察区(Base 81上方)。67%集中度是最紧迫的风险",
         tldr=[
-            "v4.3估值：保守35 / 基准76 / 乐观119 HKD。当前84处于观察区(Base上方10%)",
-            "592亿利润翻转：核心本地商业从+524亿→-69亿，几乎全部因外卖补贴大战",
-            "关键信号：监管总局转发《外卖大战该结束了》+美团保住60%+份额——战后利润恢复概率高",
-            "正常化利润率12-16%(非2024年的20.9%峰值)——竞争格局已永久性改变，恢复幅度被市场高估",
+            "v4.3估值：Conservative 40 / Base 81 / Optimistic 125 HKD。当前84刚进入观察区",
+            "Hold existing employee shares + 加速减仓节奏 — 不是因为不看好，而是因为67%集中度风险",
+            "最关键Key Force：外卖大战何时结束→核心本地商业何时回归正常化盈利",
+            "正常化利润率12-16%(非2024年峰值20.9%)——三方竞争格局已形成，恢复幅度被市场高估",
         ],
         body=(
-            "美团2025年报是五家分析中最戏剧性的：收入3649亿(+8%)，但净利润从+358亿直接翻转至-234亿，"
-            "核心本地商业从经营溢利524亿变成亏损69亿——592亿的利润蒸发几乎全部来自外卖补贴大战。\n\n"
-            "但有一个关键信号：3月25日国家市场监管总局转发《外卖大战该结束了》——市场将此解读为监管层叫停恶性竞争的明确信号。"
-            "如果外卖补贴战在2026年H1确实降温，美团核心本地商业有望在2026年下半年回归正向经营利润。"
-            "美团保住了60%+ GTV份额——花了大价钱但买到了份额防守。\n\n"
-            "v4.3估值：正常化OE 250亿(Layer A核心业务300亿 + Layer B新业务-50亿)，g=3%, r=11%。"
-            "基准内在价值76 HKD vs 当前84——略贵10%。乐观场景(补贴战结束+利润率16%)给出119 HKD。"
-            "Payback 18.2年(normalized base)。不是最便宜的标的——资金优先级：快手>腾讯>美团>小米。"
+            "美团2025年报是五家分析中最戏剧性的一份：收入3649亿(+8%)，但净利润从+358亿直接翻转至-234亿，"
+            "经调整净亏损187亿 [A]。核心本地商业从经营溢利524亿变成亏损69亿 [A]——年报将原因归结为即时零售行业"
+            "竞争加剧导致的毛利率下降和用户激励、营销推广开支大幅增加 [A]。592亿的利润蒸发是近年中国互联网最大的单年利润翻转。\n\n"
+            "但有一个关键信号：3月25日国家市场监督管理总局转发经济日报《外卖大战该结束了》[C]——市场将此解读为"
+            "监管层叫停恶性竞争的明确信号。如果外卖补贴战在2026年H1确实降温，美团核心本地商业有望在2026年下半年回归正向经营利润。\n\n"
+            "v4.3正常化估值：Layer A(核心业务正常化利润300亿, 利润率~11.5%) + Layer B(新业务-50亿) = Base OE 250亿。"
+            "g=3%, r=11%给出Base per share 81 HKD。当前84刚进入观察区。"
+            "Payback 18.2年(normalized)。现金储备充裕(现金+投资1669亿 [A])，短期无流动性危机。"
         ),
     ),
 
@@ -105,30 +109,31 @@ deep_analysis = DeepAnalysis(
         KeyForce(
             title="#1 外卖补贴大战何时终战（决定性力量）",
             body=(
-                "2025年核心本地商业利润蒸发的直接原因：为应对阿里(淘宝闪购/饿了么)和京东的补贴攻势，"
-                "美团被迫跟进大规模用户补贴。Q4单均UE约-2元，单季外卖补贴约130亿。"
-                "但美团保住了60%+ GTV份额——花钱买的是份额防守而非份额流失。"
-                "监管总局转发《外卖大战该结束了》是可能改变游戏规则的政策信号。"
+                "2025年核心本地商业利润蒸发的直接原因：年报将其归结为即时零售行业竞争加剧 [A]。"
+                "竞争主要来自阿里(淘宝闪购/饿了么)和京东外卖的进入。核心本地商业从经营溢利+524亿翻转为亏损-69亿 [A]。"
+                "美团保住了60%+ GTV市场份额(媒体/卖方测算)——花钱买的是份额防守而非份额流失。"
+                "经济日报发文《外卖大战该结束了》[C]是可能改变游戏规则的政策信号。"
+                "阿里FY2025 FCF暴跌53%至739亿 [A]，FY2026H1 FCF净流出407亿——持续大规模补贴的财务能力受限。"
             ),
             oe_implication="正常化OE的核心变量。补贴战结束→核心利润率从负数恢复至12-16%→OE从负数恢复至200-400亿。每延迟一个季度≈损失~80亿OE。",
         ),
         KeyForce(
-            title="#2 '正常化'盈利能力——524亿是峰值不是常态",
+            title="#2 '正常化'盈利能力——524亿是和平峰值不是常态",
             body=(
-                "2024年核心本地商业利润524亿(利润率20.9%)是'和平峰值'——彼时阿里忙于重组、京东外卖尚未入场。"
-                "2025年亏损69亿是'战时极端值'。真实正常化水平在300-400亿之间——"
-                "假设竞争烈度从极端回归但不完全回到2024年水平(竞争格局已永久性改变)。"
+                "2024年核心本地商业经营利润524亿(利润率20.9%)[A]——这是'和平峰值'，彼时阿里忙于重组、京东外卖尚未入场。"
+                "2025年亏损69亿——这是'战时极端值'。真实正常化水平：保守200亿(利润率~7.7%)、基准300亿(~11.5%)、乐观400亿(~15.3%)。"
+                "三方竞争格局(美团/阿里/京东)已形成，即使补贴战结束，利润率也很难回到20%+。"
             ),
-            oe_implication="市场期望利润恢复至500亿+。我们认为正常化仅300-400亿(利润率12-16%)。这个分歧决定了Base vs Optimistic的选择。",
+            oe_implication="市场共识期望利润恢复至500亿+——我们认为正常化仅300-400亿(利润率12-16%)。这个分歧决定了估值。",
         ),
         KeyForce(
-            title="#3 新业务(Keeta海外+小象超市)——方向正确但短期是纯费用项",
+            title="#3 新业务(Keeta海外+小象超市)——方向正确但短期纯费用项",
             body=(
-                "新业务亏损从74亿扩大到101亿。Keeta在沙特/科威特/阿联酋/巴西扩张，"
-                "小象超市进入39个城市。这些方向有长期价值(美团在中东+东南亚复制本地生活平台)，"
-                "但短期是纯费用项——Layer B OE在保守/基准场景中为负。"
+                "新业务亏损从74亿扩大到101亿 [A]。Keeta已进入沙特、科威特、阿联酋、巴西 [A]。"
+                "小象超市进入39个城市 [A]。Q4香港Keeta已实现UE(单位经济)转正 [A]——方向正确。"
+                "但短期是纯费用项——Layer B OE在保守/基准场景中均为负数。"
             ),
-            oe_implication="Layer B每年拖累OE 50-100亿。如果Keeta在2027年开始在中东盈利，Layer B转正将为估值提供额外上行空间。",
+            oe_implication="Layer B每年拖累OE 50-100亿。如果Keeta在2027年中东市场盈利，Layer B转正将提供额外上行。",
         ),
     ],
 
@@ -144,17 +149,17 @@ deep_analysis = DeepAnalysis(
 
     philosophies=[
         InvestmentPhilosophy("品质复利", "巴菲特/芒格", "观望",
-            "本地生活网络效应是强护城河(60%份额)，但利润率波动性太大(524→-69亿)。ROIC当前为负——需等利润恢复后重新评估"),
+            "本地生活网络效应是强护城河(60%份额)，但利润率波动极大(524→-69亿)。ROIC当前为负——需等利润恢复后重新评估"),
         InvestmentPhilosophy("想象力成长", "Baillie Gifford/ARK", "轻多",
-            "Keeta海外+小象超市+AI配送如果全部跑通，收入规模可达万亿级。但从-234亿亏损起步，想象力需要很长的跑道"),
+            "Keeta海外+小象超市+AI配送全部跑通→收入可达万亿级。但从-234亿亏损起步，想象力需要很长跑道"),
         InvestmentPhilosophy("基本面多空", "Tiger Cubs", "观望",
-            "当前84 HKD对应的是'利润恢复的期望值'而非'当前盈利能力'。需要等2026Q1-Q2数据确认利润拐点再行动"),
+            "84 HKD对应的是'利润恢复期望值'而非'当前盈利能力'。需等2026Q1-Q2数据确认利润拐点再行动"),
         InvestmentPhilosophy("深度价值", "Klarman/Marks", "轻多",
-            "如果补贴战确实结束，300亿正常化利润对应~17x PE并不贵。1100亿现金提供安全垫。但需要验证"),
+            "补贴战结束后300亿正常化利润对应~17x PE不贵。现金+投资1669亿 [A]提供安全垫。需验证"),
         InvestmentPhilosophy("催化剂驱动", "Tepper/Ackman", "看多",
-            "监管叫停补贴战是明确催化剂。如果2026Q1核心业务转正→股价可能快速反弹至100+"),
+            "监管叫停补贴战是明确催化剂[C]。2026Q1核心业务如转正→股价可能快速反弹至100+"),
         InvestmentPhilosophy("宏观策略", "Druckenmiller", "观望",
-            "港股beta承压+本地生活受消费信心影响。但消费复苏如果发生，美团是最直接受益者"),
+            "港股beta承压+本地生活受消费信心影响。但消费复苏时美团是最直接受益者"),
     ],
 
     pre_mortem=PreMortem(
@@ -170,72 +175,89 @@ deep_analysis = DeepAnalysis(
             {"bias": "锚定偏差(CRITICAL)", "risk": "Grant price ~200 HKD vs 当前84——大脑不断说'等回到200再卖'",
              "check": "200 HKD对价值判断零关系。唯一相关问题：从84出发，未来2年expected return是多少？"},
             {"bias": "沉没成本", "risk": "已经在这个仓位上浮亏58%，不愿割肉",
-             "check": "浮亏是沉没成本，不应影响对未来的判断。如果今天没有持仓，以84会买入吗？"},
+             "check": "浮亏是沉没成本，不应影响对未来的判断。问自己：如果今天没有持仓，以84会买入吗？"},
             {"bias": "集中度风险(最紧迫)", "risk": "12400股占总资产67%——不管估值如何，这是不可接受的风险暴露",
-             "check": "Position sizing比stock picking更重要。目标减至20%以下(~3500股)"},
+             "check": "Position sizing比stock picking更重要。目标减至20%以下(~3500股)。每两周卖500股"},
         ],
     ),
 
     header_subtitle="FY2025 Deep Dive · v4.3 OE Framework",
-    capex_warning="⚠ 2025年FCF为大幅负数(估-200至-300亿)。核心本地商业从盈利524亿翻转为亏损69亿——592亿利润蒸发。当前OE无意义，须用正常化方法",
+    capex_warning="⚠ 2025年OCF -138亿 [A]，FCF深度负值。核心本地商业从盈利524亿翻转为亏损69亿——592亿利润蒸发。当前OE无意义，须用'正常化OE'(Layer A+B分层)方法估值",
 
     combo_signals=[
         ComboSignal("Combo B · 基本面拐点型", False, "0/4", [
-            {"name": "核心收入增速连续2季回升", "triggered": False, "detail": "核心本地商业利润翻转为负"},
-            {"name": "OCF margin同比扩张>3pct", "triggered": False, "detail": "OCF可能为负"},
-            {"name": "维持性CapEx占收入比下降", "triggered": False, "detail": "不适用——整体FCF为负"},
-            {"name": "核心竞争力指标改善", "triggered": False, "detail": "外卖GTV份额保住但代价是利润蒸发"},
+            {"name": "核心收入增速连续2季回升", "triggered": False, "detail": "核心本地商业利润翻转为负(-69亿)[A]，收入+4.2%但利润方向相反"},
+            {"name": "OCF margin同比扩张>3pct", "triggered": False, "detail": "OCF -138亿[A]，从正~480亿翻转，摆幅618亿"},
+            {"name": "维持性CapEx占收入比下降", "triggered": False, "detail": "FCF为负，CapEx讨论不适用"},
+            {"name": "核心竞争力指标改善", "triggered": False, "detail": "GTV份额保住60%+(媒体测算)但代价是592亿利润[A]"},
+        ]),
+        ComboSignal("Combo C · 政策催化型", True, "3/4", [
+            {"name": "监管表态明确转向友好", "triggered": True, "detail": "监管总局转发《外卖大战该结束了》[C]——叫停恶性竞争的明确信号"},
+            {"name": "行业竞争格局收缩", "triggered": True, "detail": "阿里FCF转负→补贴持续力受限，京东外卖规模有限"},
+            {"name": "公司处于政策直接受益位置", "triggered": True, "detail": "美团作为市场领导者(60%份额)最先受益于竞争降温"},
+            {"name": "海外同类公司已先行验证", "triggered": False, "detail": "外卖补贴战无海外先例可参照"},
         ]),
         ComboSignal("Combo F · 基本面恶化型", True, "3/4", [
-            {"name": "OE连续2季下滑", "triggered": True, "detail": "从正OE翻转为负OE"},
-            {"name": "FCF转负且非高回报扩张", "triggered": True, "detail": "FCF大幅为负，补贴抢份额非高回报投资"},
-            {"name": "CapEx扩张无回报路径", "triggered": False, "detail": "Keeta海外有长期逻辑但短期烧钱"},
-            {"name": "核心市场份额持续下滑", "triggered": True, "detail": "以利润换份额——份额保住但利润归零"},
+            {"name": "OE连续2季下滑", "triggered": True, "detail": "OE从正翻转为负——整个2025年为战时极端值[A]"},
+            {"name": "FCF转负且非高回报扩张", "triggered": True, "detail": "OCF -138亿[A]，补贴抢份额而非高回报投资"},
+            {"name": "CapEx扩张无回报路径", "triggered": False, "detail": "Keeta香港UE已转正[A]，海外有初步验证"},
+            {"name": "核心市场份额持续下滑", "triggered": True, "detail": "份额保住(60%+)但代价是核心业务利润归零[A]"},
         ]),
         ComboSignal("Combo H · 逻辑证伪型", True, "3/4", [
-            {"name": "核心假设被财报否定", "triggered": True, "detail": "'高利润率稳定增长'假设被592亿利润蒸发彻底否定"},
-            {"name": "竞争对手颠覆性打法", "triggered": True, "detail": "抖音外卖+闪购用全域流量打穿美团护城河"},
-            {"name": "管理层资本配置重大失误", "triggered": True, "detail": "592亿利润换份额的ROI极差"},
-            {"name": "监管风险明确落地", "triggered": False, "detail": "无新增重大监管风险"},
-        ]),
-        ComboSignal("Combo E · 估值透支型", False, "1/4", [
-            {"name": "市值>乐观OE估值+净现金", "triggered": False, "detail": "OE为负，传统估值框架失效"},
-            {"name": "赔率<20%停止加仓", "triggered": True, "detail": "OE为负时赔率无意义"},
-            {"name": "市值/OE>历史均值130%", "triggered": False, "detail": "不适用"},
-            {"name": "分析师上调空间<10%", "triggered": False, "detail": "分析师大幅下调中"},
+            {"name": "核心假设被财报否定", "triggered": True, "detail": "'高利润率稳定增长'假设被592亿利润蒸发彻底否定[A]"},
+            {"name": "竞争对手颠覆性打法", "triggered": True, "detail": "阿里(闪购/饿了么)+京东外卖双线夹击，竞争格局永久改变"},
+            {"name": "管理层资本配置重大失误", "triggered": True, "detail": "592亿利润换60%份额的ROI极差——但可能是'没有选择的选择'"},
+            {"name": "监管风险明确落地", "triggered": False, "detail": "无新增监管风险，反而有利好信号(叫停补贴)[C]"},
         ]),
         ComboSignal("Combo J · 时间成本型", True, "3/4", [
-            {"name": "核心逻辑未证伪但2-3季未兑现", "triggered": True, "detail": "利润率修复遥遥无期"},
-            {"name": "管理层持续讲故事兑现度低", "triggered": True, "detail": "Keeta烧钱进度远超收入"},
-            {"name": "资金占用过久替代机会更优", "triggered": True, "detail": "快手/腾讯赔率远优于美团"},
-            {"name": "市场不给估值的关键原因未变", "triggered": False, "detail": "竞争格局恶化是核心原因"},
+            {"name": "核心逻辑未证伪但2-3季未兑现", "triggered": True, "detail": "利润率恢复至少要2026H2，2-3个季度后才能验证"},
+            {"name": "管理层持续讲故事兑现度低", "triggered": True, "detail": "Keeta海外烧钱进度远超收入，新业务亏损扩大36%[A]"},
+            {"name": "资金占用过久替代机会更优", "triggered": True, "detail": "快手(明确加仓区)、腾讯(观察区)赔率远优于美团"},
+            {"name": "市场不给估值的关键原因未变", "triggered": False, "detail": "竞争格局恶化是根因，但监管信号[C]可能改变"},
         ]),
     ],
 
     core_products=[
         CoreProduct(
             name="外卖核心业务",
-            subtitle="Reality Check — 利润率崩塌分析",
+            subtitle="正常化利润率推导 — Layer A分析",
             metrics=[
-                {"metric": "外卖GTV份额", "value": "60%+", "judgment": "正面", "note": "保住了份额"},
-                {"metric": "核心本地商业利润", "value": "-69亿", "judgment": "负面", "note": "从+524亿翻转，-592亿"},
-                {"metric": "配送收入(Q4)", "value": "236亿(-9.9%)", "judgment": "负面", "note": "补贴侵蚀"},
-                {"metric": "单均利润", "value": "大幅恶化", "judgment": "负面", "note": "补贴战+运力成本上升"},
-                {"metric": "抖音外卖威胁", "value": "持续加大", "judgment": "负面", "note": "全域流量优势明显"},
-                {"metric": "利润率恢复时间", "value": "2026H2最早", "judgment": "观察", "note": "取决于竞争格局变化"},
+                {"metric": "GTV份额(媒体测算)", "value": "60%+", "judgment": "正面", "note": "花钱买到份额防守而非份额流失"},
+                {"metric": "核心本地商业利润[A]", "value": "-69亿", "judgment": "负面", "note": "从+524亿翻转，-592亿蒸发"},
+                {"metric": "OCF[A]", "value": "-138亿", "judgment": "负面", "note": "比利润亏损更严重——核心经营在消耗现金"},
+                {"metric": "2024和平峰值利润率", "value": "20.9%", "judgment": "中性", "note": "竞争真空期峰值，不可作为正常化基准"},
+                {"metric": "正常化利润率(我们判断)", "value": "12-16%", "judgment": "观察", "note": "三方格局→保守7.7%/基准11.5%/乐观15.3%"},
+                {"metric": "Layer A正常化OE", "value": "200-400亿", "judgment": "观察", "note": "保守200/基准300/乐观400"},
+                {"metric": "监管信号", "value": "《外卖大战该结束了》[C]", "judgment": "正面", "note": "可能改变游戏规则的政策信号"},
+                {"metric": "利润率恢复时间", "value": "2026H2最早", "judgment": "观察", "note": "取决于监管是否实质介入"},
             ],
-            insight="美团以592亿利润换取60%份额——ROI极差。这不是暂时的战术让步，而是结构性的竞争格局恶化。利润率恢复至少需要2-3个季度。",
+            insight="592亿利润蒸发的关键判断：'战时极端值'而非'新常态'。但恢复幅度被市场高估——正常化利润率12-16%而非市场期望的20%+。三方竞争格局已永久形成。",
         ),
         CoreProduct(
-            name="Keeta海外",
-            subtitle="Reality Check — 烧钱扩张节奏",
+            name="Keeta海外 + 小象超市",
+            subtitle="Layer B分析 — 新业务烧钱与前景",
             metrics=[
-                {"metric": "已进入市场", "value": "沙特/科威特/阿联酋/巴西", "judgment": "中性", "note": "扩张速度快"},
-                {"metric": "新业务亏损", "value": "101亿(+36%)", "judgment": "负面", "note": "亏损还在扩大"},
-                {"metric": "收入增速", "value": "+19%", "judgment": "中性", "note": "增长不够快"},
-                {"metric": "盈亏平衡预期", "value": "2028+", "judgment": "负面", "note": "遥远且不确定"},
+                {"metric": "新业务收入[A]", "value": "1040亿(+19%)", "judgment": "中性", "note": "增速尚可但不够快"},
+                {"metric": "新业务亏损[A]", "value": "-101亿(+36%)", "judgment": "负面", "note": "亏损率9.7%，从-74亿扩大"},
+                {"metric": "Keeta已进入市场[A]", "value": "沙特/科威特/阿联酋/巴西", "judgment": "中性", "note": "扩张速度快"},
+                {"metric": "香港Keeta UE[A]", "value": "已转正", "judgment": "正面", "note": "Q4验证单位经济模型可行"},
+                {"metric": "小象超市[A]", "value": "39城", "judgment": "中性", "note": "产能建设期"},
+                {"metric": "Layer B正常化OE", "value": "-80~-20亿", "judgment": "负面", "note": "保守-80/基准-50/乐观-20"},
             ],
-            insight="Keeta的'国际化美团'故事有想象力但烧钱速度令人担忧。在核心业务利润崩塌的情况下，海外扩张的资金来源是个大问题。",
+            insight="Layer B目前拖累合并OE 50-100亿/年。Keeta香港UE转正是积极信号，但中东/巴西验证需时间。在核心业务利润崩塌的背景下，新业务烧钱节奏需更审慎。",
+        ),
+        CoreProduct(
+            name="现金储备与存活能力",
+            subtitle="消耗战弹药盘点",
+            metrics=[
+                {"metric": "年末现金[A]", "value": "1,068亿", "judgment": "正面", "note": "远超预期"},
+                {"metric": "短期投资[A]", "value": "601亿", "judgment": "正面", "note": "Treasury investments"},
+                {"metric": "合计可用资金[A]", "value": "1,669亿", "judgment": "正面", "note": "短期无流动性危机"},
+                {"metric": "年消耗速度", "value": "~100-200亿/年", "judgment": "负面", "note": "OCF -138亿+持续补贴"},
+                {"metric": "可支撑时间(无融资)", "value": "8-16年", "judgment": "正面", "note": "消耗战弹药极其充裕"},
+                {"metric": "调整净现金(HKD)", "value": "1,366亿", "judgment": "正面", "note": "扣除预期消耗和债务后"},
+            ],
+            insight="美团在消耗战中最大的底牌：1669亿现金+投资。即使年消耗200亿也可支撑8年以上。对手中阿里FCF已转负、京东外卖投入意愿存疑——美团有最高概率'耗到最后'。",
         ),
     ],
 )
