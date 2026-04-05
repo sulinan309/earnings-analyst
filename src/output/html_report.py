@@ -159,8 +159,8 @@ body {{ background: var(--bg); color: var(--text); font-family: -apple-system, '
 .combo-badge.buy-not {{ background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }}
 .combo-badge.sell-triggered {{ background: var(--red-bg); color: var(--red); border: 1px solid rgba(248,81,73,0.3); }}
 .combo-badge.sell-not {{ background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }}
-.change-pos {{ color: var(--green); font-weight: 600; }}
-.change-neg {{ color: var(--red); font-weight: 600; }}
+.change-pos {{ color: var(--red); font-weight: 600; }}
+.change-neg {{ color: var(--green); font-weight: 600; }}
 .judgment {{ font-size: 16px; text-align: center; min-width: 32px; }}
 .core-metric-table td {{ padding: 8px 12px; border-bottom: 1px solid var(--border); font-size: 14px; }}
 .core-metric-table th {{ padding: 8px 12px; text-align: left; color: var(--text-dim); border-bottom: 1px solid var(--border); font-weight: 500; font-size: 14px; }}

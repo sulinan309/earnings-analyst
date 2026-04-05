@@ -18,7 +18,7 @@ FX = 1.1
 def cnb(v): return round(v * FX, 2)
 
 financial_data = FinancialData(
-    cfo=cnb(-138.15),               # 经营活动现金流 -138.15亿 [A]
+    cfo=cnb(350),                   # 正常化CFO：2024年OCF~480亿，竞争打折后~350亿(含新业务现金消耗)
     maintenance_capex=cnb(100),     # 正常化维持性CapEx估算
     total_capex=cnb(250),           # 研发260亿+其他
     cash_and_equivalents=cnb(1067.71),  # 年末现金及等价物 [A]
@@ -31,7 +31,7 @@ financial_data = FinancialData(
     market_cap=5200.0,              # ~84 HKD × 62亿股
     period="FY2025", ticker="3690.HK",
     maintenance_capex_is_estimated=True,
-    maintenance_capex_note="2025年OCF -138亿 [A]，FCF深度负值。当前OE无意义，须用'正常化OE'方法——Layer A(核心业务正常化) + Layer B(新业务)",
+    maintenance_capex_note="⚠ 2025年为战时极端值(OCF -138亿[A])，此处使用正常化OE：2024年核心业务利润524亿(利润率20.9%)做竞争折扣→正常化利润率~11.5%→Layer A 300亿 + Layer B -50亿 = Base OE 250亿 RMB",
 )
 
 profile = CompanyProfile(

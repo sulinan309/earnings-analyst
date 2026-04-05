@@ -76,8 +76,8 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
 .combo-badge.buy-not { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
 .combo-badge.sell-triggered { background: var(--red-bg); color: var(--red); border: 1px solid rgba(248,81,73,0.3); }
 .combo-badge.sell-not { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
-.change-pos { color: var(--green); font-weight: 600; }
-.change-neg { color: var(--red); font-weight: 600; }
+.change-pos { color: var(--red); font-weight: 600; }
+.change-neg { color: var(--green); font-weight: 600; }
 .judgment { font-size: 16px; text-align: center; min-width: 32px; }
 .core-metric-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); font-size: 14px; }
 .core-metric-table th { padding: 8px 12px; text-align: left; color: var(--text-dim); border-bottom: 1px solid var(--border); font-weight: 500; font-size: 14px; }
@@ -104,8 +104,8 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
 <div class="data-grid" style="margin-bottom:4px">
     <div class="data-card">
         <div class="label">Owner's Earnings</div>
-        <div class="value">-262<small> 亿</small></div>
-        <div class="sub">OE Margin -6.5% | CFO -152 − 维持CapEx 110</div>
+        <div class="value">275<small> 亿</small></div>
+        <div class="sub">OE Margin 6.9% | CFO 385 − 维持CapEx 110</div>
     </div>
     <div class="data-card">
         <div class="label">可分配净现金</div>
@@ -114,19 +114,19 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
     </div>
     <div class="data-card">
         <div class="label">内在价值 (r=10%)</div>
-        <div class="value">-1,611<small> 亿港元</small></div>
-        <div class="sub">零增长 -2620 + 净现金 1009</div>
+        <div class="value">3,759<small> 亿港元</small></div>
+        <div class="sub">零增长 2750 + 净现金 1009</div>
     </div>
 </div>
 <div class="data-grid" style="margin-bottom:16px">
     <div class="data-card">
         <div class="label">当前市值</div>
         <div class="value">5,200<small> 亿港元</small></div>
-        <div class="sub">P/E N/A (OE&lt;0) | 赔率 -131.0%</div>
+        <div class="sub">P/E 18.9x | 赔率 -27.7%</div>
     </div>
     <div class="data-card">
         <div class="label">安全边际</div>
-        <div class="value negative">-131.0%</div>
+        <div class="value negative">-27.7%</div>
         <div class="sub">无安全边际 | 顶级资产需赔率 ≥40%</div>
     </div>
 </div>
@@ -166,12 +166,12 @@ v4.3正常化估值：Layer A(核心业务正常化利润300亿, 利润率~11.5%
 <div class="section">
     <h2>1. Owner's Earnings 计算</h2>
     <table class="calc-table">
-        <tr><td></td><td>经营性现金流 (CFO)</td><td>-151.97 亿</td></tr>
+        <tr><td></td><td>经营性现金流 (CFO)</td><td>385.00 亿</td></tr>
         <tr><td class="op">−</td><td>维持性资本支出  ⚠ 估算</td><td>110.00 亿</td></tr>
-        <tr class="separator result"><td class="op">=</td><td>Owner's Earnings</td><td>-261.97 亿</td></tr>
-        <tr><td></td><td colspan="2" style="font-size:13px;color:var(--text-dim)">扩张性 Capex 165.00 亿 (总 275.0 − 维持性 110.0) | OE Margin -6.5%</td></tr>
+        <tr class="separator result"><td class="op">=</td><td>Owner's Earnings</td><td>275.00 亿</td></tr>
+        <tr><td></td><td colspan="2" style="font-size:13px;color:var(--text-dim)">扩张性 Capex 165.00 亿 (总 275.0 − 维持性 110.0) | OE Margin 6.9%</td></tr>
     </table>
-    <div class="warn-box">⚠ 维持性Capex为估算值: 2025年OCF -138亿 [A]，FCF深度负值。当前OE无意义，须用'正常化OE'方法——Layer A(核心业务正常化) + Layer B(新业务)</div>
+    <div class="warn-box">⚠ 维持性Capex为估算值: ⚠ 2025年为战时极端值(OCF -138亿[A])，此处使用正常化OE：2024年核心业务利润524亿(利润率20.9%)做竞争折扣→正常化利润率~11.5%→Layer A 300亿 + Layer B -50亿 = Base OE 250亿 RMB</div>
 </div>
 
 <!-- 净现金 -->
@@ -197,17 +197,17 @@ v4.3正常化估值：Layer A(核心业务正常化利润300亿, 利润率~11.5%
 <div class="section">
     <h2>3. 零增长估值与安全边际</h2>
     <table class="calc-table">
-        <tr><td></td><td>零增长估值 = OE / r</td><td>-262.0 / 10% = -2619.70 亿</td></tr>
+        <tr><td></td><td>零增长估值 = OE / r</td><td>275.0 / 10% = 2750.00 亿</td></tr>
         <tr><td class="op">+</td><td>可分配净现金</td><td>1008.92 亿</td></tr>
         
-        <tr class="separator result"><td class="op">=</td><td>内在价值</td><td>-1610.78 亿</td></tr>
+        <tr class="separator result"><td class="op">=</td><td>内在价值</td><td>3758.92 亿</td></tr>
         <tr><td class="op">−</td><td>当前市值</td><td>5200.00 亿</td></tr>
-        <tr class="separator result"><td class="op">=</td><td>安全边际</td><td class="negative">-6810.78 亿 (-131.0%)</td></tr>
+        <tr class="separator result"><td class="op">=</td><td>安全边际</td><td class="negative">-1441.08 亿 (-27.7%)</td></tr>
     </table>
     <h3 style="font-size:15px;margin-top:20px;margin-bottom:4px;color:var(--text-dim)">三情景估值对比</h3>
     <table class="sens-table">
         <tr><th style="text-align:left">情景</th><th>OE</th><th>内在价值</th><th>安全边际</th></tr>
-        <tr class=""><td style="text-align:left">保守</td><td>-284</td><td>-1536</td><td class="negative">-129.5%</td></tr><tr class="current"><td style="text-align:left">★ 中性</td><td>-262</td><td>-1611</td><td class="negative">-131.0%</td></tr><tr class=""><td style="text-align:left">乐观</td><td>-251</td><td>-7085</td><td class="negative">-236.2%</td></tr>
+        <tr class=""><td style="text-align:left">保守</td><td>253</td><td>2939</td><td class="negative">-43.5%</td></tr><tr class="current"><td style="text-align:left">★ 中性</td><td>275</td><td>3759</td><td class="negative">-27.7%</td></tr><tr class=""><td style="text-align:left">乐观</td><td>286</td><td>10814</td><td class="positive">+108.0%</td></tr>
     </table>
     <div style="font-size:12px;color:var(--text-muted);margin-top:8px">
         保守: r=12%零增长,Capex×1.2 · 中性: r=10%零增长,当前OE · 乐观: r=8%,g=5%,Capex×0.9
@@ -365,7 +365,7 @@ v4.3正常化估值：Layer A(核心业务正常化利润300亿, 利润率~11.5%
     <h2>CapEx 冲击模拟</h2>
     <table class="sens-table">
         <tr><th style="text-align:left">场景</th><th>CFO</th><th>总Capex</th><th>维持性</th><th>OE</th><th>FCF</th></tr>
-        <tr><td style='text-align:left'>FY2025 实际</td><td>-152</td><td>275</td><td>110</td><td class='negative'>-262</td><td class='negative'>-427</td></tr><tr><td style='text-align:left'>FY2026 基准</td><td>-152</td><td>275</td><td>116</td><td class='negative'>-268</td><td class='negative'>-427</td></tr><tr><td style='text-align:left'>FY2026 悲观</td><td>-152</td><td>330</td><td>121</td><td class='negative'>-273</td><td class='negative'>-482</td></tr>
+        <tr><td style='text-align:left'>FY2025 实际</td><td>385</td><td>275</td><td>110</td><td class='positive'>275</td><td class='positive'>110</td></tr><tr><td style='text-align:left'>FY2026 基准</td><td>385</td><td>275</td><td>116</td><td class='positive'>270</td><td class='positive'>110</td></tr><tr><td style='text-align:left'>FY2026 悲观</td><td>385</td><td>330</td><td>121</td><td class='positive'>264</td><td class='positive'>55</td></tr>
     </table>
     <div style="font-size:12px;color:var(--text-muted);margin-top:8px">基准: CFO温和增长+Capex持平 · 悲观: CFO不增长+Capex大幅增长</div>
     <div class="warn-box">⚠ 2025年OCF -138亿 [A]，FCF深度负值。核心本地商业从盈利524亿翻转为亏损69亿——592亿利润蒸发。当前OE无意义，须用'正常化OE'(Layer A+B分层)方法估值</div>
@@ -447,23 +447,23 @@ v4.3正常化估值：Layer A(核心业务正常化利润300亿, 利润率~11.5%
                 <span class="icon-cross"></span>
                 <span class="condition-name">市值 &lt; 零增长OE估值 + 可分配净现金</span>
             </div>
-            <div class="condition-detail">市值 5200.0 亿 vs 内在价值 -1610.8 亿 (边际 -131.0%)</div>
-            <div class="gap">→ 市值高出内在价值 6810.8 亿，需下跌 131.0% 或 OE 提升</div>
+            <div class="condition-detail">市值 5200.0 亿 vs 内在价值 3758.9 亿 (边际 -27.7%)</div>
+            <div class="gap">→ 市值高出内在价值 1441.1 亿，需下跌 27.7% 或 OE 提升</div>
         </div>
         <div class="condition not-triggered">
             <div class="condition-header">
                 <span class="icon-cross"></span>
                 <span class="condition-name">赔率达标（顶级资产 ≥40%）</span>
             </div>
-            <div class="condition-detail">赔率 -131.0%，阈值 40%</div>
-            <div class="gap">→ 当前赔率 -131.0%，顶级资产需 ≥40%，需市值降至 -1151 亿或内在价值提升至 7280 亿</div>
+            <div class="condition-detail">赔率 -27.7%，阈值 40%</div>
+            <div class="gap">→ 当前赔率 -27.7%，顶级资产需 ≥40%，需市值降至 2685 亿或内在价值提升至 7280 亿</div>
         </div>
         <div class="condition triggered">
             <div class="condition-header">
                 <span class="icon-check"></span>
                 <span class="condition-name">过去12个月OE为正且稳定</span>
             </div>
-            <div class="condition-detail">近4季OE: [0.2, 0.2, 0.2, 0.2] 亿，全正=是，稳定=是</div>
+            <div class="condition-detail">近4季OE: [68.8, 68.8, 68.8, 68.8] 亿，全正=是，稳定=是</div>
             
         </div>
         <div class="condition not-triggered">
@@ -477,7 +477,7 @@ v4.3正常化估值：Layer A(核心业务正常化利润300亿, 利润率~11.5%
     
         <div class="missing-box">
             <div class="missing-title">未达标项 (3 条)</div>
-            <ul><li><strong>市值 &lt; 零增长OE估值 + 可分配净现金</strong>: 市值高出内在价值 6810.8 亿，需下跌 131.0% 或 OE 提升</li><li><strong>赔率达标</strong>: 当前赔率 -131.0%，顶级资产需 ≥40%，需市值降至 -1151 亿或内在价值提升至 7280 亿</li><li><strong>市值/OE历史低分位 + 无结构性恶化</strong>: 市值/OE 分位 80%（需 ≤30%）；增长质量存在结构性恶化</li></ul>
+            <ul><li><strong>市值 &lt; 零增长OE估值 + 可分配净现金</strong>: 市值高出内在价值 1441.1 亿，需下跌 27.7% 或 OE 提升</li><li><strong>赔率达标</strong>: 当前赔率 -27.7%，顶级资产需 ≥40%，需市值降至 2685 亿或内在价值提升至 7280 亿</li><li><strong>市值/OE历史低分位 + 无结构性恶化</strong>: 市值/OE 分位 80%（需 ≤30%）；增长质量存在结构性恶化</li></ul>
         </div>
 </div>
 
@@ -663,14 +663,14 @@ v4.3正常化估值：Layer A(核心业务正常化利润300亿, 利润率~11.5%
         <div class="action">不参与</div>
         <div class="position">建议仓位: 0%</div>
     </div>
-    <div class="reasoning">无投资价值；Combo A 缺 3 条: 市值 &lt; 零增长OE估值 + 可分配净现金, 赔率达标, 市值/OE历史低分位 + 无结构性恶化；赔率为负 (-131.0%)，无安全边际</div>
+    <div class="reasoning">无投资价值；Combo A 缺 3 条: 市值 &lt; 零增长OE估值 + 可分配净现金, 赔率达标, 市值/OE历史低分位 + 无结构性恶化；赔率为负 (-27.7%)，无安全边际</div>
 </div>
 
 <!-- 后续跟踪 -->
 <div class="section">
     <h2>6. 后续跟踪要点</h2>
     <ul class="next-steps">
-        <li>赔率达标: 需市值降至 -948 亿以下（当前 5200 亿）</li><li>或 OE 提升: 需 OE 从 -262 亿提升至使内在价值覆盖 70% 赔率</li><li>关注下季财报是否出现 Combo B（基本面拐点）信号</li>
+        <li>赔率达标: 需市值降至 2211 亿以下（当前 5200 亿）</li><li>或 OE 提升: 需 OE 从 275 亿提升至使内在价值覆盖 70% 赔率</li><li>关注下季财报是否出现 Combo B（基本面拐点）信号</li>
     </ul>
 </div>
 
