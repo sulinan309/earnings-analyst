@@ -49,7 +49,7 @@ financial_data = FinancialData(
 # ═══════════════════════════════════════════
 
 profile = CompanyProfile(
-    name="小米", ticker="1810.HK", asset_tier="中等质量", period="FY2025",
+    name="小米", ticker="1810.HK", asset_tier="高波动", period="FY2025",
 
     revenue_segments=[
         {"name": "智能手机", "fy2025": cnb(1864), "yoy": "-2.8%", "share": "41%",
@@ -261,7 +261,7 @@ if __name__ == "__main__":
     # Combo A
     oe = result.oe_result
     combo_a = ComboScanner().scan_combo_a(oe, ComboAInput(
-        asset_tier="中等质量",
+        asset_tier="高波动",
         quarterly_oes=[round(oe.oe / 4, 1)] * 4,
         oe_multiple_percentile=50.0,
         structural_deterioration=False,
@@ -269,7 +269,7 @@ if __name__ == "__main__":
     mx = OddsMatrix().evaluate(combo_a, oe.odds, "中等质量")
 
     inp = ReportInput(
-        company_name="小米", ticker="1810.HK", asset_tier="中等质量",
+        company_name="小米", ticker="1810.HK", asset_tier="高波动",
         focus="汽车Capex对OE的侵蚀、手机毛利率止跌、AI投入ROI",
         financial_data=financial_data, oe_result=oe,
         combo_a=combo_a, matrix_result=mx, report_date=date.today(),

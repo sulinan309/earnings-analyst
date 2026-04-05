@@ -35,7 +35,7 @@ financial_data = FinancialData(
 )
 
 profile = CompanyProfile(
-    name="美团", ticker="3690.HK", asset_tier="顶级资产", period="FY2025",
+    name="美团", ticker="3690.HK", asset_tier="中等质量", period="FY2025",
     revenue_segments=[
         {"name": "核心本地商业", "fy2025": 2608, "yoy": "+4.2%", "share": "71%",
          "trend": "经营利润: +524亿→-69亿 [A]。GTV份额60%+(媒体测算)，代价592亿利润蒸发"},
@@ -269,7 +269,7 @@ if __name__ == "__main__":
 
     oe = result.oe_result
     combo_a = ComboScanner().scan_combo_a(oe, ComboAInput(
-        asset_tier="顶级资产",
+        asset_tier="中等质量",
         quarterly_oes=[round(max(oe.oe, 1) / 4, 1)] * 4,  # OE可能为负，取max
         oe_multiple_percentile=80.0,  # 当前估值不在低分位
         structural_deterioration=True,  # 利润结构恶化
@@ -277,7 +277,7 @@ if __name__ == "__main__":
     mx = OddsMatrix().evaluate(combo_a, oe.odds, "顶级资产")
 
     inp = ReportInput(
-        company_name="美团", ticker="3690.HK", asset_tier="顶级资产",
+        company_name="美团", ticker="3690.HK", asset_tier="中等质量",
         focus="外卖补贴战终战时点 · 正常化利润率恢复路径 · 现金储备消耗速度",
         financial_data=financial_data, oe_result=oe,
         combo_a=combo_a, matrix_result=mx, report_date=date.today(),
