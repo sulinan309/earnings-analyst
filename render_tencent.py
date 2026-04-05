@@ -104,21 +104,21 @@ deep_analysis = DeepAnalysis(
         headline='腾讯——验证过的复利机器，当前487在观察区。FCF 1826亿(+18%)是五家中最干净的现金流',
         action="观察/等回落 — 当前487 HKD处于观察区(Base 386, Optimistic 794)。Medium-High Conviction",
         tldr=[
-            "v4.3估值：Conservative 251 / Base 386 / Optimistic 794 HKD(g=6%)。当前487在观察区偏下",
+            "估值：Conservative 251 / Base 386 / Optimistic 794 HKD(g=6%)。当前487在观察区偏下",
             "FCF 1826亿(+18%)[A]——五家中唯一FCF同比改善的公司。OE从FCF锚出发，GR1全部通过",
             "Verified compounder资质：3年收入CAGR~14%，毛利率49%→56%，注销式回购使EPS+18%",
-            "等430-460回落至可布局区再加仓。维持30股probe buy",
+            "等待回落至可布局区(Base 386附近)再考虑加仓",
         ],
         body=(
             "2025年报堪称'六边形战士'——全年营收7518亿(+14%)，Non-IFRS归母净利润2596亿(+17%)，"
             "毛利率从53%提升至56%创历史新高，自由现金流1826亿(+18%)，全年回购800亿港元+股息410亿港元。"
             "三大业务板块毛利全部双位数增长。国际游戏774亿首破100亿美元(+33%)。\n\n"
-            "v4.3 OE桥梁表(FCF锚→OE)：Conservative OE 1800亿 / Base OE 2000亿 / Optimistic OE 2200亿。"
+            "OE桥梁表(FCF锚→OE)：Conservative OE 1800亿 / Base OE 2000亿 / Optimistic OE 2200亿。"
             "Guard Rail要求OE≤1.2×FCF=2191亿，Non-IFRS净利2596亿远超此限。"
             "基准OE取2000亿(成熟业务1800+AI/视频号效率增量200)，g=3%(基准锚定)，r=11%。"
             "投资组合按极保守口径计入51.3 HKD/share，净现金11.2 HKD/share。\n\n"
             "结论：当前价格处于观察区(Base 386 - Optimistic 794区间)。基本面是Watchlist中最优质的，但估值不够便宜。"
-            "维持30股probe buy，等430-460分批加仓更审慎。430以下接近Base值，明确加仓。"
+            "当前处于观察区，等待回落至Base值附近(386 HKD)再考虑建仓。"
         ),
     ),
 
@@ -193,12 +193,12 @@ deep_analysis = DeepAnalysis(
              "check": "列出3个腾讯可能不如预期的具体情景"},
             {"bias": "锚定效应", "risk": "K0内在价值690 HKD是模型输出，对g极度敏感(g每变1pct估值变15-25%)",
              "check": "用K4敏感性矩阵检查——g=6%时内在价值仅~571 HKD"},
-            {"bias": "确认偏差", "risk": "已持有30股probe buy，倾向于寻找加仓理由",
+            {"bias": "确认偏差", "risk": "已持仓时倾向于寻找加仓理由",
              "check": "Bear case 20%概率下目标价359 HKD(-26%)——这个损失你能承受吗？"},
         ],
     ),
 
-    header_subtitle="FY2025 Deep Dive · v4.3 OE Framework",
+    header_subtitle="FY2025 Deep Dive · OE Framework",
     capex_warning="⚠ AI投入2026年至少翻倍至360亿+[B]。但腾讯FCF 1826亿(+18%)远大于CapEx 792亿——现金流覆盖充裕，不存在阿里式CapEx失控风险",
 
     combo_signals=[

@@ -86,10 +86,10 @@ profile = CompanyProfile(
 deep_analysis = DeepAnalysis(
     executive_summary=ExecutiveSummary(
         headline='美团从年赚524亿到年亏69亿——外卖大战是暂时性战争创伤还是护城河永久性损伤？这个判断价值592亿',
-        action="Hold existing + 加速减仓 — 当前84 HKD刚进入观察区(Base 81上方)。67%集中度是最紧迫的风险",
+        action="观察 — 当前84 HKD刚进入观察区(Base 81上方)。正常化OE需验证",
         tldr=[
-            "v4.3估值：Conservative 40 / Base 81 / Optimistic 125 HKD。当前84刚进入观察区",
-            "Hold existing employee shares + 加速减仓节奏 — 不是因为不看好，而是因为67%集中度风险",
+            "估值：Conservative 40 / Base 81 / Optimistic 125 HKD。当前84刚进入观察区",
+            "核心判断：外卖补贴战是暂时性战争创伤还是护城河永久性损伤——这决定正常化利润率在12%还是16%",
             "最关键Key Force：外卖大战何时结束→核心本地商业何时回归正常化盈利",
             "正常化利润率12-16%(非2024年峰值20.9%)——三方竞争格局已形成，恢复幅度被市场高估",
         ],
@@ -99,7 +99,7 @@ deep_analysis = DeepAnalysis(
             "竞争加剧导致的毛利率下降和用户激励、营销推广开支大幅增加 [A]。592亿的利润蒸发是近年中国互联网最大的单年利润翻转。\n\n"
             "但有一个关键信号：3月25日国家市场监督管理总局转发经济日报《外卖大战该结束了》[C]——市场将此解读为"
             "监管层叫停恶性竞争的明确信号。如果外卖补贴战在2026年H1确实降温，美团核心本地商业有望在2026年下半年回归正向经营利润。\n\n"
-            "v4.3正常化估值：Layer A(核心业务正常化利润300亿, 利润率~11.5%) + Layer B(新业务-50亿) = Base OE 250亿。"
+            "正常化估值：Layer A(核心业务正常化利润300亿, 利润率~11.5%) + Layer B(新业务-50亿) = Base OE 250亿。"
             "g=3%, r=11%给出Base per share 81 HKD。当前84刚进入观察区。"
             "Payback 18.2年(normalized)。现金储备充裕(现金+投资1669亿 [A])，短期无流动性危机。"
         ),
@@ -176,12 +176,12 @@ deep_analysis = DeepAnalysis(
              "check": "200 HKD对价值判断零关系。唯一相关问题：从84出发，未来2年expected return是多少？"},
             {"bias": "沉没成本", "risk": "已经在这个仓位上浮亏58%，不愿割肉",
              "check": "浮亏是沉没成本，不应影响对未来的判断。问自己：如果今天没有持仓，以84会买入吗？"},
-            {"bias": "集中度风险(最紧迫)", "risk": "12400股占总资产67%——不管估值如何，这是不可接受的风险暴露",
-             "check": "Position sizing比stock picking更重要。目标减至20%以下(~3500股)。每两周卖500股"},
+            {"bias": "集中度风险(最紧迫)", "risk": "单一持仓占比过高时，不管估值如何都是不可接受的风险暴露",
+             "check": "Position sizing比stock picking更重要。单一标的不应超过组合的20%"},
         ],
     ),
 
-    header_subtitle="FY2025 Deep Dive · v4.3 OE Framework",
+    header_subtitle="FY2025 Deep Dive · OE Framework",
     capex_warning="⚠ 2025年OCF -138亿 [A]，FCF深度负值。核心本地商业从盈利524亿翻转为亏损69亿——592亿利润蒸发。当前OE无意义，须用'正常化OE'(Layer A+B分层)方法估值",
 
     combo_signals=[
@@ -278,7 +278,7 @@ if __name__ == "__main__":
 
     inp = ReportInput(
         company_name="美团", ticker="3690.HK", asset_tier="顶级资产",
-        focus="外卖补贴战终战时点、正常化利润率恢复、67%集中度减仓",
+        focus="外卖补贴战终战时点 · 正常化利润率恢复路径 · 现金储备消耗速度",
         financial_data=financial_data, oe_result=oe,
         combo_a=combo_a, matrix_result=mx, report_date=date.today(),
     )

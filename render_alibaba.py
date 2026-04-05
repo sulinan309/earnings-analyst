@@ -101,11 +101,11 @@ deep_analysis = DeepAnalysis(
             "FY2025年报(截至2025年3月31日)：收入9963亿(+6%)，经营利润1409亿(+24%)，GAAP净利1,259.76亿(+77%)，"
             "Non-GAAP净利1,581亿(持平)[A]。FCF从1562亿暴跌53%至738.70亿[A]——CapEx从264亿激增至896亿(+240%)[A]，"
             "增量632亿主要来自云基础设施支出和即时零售(闪购)投入[A]。\n\n"
-            "v3正常化估值(经peer review审计修正)：四步桥梁表推导正常化OE——正常化OCF 1700亿 - 正常化CapEx 550亿 = "
+            "正常化估值：四步桥梁表推导正常化OE——正常化OCF 1700亿 - 正常化CapEx 550亿 = "
             "Base OE 1140亿 RMB。但GR1校验：1140亿 = 1.54×FY2025 FCF——超出1.2×上限，标注为需要CapEx回落证据支持。"
             "正常化OE预计FY2027-2028才能兑现。在那之前，实际FCF可能在零附近波动。\n\n"
             "当前118.5 HKD高于Base(98)约21%，距Optimistic(129)仅9%——几乎pricing in了全部上行，安全边际极薄。"
-            "FY2026Q3 FCF回正至+113亿[A]是初步改善信号，但单季不代表趋势。维持1手占座，<90考虑加仓，>130减持。"
+            "FY2026Q3 FCF回正至+113亿[A]是初步改善信号，但单季不代表趋势。当前接近Optimistic上沿，安全边际极薄。"
         ),
     ),
 
@@ -181,11 +181,11 @@ deep_analysis = DeepAnalysis(
             {"bias": "阿里历史光环", "risk": "曾经的王者≠当前的护城河。不要因为历史地位给溢价",
              "check": "和当前的抖音/拼多多/腾讯横向对比，而非和5年前的阿里纵向对比"},
             {"bias": "沉没成本偏差", "risk": "如果已持有阿里，可能不愿承认3800亿AI投入可能回报不足",
-             "check": "问自己：如果今天没有持仓，以118.5会买入吗？v3答案是'不会，太接近Optimistic'"},
+             "check": "问自己：如果今天没有持仓，以118.5会买入吗？当前太接近Optimistic(129)，答案大概率是不会"},
         ],
     ),
 
-    header_subtitle="FY2025 Deep Dive · v3 OE Framework (peer review修正版)",
+    header_subtitle="FY2025 Deep Dive · OE Framework",
     capex_warning="⚠ FCF口径CapEx从264亿激增至896亿(+240%)[A]。3年3800亿AI投入(FY2026~2028)。FY2026H1 FCF净流出407亿[A]，Q3回正+113亿[A]——峰值可能已过，但正常化需至FY2027",
 
     combo_signals=[
@@ -230,7 +230,7 @@ deep_analysis = DeepAnalysis(
     core_products=[
         CoreProduct(
             name="FCF→OE正常化桥梁",
-            subtitle="v3审计修正——从FCF现实到OE假设的四步推导",
+            subtitle="从FCF现实到OE假设的四步推导",
             metrics=[
                 {"metric": "FY2025 OCF[A]", "value": "1,635亿", "judgment": "正面", "note": "经营活动仍在产出现金(-10% YoY)"},
                 {"metric": "FY2025 FCF口径CapEx[A]", "value": "896亿(+240%)", "judgment": "负面", "note": "增量632亿为AI/云基建+闪购"},

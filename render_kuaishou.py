@@ -89,19 +89,19 @@ deep_analysis = DeepAnalysis(
         headline='快手——45 HKD低于保守估值17%，三家中最便宜。Payback仅9.5年，High Conviction',
         action="明确加仓 — 当前45 HKD低于Conservative(54)约17%，在明确加仓区。High Conviction",
         tldr=[
-            "v4.3估值：Conservative 54 / Base 82 / Optimistic 102 HKD。当前45低于保守值17%——明确加仓区",
+            "估值：Conservative 54 / Base 82 / Optimistic 102 HKD。当前45低于保守值17%——明确加仓区",
             "FCF=118亿[A]但149亿CapEx含大量AI成长性投入。正常化FCF~170-200亿。Base OE 180亿",
             "净现金919亿HKD(per share 21.1 HKD)占Base估值26%——PE法无法体现的隐藏价值",
-            "在40-55区间分批买至600-800股。Kill condition：DAU连续两季同比下降",
+            "当前处于明确加仓区(低于Conservative 54约17%)。Kill condition：DAU连续两季同比下降",
         ],
         body=(
             "2025年报稳健——全年营收1428亿(+12.5%)，经调整净利润206亿(+16.5%)，毛利率55.0%，OCF 267亿。"
             "市场给出的反应是股价从52周高点92.6 HKD腰斩至~45 HKD，Trailing PE仅~10x。\n\n"
-            "v4.3估值修正：FCF=OCF 267亿-CapEx 149亿=118亿。因149亿CapEx含大量AI成长性投入(2026年将升至260亿)，"
+            "估值推导：FCF≈OCF 267亿-CapEx 149亿=118亿。因149亿CapEx含大量AI成长性投入(2026年将升至260亿)，"
             "维护性CapEx远低于总量。正常化FCF约170-200亿，OE区间150-210亿。"
             "基准OE 180亿(核心广告+直播+电商 150亿 + AI效率增量30亿)。\n\n"
             "关键发现：净现金919亿HKD(per share 21.1 HKD)占基准估值的26%——这是PE法无法体现的隐藏价值。"
-            "v4.3的Guard Rail 4要求认真对待净现金，使快手成为唯一在修正后估值上升的标的(v4.2 72→v4.3 82, +14%)。"
+            "净现金919亿HKD占Base估值的26%——这是OE估值框架相对PE法的核心优势。"
             "当前45 HKD低于保守值54 HKD——在三家中conviction最高。"
         ),
     ),
@@ -173,14 +173,14 @@ deep_analysis = DeepAnalysis(
         cognitive_biases=[
             {"bias": "叙事偏差", "risk": "'可灵AI全球领先'很诱人——但Q4仅3.4亿收入，占总收入<1%",
              "check": "不应过度放大可灵对估值的贡献，核心仍是广告+电商"},
-            {"bias": "锚定效应", "risk": "刚以46 HKD买入300股，倾向于寻找确认性数据",
+            {"bias": "锚定效应", "risk": "在当前价位买入后，倾向于寻找确认性数据",
              "check": "忽略entry price，只看forward value和kill conditions"},
             {"bias": "价值陷阱风险", "risk": "10x PE看起来便宜，但如果用户净流失，10x PE可能不是底",
              "check": "'低估值+低增长'可能变成'低估值+负增长'——DAU是唯一的kill条件"},
         ],
     ),
 
-    header_subtitle="FY2025 Deep Dive · v4.3 OE Framework",
+    header_subtitle="FY2025 Deep Dive · OE Framework",
     capex_warning="⚠ 2026年CapEx将从149亿升至260亿(+74%)[B]，主要投向可灵AI算力。但净现金919亿HKD提供充裕安全垫。GR1通过：成长性CapEx调整后，OE 150-210亿 ≤ 1.2×正常化FCF",
 
     combo_signals=[

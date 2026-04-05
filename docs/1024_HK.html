@@ -136,12 +136,12 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system, 'N
     <div style="background:var(--blue-bg);color:var(--blue);display:inline-block;padding:4px 16px;border-radius:20px;font-weight:600;font-size:14px;margin-bottom:16px">建议动作: 明确加仓 — 当前45 HKD低于Conservative(54)约17%，在明确加仓区。High Conviction</div>
     <div style="font-size:14px;color:var(--text);line-height:1.8;white-space:pre-line;margin-bottom:16px">2025年报稳健——全年营收1428亿(+12.5%)，经调整净利润206亿(+16.5%)，毛利率55.0%，OCF 267亿。市场给出的反应是股价从52周高点92.6 HKD腰斩至~45 HKD，Trailing PE仅~10x。
 
-v4.3估值修正：FCF=OCF 267亿-CapEx 149亿=118亿。因149亿CapEx含大量AI成长性投入(2026年将升至260亿)，维护性CapEx远低于总量。正常化FCF约170-200亿，OE区间150-210亿。基准OE 180亿(核心广告+直播+电商 150亿 + AI效率增量30亿)。
+估值推导：FCF≈OCF 267亿-CapEx 149亿=118亿。因149亿CapEx含大量AI成长性投入(2026年将升至260亿)，维护性CapEx远低于总量。正常化FCF约170-200亿，OE区间150-210亿。基准OE 180亿(核心广告+直播+电商 150亿 + AI效率增量30亿)。
 
-关键发现：净现金919亿HKD(per share 21.1 HKD)占基准估值的26%——这是PE法无法体现的隐藏价值。v4.3的Guard Rail 4要求认真对待净现金，使快手成为唯一在修正后估值上升的标的(v4.2 72→v4.3 82, +14%)。当前45 HKD低于保守值54 HKD——在三家中conviction最高。</div>
+关键发现：净现金919亿HKD(per share 21.1 HKD)占基准估值的26%——这是PE法无法体现的隐藏价值。净现金919亿HKD占Base估值的26%——这是OE估值框架相对PE法的核心优势。当前45 HKD低于保守值54 HKD——在三家中conviction最高。</div>
     <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 16px">
         <div style="font-weight:600;color:var(--blue);margin-bottom:6px">TL;DR:</div>
-        <ul style="font-size:14px;padding-left:16px;display:flex;flex-direction:column;gap:4px"><li>v4.3估值：Conservative 54 / Base 82 / Optimistic 102 HKD。当前45低于保守值17%——明确加仓区</li><li>FCF=118亿[A]但149亿CapEx含大量AI成长性投入。正常化FCF~170-200亿。Base OE 180亿</li><li>净现金919亿HKD(per share 21.1 HKD)占Base估值26%——PE法无法体现的隐藏价值</li><li>在40-55区间分批买至600-800股。Kill condition：DAU连续两季同比下降</li></ul>
+        <ul style="font-size:14px;padding-left:16px;display:flex;flex-direction:column;gap:4px"><li>估值：Conservative 54 / Base 82 / Optimistic 102 HKD。当前45低于保守值17%——明确加仓区</li><li>FCF=118亿[A]但149亿CapEx含大量AI成长性投入。正常化FCF~170-200亿。Base OE 180亿</li><li>净现金919亿HKD(per share 21.1 HKD)占Base估值26%——PE法无法体现的隐藏价值</li><li>当前处于明确加仓区(低于Conservative 54约17%)。Kill condition：DAU连续两季同比下降</li></ul>
     </div>
 </div>
 
@@ -171,7 +171,7 @@ v4.3估值修正：FCF=OCF 267亿-CapEx 149亿=118亿。因149亿CapEx含大量A
         <tr class="separator result"><td class="op">=</td><td>Owner's Earnings</td><td>205.70 亿</td></tr>
         <tr><td></td><td colspan="2" style="font-size:13px;color:var(--text-dim)">扩张性 Capex 77.00 亿 (总 165.0 − 维持性 88.0) | OE Margin 13.1%</td></tr>
     </table>
-    <div class="warn-box">⚠ 维持性Capex为估算值: 维持性CapEx ≈ 折旧 ~80亿（服务器/IDC替换维护）。2026年260亿Capex中~100亿为维持性，~160亿为增长性（可灵AI算力）</div>
+    <div class="warn-box">⚠ 维持性Capex为估算值: 维持性CapEx ≈ FY2023基线~80亿(AI大规模投入前的历史水平)[D1]。成长性CapEx=149-80=70亿。推算FCF≈267-149=118亿[D1](快手年报未披露Non-GAAP FCF)。正常化FCF≈118+70=188亿。2026年CapEx指引260亿[B]</div>
 </div>
 
 <!-- 净现金 -->
@@ -433,7 +433,7 @@ v4.3估值修正：FCF=OCF 267亿-CapEx 149亿=118亿。因149亿CapEx含大量A
     <div style="font-weight:600;margin-bottom:8px">认知偏差自检</div>
     <table class="sens-table">
         <tr><th style="text-align:left">偏差</th><th style="text-align:left">风险</th><th style="text-align:left">检查</th></tr>
-        <tr><td style="text-align:left;font-weight:600">叙事偏差</td><td style="text-align:left;color:var(--red)">'可灵AI全球领先'很诱人——但Q4仅3.4亿收入，占总收入&lt;1%</td><td style="text-align:left;color:var(--green)">不应过度放大可灵对估值的贡献，核心仍是广告+电商</td></tr><tr><td style="text-align:left;font-weight:600">锚定效应</td><td style="text-align:left;color:var(--red)">刚以46 HKD买入300股，倾向于寻找确认性数据</td><td style="text-align:left;color:var(--green)">忽略entry price，只看forward value和kill conditions</td></tr><tr><td style="text-align:left;font-weight:600">价值陷阱风险</td><td style="text-align:left;color:var(--red)">10x PE看起来便宜，但如果用户净流失，10x PE可能不是底</td><td style="text-align:left;color:var(--green)">'低估值+低增长'可能变成'低估值+负增长'——DAU是唯一的kill条件</td></tr>
+        <tr><td style="text-align:left;font-weight:600">叙事偏差</td><td style="text-align:left;color:var(--red)">'可灵AI全球领先'很诱人——但Q4仅3.4亿收入，占总收入&lt;1%</td><td style="text-align:left;color:var(--green)">不应过度放大可灵对估值的贡献，核心仍是广告+电商</td></tr><tr><td style="text-align:left;font-weight:600">锚定效应</td><td style="text-align:left;color:var(--red)">在当前价位买入后，倾向于寻找确认性数据</td><td style="text-align:left;color:var(--green)">忽略entry price，只看forward value和kill conditions</td></tr><tr><td style="text-align:left;font-weight:600">价值陷阱风险</td><td style="text-align:left;color:var(--red)">10x PE看起来便宜，但如果用户净流失，10x PE可能不是底</td><td style="text-align:left;color:var(--green)">'低估值+低增长'可能变成'低估值+负增长'——DAU是唯一的kill条件</td></tr>
     </table>
 </div>
 
