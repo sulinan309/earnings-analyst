@@ -36,7 +36,7 @@ financial_data = FinancialData(
     market_cap=2000.0,              # ~45 HKD × 43亿股
     period="FY2025", ticker="1024.HK",
     maintenance_capex_is_estimated=True,
-    maintenance_capex_note="维持性CapEx ≈ 折旧 ~80亿（服务器/IDC替换维护）。2026年260亿Capex中~100亿为维持性，~160亿为增长性（可灵AI算力）",
+    maintenance_capex_note="维持性CapEx ≈ FY2023基线~80亿(AI大规模投入前的历史水平)[D1]。成长性CapEx=149-80=70亿。推算FCF≈267-149=118亿[D1](快手年报未披露Non-GAAP FCF)。正常化FCF≈118+70=188亿。2026年CapEx指引260亿[B]",
 )
 
 profile = CompanyProfile(
