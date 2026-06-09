@@ -214,12 +214,35 @@ class TestDataQuality:
 
 class TestDebounce:
     def test_normal_state_needs_confirmation(self, engine, tencent_profile):
-        """普通状态首次出现且未连续确认 → 标记 pending，置信度降级"""
+        """普通状态首次出现且未连续确认 → 不采纳候选，维持观察，仅标 pending"""
         inp = EngineInput(market_data=_valid_rebound_md(), profile=tencent_profile,
                           previous_state=None, candidate_confirmations=1)
         r = engine.evaluate(inp)
+        # 关键：未确认时不得直接采纳候选状态
+        assert r.state is None
+        assert r.raw_state == State.VALID_REBOUND
         assert r.pending_state == State.VALID_REBOUND
         assert "需连续确认" in r.debounce_note
+
+    def test_confirmed_after_two_periods(self, engine, tencent_profile):
+        """连续 2 周期确认 → 采纳候选"""
+        inp = EngineInput(market_data=_valid_rebound_md(), profile=tencent_profile,
+                          previous_state=None, candidate_confirmations=2)
+        r = engine.evaluate(inp)
+        assert r.state == State.VALID_REBOUND
+        assert r.pending_state is None
+
+    def test_holds_previous_state_until_confirmed(self, engine, tencent_profile):
+        """上一状态本期仍有效 + 新候选未确认 → 维持上一状态，新候选挂 pending"""
+        inp = EngineInput(market_data=_valid_rebound_md(), profile=tencent_profile,
+                          previous_state=State.WEAK_REBOUND, candidate_confirmations=1)
+        r = engine.evaluate(inp)
+        weak = next(e for e in r.all_evaluations if e.state == State.WEAK_REBOUND)
+        if weak.valid:
+            assert r.state == State.WEAK_REBOUND
+        else:
+            assert r.state is None
+        assert r.pending_state == State.VALID_REBOUND
 
 
 class TestHardGate:

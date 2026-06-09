@@ -83,7 +83,7 @@ STATE_CHECKS: dict[State, dict[str, list[Check]]] = {
             ("缩量", lambda f: f.vol_contraction),
             ("下跌时成交开始减少", lambda f: f.down_day and f.vol_contraction),
             ("放量但价格不再下破", lambda f: f.vol_expansion and f.no_break_prior_low),
-            ("卖压释放后成交回落", lambda f: f.vol_contraction),
+            ("卖压释放后成交回落", lambda f: f.vol_receding),
         ],
         "index": [
             ("本地指数不创新低", lambda f: f.index_no_new_low),
@@ -129,7 +129,7 @@ STATE_CHECKS: dict[State, dict[str, list[Check]]] = {
         ],
         "volume": [
             ("放量上涨", lambda f: f.vol_expansion and f.up_day),
-            ("缩量止跌后次日放量上攻", lambda f: f.vol_expansion and f.up_day),
+            ("缩量止跌后次日放量上攻", lambda f: f.contraction_then_expansion),
             ("没有放量冲高回落", lambda f: not (f.vol_expansion and f.upper_shadow)),
             ("收盘不低于日内均价线", lambda f: f.close_above_vwap),
         ],
@@ -150,7 +150,7 @@ STATE_CHECKS: dict[State, dict[str, list[Check]]] = {
         "price": [
             ("连续2日站稳核心关键位", lambda f: f.consec_above_core >= 2),
             ("突破前期压力位", lambda f: f.breaks_prior_high),
-            ("形成上升结构", lambda f: f.higher_low and f.up_day),
+            ("形成上升结构", lambda f: f.higher_low and f.higher_high),
             ("回踩不破", lambda f: f.holds_core_level),
         ],
         "volume": [

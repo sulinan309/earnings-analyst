@@ -134,7 +134,8 @@ class Features:
     close_upper_third: bool = False      # >=2/3
     lower_shadow: bool = False           # 下影线明显
     upper_shadow: bool = False           # 上影线明显（冲高回落）
-    higher_low: bool = False             # 低点抬高
+    higher_low: bool = False             # 低点抬高（多日）
+    higher_high: bool = False            # 高点抬高（多日，上升结构）
     reclaim_first_level: bool = False    # 收复第一关键位
     no_new_low: bool = False
     no_break_prior_low: bool = False
@@ -148,6 +149,8 @@ class Features:
     vol_strong_expansion: bool = False   # 显著放量 >1.5x
     vol_contraction: bool = False        # 缩量 <0.8x
     mild_expansion: bool = False         # 温和放量 1.0-1.4x
+    vol_receding: bool = False           # 成交较前一日回落（卖压释放后量能回落）
+    contraction_then_expansion: bool = False  # 前日缩量止跌 + 当日放量上攻
     up_day: bool = False
     down_day: bool = False
     close_below_open: bool = False
@@ -213,12 +216,23 @@ def compute_features(md: MarketData, vol_lookback: int = 20) -> Features:
         else:
             break
 
-    # 低点抬高：最近 3 根的最低 > 之前 3 根的最低
+    # 低点/高点抬高：最近 3 根 vs 之前 3 根（多日结构，不绑定当日涨跌）
     higher_low = False
+    higher_high = False
     if len(bars) >= 6:
         recent_low = min(b.low for b in bars[-3:])
         earlier_low = min(b.low for b in bars[-6:-3])
         higher_low = recent_low > earlier_low
+        recent_high = max(b.high for b in bars[-3:])
+        earlier_high = max(b.high for b in bars[-6:-3])
+        higher_high = recent_high > earlier_high
+
+    # 前一日缩量止跌：前日成交低于其之前均量，且前日未跌破前低
+    prev_contraction = False
+    if len(bars) >= 3:
+        vols_before_prev = [b.volume for b in bars[:-2]]
+        prev_vol_ma = _sma(vols_before_prev, vol_lookback) if vols_before_prev else prev.volume
+        prev_contraction = prev.volume < 0.80 * prev_vol_ma and prev.close >= prior_low
 
     # 日内典型价（VWAP 代理）
     vwap = (last.high + last.low + last.close) / 3
@@ -257,6 +271,7 @@ def compute_features(md: MarketData, vol_lookback: int = 20) -> Features:
     f.lower_shadow = lower_shadow_ratio >= 0.30
     f.upper_shadow = upper_shadow_ratio >= 0.30
     f.higher_low = higher_low
+    f.higher_high = higher_high
     f.reclaim_first_level = last.close >= first_level
     f.no_new_low = not making_new_low
     f.no_break_prior_low = last.close >= prior_low
@@ -270,6 +285,8 @@ def compute_features(md: MarketData, vol_lookback: int = 20) -> Features:
     f.vol_strong_expansion = vol_ratio > 1.50
     f.vol_contraction = vol_ratio < 0.80
     f.mild_expansion = 1.0 <= vol_ratio <= 1.40
+    f.vol_receding = last.volume < prev.volume
+    f.contraction_then_expansion = prev_contraction and f.vol_expansion and up_day
     f.up_day = up_day
     f.down_day = down_day
     f.close_below_open = last.close < last.open

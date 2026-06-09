@@ -142,7 +142,7 @@ class StateEngine:
         # ── Step 9：选状态（风险覆盖 > 普通评分）+ 防抖 ──
         raw_eval = self._select_raw(evaluations, inp.fundamental_redline)
         committed_eval, debounce_note, pending_state = self._apply_debounce(
-            raw_eval, inp
+            raw_eval, evaluations, inp
         )
 
         # ── Step 6：数据质量 + 置信度降级 ──
@@ -221,31 +221,56 @@ class StateEngine:
 
     # ── 防抖（文档第五节）──
     def _apply_debounce(
-        self, raw_eval: StateEvaluation | None, inp: EngineInput
+        self,
+        raw_eval: StateEvaluation | None,
+        evaluations: list[StateEvaluation],
+        inp: EngineInput,
     ) -> tuple[StateEvaluation | None, str, State | None]:
+        """返回 (采纳的状态评估, 防抖说明, 待确认状态)
+
+        普通状态未达连续确认时，**维持上一状态**（不采纳本期候选），
+        候选仅作为 pending_state 透出；这是与文档第五节"连续 2 周期确认"一致的实现。
+        """
         if raw_eval is None:
             return None, "无有效状态，维持观察", None
 
         state = raw_eval.state
 
-        # 风险状态：立即覆盖，不等待
+        # 风险状态：立即覆盖，不等待（防抖优先级最高）
         if state in RISK_STATES or inp.fundamental_redline:
             return raw_eval, "风险状态/红线，立即覆盖，不受冷却限制", None
 
-        # 普通状态：需连续 2 周期确认
+        # 普通状态与上一周期一致：已确认
         if inp.previous_state == state:
             return raw_eval, "与上一周期状态一致，已确认", None
+
+        # 普通状态已连续出现 ≥2 周期：确认切换
         if inp.candidate_confirmations >= 2:
             return raw_eval, f"普通状态已连续确认 {inp.candidate_confirmations} 周期", None
 
-        # 未达连续确认 → 维持上一状态（若有），标记 pending
+        # 未达连续确认 → 维持上一状态，候选仅作 pending
+        pending = state
+        if inp.previous_state is not None:
+            prev_eval = next(
+                (e for e in evaluations if e.state == inp.previous_state), None
+            )
+            if prev_eval is not None and prev_eval.valid:
+                note = (
+                    f"普通状态需连续确认（当前 {inp.candidate_confirmations}/2），"
+                    f"维持上一状态「{inp.previous_state.value}」，候选「{pending.value}」待确认"
+                )
+                return prev_eval, note, pending
+            note = (
+                f"普通状态需连续确认（当前 {inp.candidate_confirmations}/2），"
+                f"上一状态「{inp.previous_state.value}」本期已失效，维持观察，候选「{pending.value}」待确认"
+            )
+            return None, note, pending
+
         note = (
-            f"普通状态需连续确认（当前 {inp.candidate_confirmations}/2），"
-            f"暂不切换，{('维持 ' + inp.previous_state.value) if inp.previous_state else '维持观察'}"
+            f"普通状态首次出现需连续确认（当前 {inp.candidate_confirmations}/2），"
+            f"维持观察，候选「{pending.value}」待确认"
         )
-        # 维持上一状态时，输出仍以 raw_eval 透明展示，但 committed 状态降级处理：
-        # 这里以"维持观察"语义返回 raw_eval 但通过 pending_state 提示待确认
-        return raw_eval, note, state
+        return None, note, pending
 
     # ── 数据质量分级（文档第六节）──
     def _data_quality(self, f: Features, md: MarketData) -> tuple[str, str]:
