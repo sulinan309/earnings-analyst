@@ -193,6 +193,7 @@
   .cardtop .catrow{justify-content:flex-end;flex-shrink:0;max-width:52%}
   @media (max-width:640px){.cardtop{flex-direction:column;gap:8px}.cardtop .catrow{justify-content:flex-start;max-width:100%}}
   .rcats{margin-top:18px}
+  .todo{font-family:var(--mono);font-size:10px;letter-spacing:.05em;color:var(--faint);border:1px dashed var(--line-strong);padding:2px 7px;border-radius:5px}
 
   /* card highlights */
   .hlwrap{margin:16px 0 4px;padding:15px 18px;background:color-mix(in srgb,var(--ep) 5%,var(--surface));border:1px solid var(--line);border-radius:11px}
@@ -415,22 +416,20 @@ function applyFilter(){
 }
 function buildCards(){
   $("#cards").innerHTML = EPISODES.map((e,ix)=>`
-    <article class="card" data-id="${e.id}" data-cats="${e.cats.join(",")}" style="--ep:${e.ep}" role="button" tabindex="0">
+    <article class="card" data-id="${e.id}" data-cats="${(e.cats||[]).join(",")}" style="--ep:${e.ep}" role="button" tabindex="0">
       <div class="idx">${String(ix+1).padStart(2,"0")}</div>
       <div>
         <div class="cardtop">
-          <div class="show">${e.show}　·　${e.eyebrow}</div>
-          <div class="catrow">${e.cats.map(c=>`<span class="catbadge">${CATLABELS[c]}</span>`).join("")}</div>
+          <div class="show">${e.show}${e.eyebrow?`　·　${e.eyebrow}`:""}</div>
+          ${e.cats&&e.cats.length?`<div class="catrow">${e.cats.map(c=>`<span class="catbadge">${CATLABELS[c]||c}</span>`).join("")}</div>`:""}
         </div>
         <h3>${e.title}</h3>
-        <div class="meta"><span><b>${e.date}</b></span><span><b>${e.dur}</b></span></div>
-        <p class="blurb">${e.blurb}</p>
-        <div class="hlwrap"><div class="hllab">本集要点</div>
-          <ul class="hl">${(e.hl||[]).map(h=>`<li>${h}</li>`).join("")}</ul>
-        </div>
-        <div class="who">主持　${e.host}${e.guest?`　·　嘉宾　<span class="g">${e.guest}</span>`:""}</div>
+        <div class="meta"><span><b>${e.date}</b></span>${e.dur?`<span><b>${e.dur}</b></span>`:""}${e.needsReview?`<span class="todo">待整理</span>`:""}</div>
+        ${e.blurb?`<p class="blurb">${e.blurb}</p>`:""}
+        ${e.hl&&e.hl.length?`<div class="hlwrap"><div class="hllab">本集要点</div><ul class="hl">${e.hl.map(h=>`<li>${h}</li>`).join("")}</ul></div>`:""}
+        <div class="who">主持　${e.host||"—"}${e.guest?`　·　嘉宾　<span class="g">${e.guest}</span>`:""}</div>
         <div class="cardfoot">
-          <div class="tags">${e.tags.map(t=>`<span class="tag">${t}</span>`).join("")}</div>
+          ${e.tags&&e.tags.length?`<div class="tags">${e.tags.map(t=>`<span class="tag">${t}</span>`).join("")}</div>`:`<div></div>`}
           <div class="read">阅读全文 <span class="arw">→</span></div>
         </div>
       </div>
@@ -471,13 +470,13 @@ function openEpisode(id){
   reader.style.setProperty("--ep", e.ep);
   $("#rshow").textContent = e.show;
   $("#rhead").innerHTML = `
-    <div class="show">${e.show}　·　${e.eyebrow}</div>
+    <div class="show">${e.show}${e.eyebrow?`　·　${e.eyebrow}`:""}</div>
     <h2>${e.title}</h2>
     <div class="rmeta">
-      <span><b>${e.date}</b></span><span><b>${e.dur}</b></span>
-      <span>主持　<b>${e.host}</b></span>${e.guest?`<span>嘉宾　<b>${e.guest}</b></span>`:""}
+      <span><b>${e.date}</b></span>${e.dur?`<span><b>${e.dur}</b></span>`:""}
+      ${e.host?`<span>主持　<b>${e.host}</b></span>`:""}${e.guest?`<span>嘉宾　<b>${e.guest}</b></span>`:""}
     </div>
-    <div class="catrow rcats">${e.cats.map(c=>`<span class="catbadge">${CATLABELS[c]}</span>`).join("")}</div>`;
+    ${e.cats&&e.cats.length?`<div class="catrow rcats">${e.cats.map(c=>`<span class="catbadge">${CATLABELS[c]||c}</span>`).join("")}</div>`:""}`;
   const hlbox = (e.hl&&e.hl.length) ? `<div class="hlbox"><div class="lab">本集要点</div><ul>${e.hl.map(h=>`<li>${h}</li>`).join("")}</ul></div>` : "";
   $("#article").innerHTML = hlbox + html;
 

@@ -42,7 +42,7 @@ def build(check_only=False):
     # ---- validate + load transcripts ----
     transcript_blocks = []
     for e in episodes:
-        for field in ("id", "file", "show", "title", "date", "ep", "cats", "hl"):
+        for field in ("id", "file", "show", "title", "date", "ep"):
             if not e.get(field):
                 errors.append(f"[{e.get('id','?')}] 缺少字段: {field}")
         if e["id"] in seen_ids:
@@ -53,6 +53,11 @@ def build(check_only=False):
                 errors.append(f"[{e['id']}] 未知分类: {c}")
         e.setdefault("md", "md-" + e["id"])
         e.setdefault("tags", [])
+        e.setdefault("cats", [])
+        e.setdefault("hl", [])
+        e.setdefault("blurb", "")
+        e.setdefault("eyebrow", "")
+        e.setdefault("dur", "")
 
         fp = os.path.join(HERE, "transcripts", e["file"])
         if not os.path.exists(fp):

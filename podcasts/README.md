@@ -6,6 +6,23 @@
 
 ---
 
+## 最省事的用法：推文稿就行（自动流水线）
+
+仓库配了 GitHub Action（`.github/workflows/podcasts.yml`）。**你只要把新文稿 `.md` 放进 `podcasts/transcripts/` 并推到 `main`**，CI 会自动：
+
+1. 运行 `ingest.py`：内容重复的自动跳过；新文稿自动解析文头，在 `manifest.json` 里生成一条「草稿」条目（卡片标 **待整理**）；
+2. 运行 `build.py` 重建 `index.html`，并提交回仓库；
+3. 部署到 **GitHub Pages**，固定网址自动更新。
+
+> 分类、要点、导语这类需要判断的字段，草稿里先留空（不影响先能读）。想润色时改 `manifest.json` 里那条、再推一次即可。
+
+**首次启用**：把本分支合并进 `main`，Action 会在首次运行时自动开启 Pages。网址为
+`https://<你的用户名>.github.io/<仓库名>/`。若组织限制了自动开启，去 **Settings → Pages → Source** 选 **GitHub Actions** 即可。
+
+本地想手动跑同样的流程：`python3 podcasts/ingest.py`（收录+构建），或 `--dry-run` 只看会发生什么。
+
+---
+
 ## 目录结构
 
 ```

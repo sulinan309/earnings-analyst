@@ -172,6 +172,36 @@
       "file": "iltb.md"
     },
     {
+      "id": "tungsten",
+      "md": "md-tungsten",
+      "ep": "#2F9E93",
+      "show": "Odd Lots · Bloomberg",
+      "eyebrow": "大宗商品 / 地缘",
+      "title": "钨市场正在预警一场即将到来的战争",
+      "date": "2026·08·03",
+      "dur": "访谈",
+      "host": "Joe Weisenthal、Tracy Alloway",
+      "guest": "David Fickling（Bloomberg Opinion）",
+      "tags": [
+        "钨",
+        "战争预测市场",
+        "关键矿产",
+        "中国 80%"
+      ],
+      "blurb": "钨是一个运行了一个世纪、却被忽视的「战争预测市场」：战争临近它就重要，战争结束就被遗忘——除了中国。一座塔斯马尼亚旧矿的重启，和它「海盗片」式的股东名册，讲的是关键矿产的融资死结。",
+      "cats": [
+        "energy",
+        "geo",
+        "china"
+      ],
+      "hl": [
+        "钨是「运行了一个世纪的战争预测市场」：战争临近才重要，Dolphin 矿开关史贴合每场大战",
+        "中国供全球 80%（地质禀赋 + 出口管制）；没有期货曲线 → 关键矿产的融资死结",
+        "解决整个稀土问题的量级仅「几亿美元」（≈一个白宫舞厅造价），却长期无人投"
+      ],
+      "file": "tungsten.md"
+    },
+    {
       "id": "iltb-sam",
       "md": "md-iltb-sam",
       "ep": "#C05A44",
@@ -227,36 +257,6 @@
         "管理关键：区分「运动（motion）」与「进展（progress）」；瓶颈从人力转向想法与判断力"
       ],
       "file": "latentspace.md"
-    },
-    {
-      "id": "tungsten",
-      "md": "md-tungsten",
-      "ep": "#2F9E93",
-      "show": "Odd Lots · Bloomberg",
-      "eyebrow": "大宗商品 / 地缘",
-      "title": "钨市场正在预警一场即将到来的战争",
-      "date": "2026·08·03",
-      "dur": "访谈",
-      "host": "Joe Weisenthal、Tracy Alloway",
-      "guest": "David Fickling（Bloomberg Opinion）",
-      "tags": [
-        "钨",
-        "战争预测市场",
-        "关键矿产",
-        "中国 80%"
-      ],
-      "blurb": "钨是一个运行了一个世纪、却被忽视的「战争预测市场」：战争临近它就重要，战争结束就被遗忘——除了中国。一座塔斯马尼亚旧矿的重启，和它「海盗片」式的股东名册，讲的是关键矿产的融资死结。",
-      "cats": [
-        "energy",
-        "geo",
-        "china"
-      ],
-      "hl": [
-        "钨是「运行了一个世纪的战争预测市场」：战争临近才重要，Dolphin 矿开关史贴合每场大战",
-        "中国供全球 80%（地质禀赋 + 出口管制）；没有期货曲线 → 关键矿产的融资死结",
-        "解决整个稀土问题的量级仅「几亿美元」（≈一个白宫舞厅造价），却长期无人投"
-      ],
-      "file": "tungsten.md"
     },
     {
       "id": "allin",
@@ -377,7 +377,7 @@
     },
     {
       "id": "finbarr",
-      "file": "posttraining.md",
+      "file": "finbarr.md",
       "ep": "#5D6BC0",
       "show": "Interconnects",
       "eyebrow": "AI / 后训练",
@@ -400,7 +400,8 @@
         "前沿后训练正收敛到「多教师同策略蒸馏（MOPD）」：通用模型采样自己的轨迹，路由到各领域专家、用蒸馏 KL 损失去匹配",
         "四年演化：InstructGPT 三步法几乎每个环节都被换掉；DeepSeek-R1 把重心转向 RL、SFT 沦为冷启动、DPO 从前沿消失",
         "决定配方的是组织架构图——瓶颈是把算力/数据「驯服」成工作流的组织能力；中国实验室更愿分享难度课程、温度调度等关键细节"
-      ]
+      ],
+      "md": "md-finbarr"
     },
     {
       "id": "taiwan",

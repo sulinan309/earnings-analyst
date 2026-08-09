@@ -1,0 +1,68 @@
+name: 本周电波 · 构建并发布
+
+# 每当 podcasts/ 下的文稿或脚本有改动（推到 main）就自动：
+#   1) 收录新文稿并重建 index.html
+#   2) 把重建结果提交回仓库
+#   3) 部署到 GitHub Pages（固定网址，自动更新）
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'podcasts/transcripts/**'
+      - 'podcasts/manifest.json'
+      - 'podcasts/template.html'
+      - 'podcasts/build.py'
+      - 'podcasts/ingest.py'
+      - '.github/workflows/podcasts.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write   # 允许把重建后的 index.html 提交回仓库
+  pages: write      # 允许发布到 Pages
+  id-token: write   # Pages 部署所需
+
+concurrency:
+  group: podcasts-pages
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 收录新文稿并重建
+        run: python3 podcasts/ingest.py
+
+      - name: 把重建结果提交回仓库
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add podcasts/manifest.json podcasts/index.html
+          if git diff --cached --quiet; then
+            echo "无改动，跳过提交"
+          else
+            git commit -m "chore(podcasts): 自动重建站点 [skip ci]"
+            git push
+          fi
+
+      - name: 配置 Pages（首次自动开启）
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: 打包站点
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: podcasts
+
+      - name: 部署到 Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
