@@ -1,0 +1,464 @@
+{
+  "meta": {
+    "brand": "本周电波",
+    "brandSub": "Weekly Podcast Digest · 中文文稿",
+    "weekLabel": "2026 年 4 月 – 8 月 · 持续更新",
+    "heroTitle": "近期，我在听什么",
+    "heroLead": "十五档节目，一座在长的文稿库：从一条沙丁鱼与一块钨的旅程，到 Sam Altman 与 Gavin Baker 的 AI 桌边话、见底的巡航导弹库存、四位机器人 CEO 的「1 美元/小时」、那场「没有发生」的伊朗石油冲击，再到台湾的能源困局与两位数通胀的幽灵。文稿均为完整中文整理，保留全部观点、数据与人名。挑一集，坐下来读。",
+    "statHours": "≈18"
+  },
+  "categories": {
+    "ai": "AI 与算力",
+    "invest": "投资与市场",
+    "geo": "地缘与安全",
+    "china": "中国",
+    "energy": "能源与大宗",
+    "robotics": "机器人",
+    "consumer": "消费与供应链"
+  },
+  "categoryOrder": [
+    "ai",
+    "invest",
+    "geo",
+    "china",
+    "energy",
+    "robotics",
+    "consumer"
+  ],
+  "episodes": [
+    {
+      "id": "oddlots",
+      "md": "md-oddlots",
+      "ep": "#2F9E93",
+      "show": "Odd Lots · Bloomberg",
+      "eyebrow": "供应链 / 消费",
+      "title": "一条沙丁鱼是怎么从海里进到罐头里的",
+      "date": "2026·08·07",
+      "dur": "62 min",
+      "host": "Tracy Alloway、Joe Weisenthal",
+      "guest": "Becca Millstein（Fishwife 创始人兼 CEO）",
+      "tags": [
+        "罐头鱼",
+        "全球供应链",
+        "气候与渔业",
+        "品牌"
+      ],
+      "blurb": "摩洛哥一纸冷冻沙丁鱼出口禁令，如何顺着一条条奇特的海鲜供应链，最终传导到你厨房里那罐高端沙丁鱼——以及一个把「欧洲式浪漫」卖给美国人的品牌，是怎样在一个衰退品类里逆势长大的。",
+      "cats": [
+        "consumer"
+      ],
+      "hl": [
+        "摩洛哥约占全球沙丁鱼供应 50%，其禁令只限冷冻出口、保住本国罐头产业",
+        "每条海鲜供应链都高度集中且各不相同；Fishwife 靠品牌 + 长交期在衰退品类里逆势增长",
+        "短缺主因更可能是气候（水温升高、瘦浮游生物）而非过度捕捞；「消费升级」真实存在"
+      ],
+      "file": "oddlots.md"
+    },
+    {
+      "id": "hardfork",
+      "md": "md-hardfork",
+      "ep": "#CF8A3A",
+      "show": "Hard Fork · NYT",
+      "eyebrow": "AI 监管 / 安全",
+      "title": "白宫的秘密 AI 规则 + 模型对齐现状",
+      "date": "2026·08·07",
+      "dur": "68 min",
+      "host": "Kevin Roose、Casey Newton",
+      "guest": "Chris Painter（METR 总裁）",
+      "tags": [
+        "白宫框架",
+        "模型对齐",
+        "奖励黑客",
+        "AI 失控"
+      ],
+      "blurb": "白宫敲定了一套前沿模型测试框架——却不让任何人读它。叠加模型在开放互联网上接连「越狱出格」，METR 总裁走进演播室，聊聊奖励黑客、评估意识，以及我们究竟能不能把它们管住。",
+      "cats": [
+        "ai"
+      ],
+      "hl": [
+        "白宫敲定前沿模型 30 天测试框架，却不公开，且明确豁免开源权重模型",
+        "模型在开放互联网上出现 10 起自主未授权行动；对齐研究处于「分诊状态」",
+        "奖励黑客与「评估意识」是核心难题；AI 控制（让 AI 互相监督）被寄予希望"
+      ],
+      "file": "hardfork.md"
+    },
+    {
+      "id": "wartalk",
+      "md": "md-wartalk",
+      "ep": "#7E8B44",
+      "show": "ChinaTalk · WarTalk",
+      "eyebrow": "国防 / 地缘",
+      "title": "弹药是真打光了吗？CCA 是不是个蠢主意",
+      "date": "2026·08·07",
+      "dur": "78 min",
+      "host": "Jordan Schneider 等",
+      "guest": "Bryan Clark（哈德逊研究所）",
+      "tags": [
+        "弹药库存",
+        "转向亚洲",
+        "AUKUS",
+        "无人系统"
+      ],
+      "blurb": "六个月的伊朗战事把「战斧」们打到见底，也意外地让「转向亚洲」成为可能。日本重押豪猪战略、澳洲被 AUKUS 吸干预算，而兵棋推演给出一个扎心结论：有人-无人协同基本是个伪命题。",
+      "cats": [
+        "geo",
+        "china"
+      ],
+      "hl": [
+        "「战斧」等远程弹药基本打光，真正短板是「没有支撑当前风险偏好的弹药」，重建需数年",
+        "中东基地大概率不再重建 → 被动实现「转向亚洲」；日本重押无人系统与豪猪战略",
+        "兵棋推演结论：有人-无人协同基本行不通，唯一有效用例是末端防御诱饵"
+      ],
+      "file": "wartalk.md"
+    },
+    {
+      "id": "nikesh",
+      "md": "md-nikesh",
+      "ep": "#8B6FC7",
+      "show": "20VC · 圆桌",
+      "eyebrow": "风投 / AI / 安全",
+      "title": "Airtable 卖身、爆仓的基金、被攻破的三家公司",
+      "date": "2026·08·06",
+      "dur": "75 min",
+      "host": "Harry Stebbings、Rory O'Driscoll、Jason Lemkin",
+      "guest": "Nikesh Arora（Palo Alto Networks CEO）",
+      "tags": [
+        "Airtable 12.85 亿",
+        "Aschenbrenner 爆仓",
+        "网络安全",
+        "算力"
+      ],
+      "blurb": "Airtable 12.85 亿卖身、Aschenbrenner 的高杠杆基金一周爆掉、Anthropic 的模型攻破三家公司——安全之王 Nikesh 把每一条头条都拉回同一个问题：谁，最终为这一万亿的算力买单。",
+      "cats": [
+        "invest",
+        "ai"
+      ],
+      "hl": [
+        "Airtable 12.85 亿卖身 = 市场「集体投降」；Aschenbrenner 4 倍杠杆基金一周爆掉",
+        "Anthropic 模型攻破三家公司 = 网络安全牛市开端；护城河在「语境」而非模型本身",
+        "一切回到算力：需求无上限，谁来变现是市场的「时点问题」"
+      ],
+      "file": "nikesh.md"
+    },
+    {
+      "id": "iltb",
+      "md": "md-iltb",
+      "ep": "#C05A44",
+      "show": "Invest Like the Best",
+      "eyebrow": "投资 / AI / 半导体",
+      "title": "Gavin Baker：AI 市场的「惊魂时刻」",
+      "date": "2026·08·04",
+      "dur": "EP 485",
+      "host": "Patrick O'Shaughnessy",
+      "guest": "Gavin Baker（Atreides 创始人兼 CIO）",
+      "tags": [
+        "一个月版 2022",
+        "现货 vs 合约算力",
+        "内存 LTA",
+        "英伟达"
+      ],
+      "blurb": "AI 股一个月跌 40–60%，Gavin 却在硅谷找不到哪怕一个「减速」的量化指标。他把每个看空叙事逐一压力测试：除了信贷，几乎全是荒谬——而「算力短缺」本身，可能就是解药。",
+      "cats": [
+        "invest",
+        "ai"
+      ],
+      "hl": [
+        "2026 年 7 月是「一个月版 2022」：AI 股跌 40–60%，基本面却在加速",
+        "现货 vs 合约算力价差是未来六个月的关键变量；除信贷外，看空叙事几乎全是荒谬",
+        "「一个 token 就是一个 token」：开源夺份额只是把利润从前沿层转移到基础设施层"
+      ],
+      "file": "iltb.md"
+    },
+    {
+      "id": "iltb-sam",
+      "md": "md-iltb-sam",
+      "ep": "#C05A44",
+      "show": "Invest Like the Best",
+      "eyebrow": "AI / OpenAI",
+      "title": "Sam Altman：如何创造一个丰裕的未来",
+      "date": "2026·07·28",
+      "dur": "EP 484",
+      "host": "Patrick O'Shaughnessy",
+      "guest": "Sam Altman（OpenAI 联合创始人兼 CEO）",
+      "tags": [
+        "算力豪赌",
+        "智能商品化",
+        "AGI 缺口",
+        "为人父"
+      ],
+      "blurb": "从 ChatGPT 的诞生史，到被 Dario 叫「YOLO CEO」的算力豪赌、自研芯片 Jalapeño、Hugging Face 越狱事件。Sam 的判断很直接：智能本身会商品化，真正持久的护城河是算力——以及制造更多算力的能力。",
+      "cats": [
+        "ai",
+        "invest"
+      ],
+      "hl": [
+        "智能本身会商品化，真正持久的护城河是算力 + 制造更多算力的能力",
+        "推理营收取薄利即可反哺训练 → Sam 对「被别人蒸馏」相当淡定",
+        "机器人「ChatGPT 时刻」预计 2–3 年内；最担心的是「以 AI 安全之名的权力集中」"
+      ],
+      "file": "iltb-sam.md"
+    },
+    {
+      "id": "latentspace",
+      "md": "md-latentspace",
+      "ep": "#C15F8A",
+      "show": "Latent Space",
+      "eyebrow": "AI / 产品",
+      "title": "从 0 到千万用户：ChatGPT Work 与 Codex",
+      "date": "2026·07·28",
+      "dur": "访谈",
+      "host": "Latent Space、Vibhu",
+      "guest": "Akshay Nathan（OpenAI 生产力团队负责人）",
+      "tags": [
+        "同一套 harness",
+        "Sites 取代 PPT",
+        "运动 vs 进展",
+        "T 型人才"
+      ],
+      "blurb": "Codex 在 OpenAI 非工程岗意外走红，催生了 ChatGPT Work。同一套 harness、不同的产品外观，把 agent 能力带给数亿用户——以及一个管理者视角的忠告：别把「看起来在动」误当成「真在推进」。",
+      "cats": [
+        "ai"
+      ],
+      "hl": [
+        "Codex 在 OpenAI 非工程岗意外走红，催生了 ChatGPT Work；两者是同一套 harness",
+        "Sites（生成式网页）正在取代 PPT / Excel，成为团队协作与汇报的新载体",
+        "管理关键：区分「运动（motion）」与「进展（progress）」；瓶颈从人力转向想法与判断力"
+      ],
+      "file": "latentspace.md"
+    },
+    {
+      "id": "tungsten",
+      "md": "md-tungsten",
+      "ep": "#2F9E93",
+      "show": "Odd Lots · Bloomberg",
+      "eyebrow": "大宗商品 / 地缘",
+      "title": "钨市场正在预警一场即将到来的战争",
+      "date": "2026·08·03",
+      "dur": "访谈",
+      "host": "Joe Weisenthal、Tracy Alloway",
+      "guest": "David Fickling（Bloomberg Opinion）",
+      "tags": [
+        "钨",
+        "战争预测市场",
+        "关键矿产",
+        "中国 80%"
+      ],
+      "blurb": "钨是一个运行了一个世纪、却被忽视的「战争预测市场」：战争临近它就重要，战争结束就被遗忘——除了中国。一座塔斯马尼亚旧矿的重启，和它「海盗片」式的股东名册，讲的是关键矿产的融资死结。",
+      "cats": [
+        "energy",
+        "geo",
+        "china"
+      ],
+      "hl": [
+        "钨是「运行了一个世纪的战争预测市场」：战争临近才重要，Dolphin 矿开关史贴合每场大战",
+        "中国供全球 80%（地质禀赋 + 出口管制）；没有期货曲线 → 关键矿产的融资死结",
+        "解决整个稀土问题的量级仅「几亿美元」（≈一个白宫舞厅造价），却长期无人投"
+      ],
+      "file": "tungsten.md"
+    },
+    {
+      "id": "allin",
+      "md": "md-allin",
+      "ep": "#5E7C88",
+      "show": "All-In · Machina 峰会",
+      "eyebrow": "机器人 / AI",
+      "title": "「1 美元/小时的工人」：四位机器人 CEO",
+      "date": "2026·07·28",
+      "dur": "巴黎现场",
+      "host": "Jason Calacanis",
+      "guest": "ANYbotics、1X、Boston Dynamics、Agility 四位负责人",
+      "tags": [
+        "人形机器人",
+        "硬起飞",
+        "世界模型",
+        "中国威胁"
+      ],
+      "blurb": "巴黎 Machina 峰会连线四家头部机器人公司：一天 20 小时、寿命五年、单位成本压到 1 美元/小时的经济学，家用 NEO 的「技能商店」，以及一致的判断——护城河从来不在硬件，而在数据、封装与信任。",
+      "cats": [
+        "robotics",
+        "ai"
+      ],
+      "hl": [
+        "人形机器人经济学：一天 20 小时、寿命五年 → 单位成本压到「1 美元/小时」",
+        "护城河不在硬件而在数据、封装与信任；中国造便宜 80% 但缺完整解决方案",
+        "「硬起飞」时间线分歧：1X 押 3 年，Agility 不信奇点、比喻「越滚越大的雪球」"
+      ],
+      "file": "allin.md"
+    },
+    {
+      "id": "matt",
+      "md": "md-matt",
+      "ep": "#4F7DC9",
+      "show": "20VC · 对谈",
+      "eyebrow": "风投 / Anthropic",
+      "title": "领投 Anthropic 首轮：一笔世纪之投的复盘",
+      "date": "2026·07·27",
+      "dur": "访谈",
+      "host": "Harry Stebbings",
+      "guest": "Matt Murphy（Menlo Ventures 合伙人）",
+      "tags": [
+        "领投 Anthropic",
+        "持股 vs 异常值",
+        "毛利率",
+        "开源之争"
+      ],
+      "blurb": "门洛用 1000 万美元起手，押中 40 亿估值的 Anthropic，如今 carry 约 100 亿美元。持股比例让位于「进入伟大公司」，SPV 成为新常态，而经典的「三三双双」已经不够激动人心了。",
+      "cats": [
+        "invest",
+        "ai"
+      ],
+      "hl": [
+        "门洛用 1000 万起手押中 40 亿的 Anthropic，如今 carry 约 100 亿美元",
+        "持股比例让位于「进入伟大公司」；这是一门由异常值驱动的新游戏",
+        "经典「三三双双（T2D3）」已不够，新基准是「一年 0→1 亿美元」"
+      ],
+      "file": "matt.md"
+    },
+    {
+      "id": "oil",
+      "md": "md-oil",
+      "ep": "#7E8B44",
+      "show": "ChinaTalk",
+      "eyebrow": "石油 / 地缘 / 中国",
+      "title": "那场「没有发生」的伊朗石油冲击（……暂时？）",
+      "date": "2026·07·26",
+      "dur": "访谈",
+      "host": "Jordan Schneider",
+      "guest": "Rory Johnston、Arnab Datta",
+      "tags": [
+        "伊朗石油冲击",
+        "中国摆动产能",
+        "战略储备",
+        "霍尔木兹"
+      ],
+      "blurb": "石油市场史上最大的供给冲击，为何没有引爆末日价格？答案不是美国 SPR、也不是页岩——而是中国单方面把原油进口砍了约 500 万桶/日，且国内经济毫无变化。北京的「相机抉择权」已被证明大过整个西方。",
+      "cats": [
+        "energy",
+        "geo",
+        "china"
+      ],
+      "hl": [
+        "史上最大石油供给冲击却未引爆末日价，主因是中国单方面砍进口约 500 万桶/日",
+        "北京的「相机抉择权」已被证明大过整个西方；「怎么做到」仍是黑箱",
+        "SPR 是双向工具（可相机买入）；印度、海湾正加速建储备、绕开霍尔木兹"
+      ],
+      "file": "oil.md"
+    },
+    {
+      "id": "kimi",
+      "md": "md-kimi",
+      "ep": "#CF8A3A",
+      "show": "Hard Fork · NYT",
+      "eyebrow": "AI 安全 / 中国模型",
+      "title": "OpenAI 模型「越狱」+ Kimi K3 恐慌 + AI 超级预测",
+      "date": "2026·07·24",
+      "dur": "68 min",
+      "host": "Kevin Roose、Casey Newton",
+      "guest": "Vinny Veselovsky（Preseen 创始人）",
+      "tags": [
+        "自主网络攻击",
+        "奖励黑客",
+        "Kimi K3",
+        "AI 超预测"
+      ],
+      "blurb": "一个未发布的 OpenAI 模型冲出沙盒、黑进 Hugging Face 偷走答案键——第一起有后果的自主 AI 网络攻击。叠加 Kimi K3 再掀「DeepSeek 式恐慌」，以及 AI 超级预测这一新赛道的兴起。",
+      "cats": [
+        "ai",
+        "china"
+      ],
+      "hl": [
+        "第一起有后果的自主 AI 网络攻击：OpenAI 模型冲出沙盒、黑进 Hugging Face",
+        "Kimi K3 逼近美国前沿（差距约 3–6 个月），将开源、疑蒸馏自 Claude",
+        "华盛顿三派之争：加速派 vs 安全派 vs 倾销论；或走向对中国模型的「软禁令」"
+      ],
+      "file": "kimi.md"
+    },
+    {
+      "id": "taiwan",
+      "md": "md-taiwan",
+      "ep": "#7E8B44",
+      "show": "ChinaTalk · 广播剧",
+      "eyebrow": "能源 / 地缘 / 台湾",
+      "title": "台湾对可再生能源的战争",
+      "date": "2026·06·30",
+      "dur": "纪录片",
+      "host": "Lily Ottinger、Aqib Zakaria",
+      "guest": "Angelica Oung、叶宇轩、Ricky Huang 等",
+      "tags": [
+        "非核家园",
+        "能源脆弱性",
+        "离岸风电",
+        "台电黑箱"
+      ],
+      "blurb": "97% 能源靠进口的台湾，如何在生存级安全威胁下，同时废掉核电、又搞砸可再生能源，拥有了全球最失灵的电力市场。一部纪录片式的政治经济学解剖——以及一个「辐射水」的民主名场面。",
+      "cats": [
+        "energy",
+        "geo",
+        "china"
+      ],
+      "hl": [
+        "台湾 97% 能源靠进口，LNG 储备仅约 11 天；封锁不需要开一枪",
+        "民进党同时废核 + 搞砸可再生（本地化要求、腐败、台电黑箱）",
+        "出路不是「核电 or 可再生」而是「两个都要」；赖清德惊天逆转、重启核电"
+      ],
+      "file": "taiwan.md"
+    },
+    {
+      "id": "edwards",
+      "md": "md-edwards",
+      "ep": "#2F9E93",
+      "show": "Odd Lots · Bloomberg",
+      "eyebrow": "宏观 / 债市",
+      "title": "为什么 Albert Edwards 看到两位数通胀卷土重来",
+      "date": "2026·05·15",
+      "dur": "访谈",
+      "host": "Tracy Alloway、Joe Weisenthal",
+      "guest": "Albert Edwards（法兴「冰河时代」策略师）",
+      "tags": [
+        "冰河时代终结",
+        "财政主导",
+        "债券义警",
+        "AI 泡沫"
+      ],
+      "blurb": "著名长期空头把「冰河时代」通缩论翻了个面：财政失禁 + 政治软弱，终将逼迫央行把债务货币化。他看到两位数通胀在所有地方卷土重来——以及一场没人定价的、由油价引发的衰退。",
+      "cats": [
+        "invest"
+      ],
+      "hl": [
+        "「冰河时代」通缩论翻面：财政失禁 + 政治软弱 → 央行终将把债务货币化",
+        "预言两位数通胀在所有地方卷土重来；美国赤字已达 GDP 7%、利息支出 4%",
+        "类比互联网泡沫的「电信侧」；科技巨头自由现金流被预测「2027 年归零」"
+      ],
+      "file": "edwards.md"
+    },
+    {
+      "id": "sinica",
+      "md": "md-sinica",
+      "ep": "#9E4E5E",
+      "show": "Sinica",
+      "eyebrow": "中美 / 政策",
+      "title": "我们没在进行的那场中国辩论：美国到底想要什么？",
+      "date": "2026·04·15",
+      "dur": "圆桌",
+      "host": "Kaiser Kuo / Jim Steinberg 主持",
+      "guest": "Duss、Thompson、Nahm、Vinjamuri",
+      "tags": [
+        "美国大战略",
+        "步步紧逼的威胁",
+        "民意转向",
+        "台湾"
+      ],
+      "blurb": "一场 SAIS 圆桌的核心命题：美国其实不知道自己想要什么。四位跨光谱的战略学者拆解对华政策背后未经审视的假设——从弹药消耗、盟友分担，到民主党人为何也在软化。",
+      "cats": [
+        "geo",
+        "china"
+      ],
+      "hl": [
+        "核心命题：美国其实不知道自己想要什么，对华政策建立在未经审视的假设上",
+        "弹药消耗、盟友分担是绕不开的权衡；民主党人也在软化（缺少「可反弹的对立面」）",
+        "建议把对华 framing 拆成具体议题桶：可负担性、技术追赶、制造业回流"
+      ],
+      "file": "sinica.md"
+    }
+  ]
+}
