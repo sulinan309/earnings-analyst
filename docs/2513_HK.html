@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智谱 (02513.HK) 分析报告</title>
+<style>
+:root {
+    --bg: #0d1117; --surface: #161b22; --border: #30363d;
+    --text: #e6edf3; --text-dim: #8b949e; --text-muted: #484f58;
+    --green: #3fb950; --red: #f85149; --yellow: #d29922; --blue: #58a6ff;
+    --purple: #bc8cff;
+    --green-bg: rgba(63,185,80,0.12); --red-bg: rgba(248,81,73,0.12);
+    --yellow-bg: rgba(210,153,34,0.12); --blue-bg: rgba(88,166,255,0.12);
+    --purple-bg: rgba(188,140,255,0.12);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); font-family: -apple-system, 'Noto Sans SC', sans-serif; line-height: 1.6; padding: 24px; max-width: 960px; margin: 0 auto; }
+.header { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 32px; margin-bottom: 24px; }
+.header h1 { font-size: 28px; margin-bottom: 8px; }
+.headline-sub { font-size: 16px; color: var(--yellow); margin-top: 6px; font-weight: 500; }
+.header .meta { color: var(--text-dim); font-size: 14px; display: flex; gap: 16px; flex-wrap: wrap; margin-top: 8px; }
+.tag { background: var(--blue-bg); color: var(--blue); padding: 2px 10px; border-radius: 12px; font-size: 13px; }
+.tag-warn { background: var(--yellow-bg); color: var(--yellow); padding: 2px 10px; border-radius: 12px; font-size: 13px; font-weight: 600; }
+.tag-purple { background: var(--purple-bg); color: var(--purple); padding: 2px 10px; border-radius: 12px; font-size: 13px; font-weight: 600; }
+.section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 16px; }
+.section h2 { font-size: 18px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.section h3 { font-size: 15px; margin: 16px 0 8px; color: var(--blue); }
+.data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+.data-card { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+.data-card .label { font-size: 13px; color: var(--text-dim); margin-bottom: 4px; }
+.data-card .value { font-size: 24px; font-weight: 700; font-family: 'SF Mono', monospace; }
+.data-card .sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+.calc-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.calc-table td { padding: 6px 12px; }
+.calc-table td:last-child { text-align: right; font-family: 'SF Mono', 'Fira Code', monospace; }
+.calc-table .separator td { border-top: 1px solid var(--border); }
+.calc-table .result td { font-weight: 700; font-size: 16px; }
+.calc-table .op { color: var(--text-dim); width: 20px; }
+.sens-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+.sens-table th, .sens-table td { padding: 8px 12px; text-align: right; font-size: 14px; }
+.sens-table th { color: var(--text-dim); border-bottom: 1px solid var(--border); font-weight: 500; text-align: left; }
+.sens-table td { border-bottom: 1px solid var(--border); font-family: 'SF Mono', monospace; }
+.sens-table tr.current { background: var(--blue-bg); }
+.sens-table td:first-child, .sens-table th:first-child { text-align: left; }
+.warn-box { background: var(--yellow-bg); border: 1px solid rgba(210,153,34,0.3); border-radius: 8px; padding: 12px 16px; margin-top: 12px; font-size: 13px; color: var(--yellow); }
+.info-box { background: var(--blue-bg); border: 1px solid rgba(88,166,255,0.3); border-radius: 8px; padding: 12px 16px; margin-top: 12px; font-size: 13px; color: var(--blue); }
+.danger-box { background: var(--red-bg); border: 1px solid rgba(248,81,73,0.3); border-radius: 8px; padding: 12px 16px; margin-top: 12px; font-size: 13px; color: var(--red); }
+.positive { color: var(--green); }
+.negative { color: var(--red); }
+.change-pos { color: var(--red); font-weight: 600; }
+.change-neg { color: var(--green); font-weight: 600; }
+.condition { padding: 12px 16px; border-radius: 8px; margin-bottom: 8px; }
+.condition.triggered { background: var(--green-bg); border-left: 3px solid var(--green); }
+.condition.not-triggered { background: var(--red-bg); border-left: 3px solid var(--red); }
+.condition-header { font-weight: 600; margin-bottom: 4px; }
+.condition-detail { font-size: 13px; color: var(--text-dim); }
+.decision-box { text-align: center; padding: 24px; border-radius: 12px; margin: 16px 0; }
+.action-pass { background: var(--red-bg); border: 2px solid var(--red); }
+.action-observe { background: var(--yellow-bg); border: 2px solid var(--yellow); }
+.decision-box .action { font-size: 32px; font-weight: 800; }
+.decision-box .position { font-size: 18px; color: var(--text-dim); margin-top: 4px; }
+.reasoning { font-size: 14px; color: var(--text-dim); text-align: center; margin-top: 8px; max-width: 600px; margin-left: auto; margin-right: auto; }
+.next-steps { list-style: none; padding: 0; }
+.next-steps li { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+.next-steps li::before { content: "→ "; color: var(--blue); font-weight: 700; }
+.back-link { display: inline-block; margin-bottom: 16px; font-size: 14px; color: var(--blue); text-decoration: none; }
+.footer { text-align: center; color: var(--text-muted); font-size: 12px; margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); }
+.bar-chart { margin: 12px 0; }
+.bar-row { display: flex; align-items: center; margin-bottom: 6px; font-size: 13px; }
+.bar-label { width: 120px; color: var(--text-dim); flex-shrink: 0; }
+.bar-track { flex: 1; height: 20px; background: var(--bg); border-radius: 4px; position: relative; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 8px; font-size: 11px; font-weight: 600; }
+.bar-value { margin-left: 8px; font-family: 'SF Mono', monospace; color: var(--text-dim); flex-shrink: 0; width: 80px; text-align: right; }
+.kf-card { background: var(--bg); border-left: 3px solid var(--blue); border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; }
+.kf-title { font-weight: 600; color: var(--blue); }
+.kf-body { font-size: 13px; margin-top: 4px; }
+.kf-oe { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+.pill { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<a href="/" class="back-link">← 返回首页</a>
+<div class="header">
+    <h1>智谱 (02513.HK) 深度分析</h1>
+    <div class="headline-sub">K0不适用（OE深度为负）· 改用 EV/Revenue + Rule of 40 + 可比公司PS框架</div>
+    <div class="meta">
+        <span>报告日期: 2026-04-05</span>
+        <span>财报期间: FY2025</span>
+        <span class="tag-warn">Pre-Profit AI</span>
+        <span class="tag-purple">EV/Revenue框架</span>
+    </div>
+    <div style="font-size:13px;color:var(--text-dim);margin-top:8px">GLM大模型 · MaaS API · AI Agent · 智能硬件 · 2025年3月IPO</div>
+</div>
+
+<!-- 核心指标 -->
+<div class="data-grid" style="margin-bottom:4px">
+    <div class="data-card">
+        <div class="label">EV (企业价值)</div>
+        <div class="value">~3,952<small> 亿HKD</small></div>
+        <div class="sub">市值4014 − 净现金62</div>
+    </div>
+    <div class="data-card">
+        <div class="label">FY2025 收入</div>
+        <div class="value">7.24<small> 亿RMB</small></div>
+        <div class="sub change-pos">+132% YoY | API ARR 17亿</div>
+    </div>
+    <div class="data-card">
+        <div class="label">EV/Revenue</div>
+        <div class="value negative">~479x</div>
+        <div class="sub">极端高估值 | 基于FY2025 GAAP收入</div>
+    </div>
+</div>
+<div class="data-grid" style="margin-bottom:16px">
+    <div class="data-card">
+        <div class="label">EV/ARR (API口径)</div>
+        <div class="value">~21x</div>
+        <div class="sub">ARR $2.4B (12月月化) | 偏贵但可讨论</div>
+    </div>
+    <div class="data-card">
+        <div class="label">现金跑道</div>
+        <div class="value negative">~23<small> 个月</small></div>
+        <div class="sub">现金62亿 ÷ 月消耗~2.7亿</div>
+    </div>
+    <div class="data-card">
+        <div class="label">净亏损</div>
+        <div class="value negative">-47.18<small> 亿RMB</small></div>
+        <div class="sub">R&D 31.8亿 = 439% of 收入</div>
+    </div>
+</div>
+
+<!-- Executive Summary -->
+<div class="section">
+    <h2>Executive Summary</h2>
+    <div style="background:var(--yellow-bg);color:var(--yellow);display:inline-block;padding:4px 16px;border-radius:20px;font-weight:600;font-size:14px;margin-bottom:16px">建议动作: 观察，不建议建仓 — 估值极端高估，现金消耗快，盈利路径不清晰</div>
+    <div style="font-size:14px;color:var(--text);line-height:1.8;white-space:pre-line;margin-bottom:16px">智谱是中国头部AI大模型公司，2025年3月港股IPO。GLM系列模型定位"中国版OpenAI"。FY2025收入7.24亿RMB(+132%)，但净亏损-47.18亿，R&D投入31.8亿是收入的4.4倍。
+
+K0框架（OE估值）完全不适用：公司OE深度为负，CFO为负，没有正向现金流可估值。改用科技成长股标准框架：EV/Revenue、Rule of 40、可比公司PS倍数。
+
+核心矛盾：收入增速惊人(+132%)，但GAAP收入仅7.24亿——与4000亿HKD市值之间存在巨大GAP。即使用API口径ARR 17亿(月化$2.4B)计算EV/ARR~21x，也只在最乐观假设下勉强合理。23个月现金跑道意味着2027年底前必须融资或实现盈利。
+
+Rule of 40测试：收入增速132% + 利润率-651% = -519%，严重不达标。需要到FY2028-2029利润率改善至-30%~-20%才可能接近及格线。</div>
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 16px">
+        <div style="font-weight:600;color:var(--blue);margin-bottom:6px">TL;DR:</div>
+        <ul style="font-size:14px;padding-left:16px;display:flex;flex-direction:column;gap:4px">
+            <li>K0不适用（OE=-47亿）→ 改用EV/Revenue框架。EV/GAAP收入~479x，EV/ARR~21x</li>
+            <li>收入增速+132%惊人，但绝对规模仅7.24亿vs 4000亿市值——gap过大</li>
+            <li>现金跑道~23个月，2027年底前必须融资或盈利。R&D 439% of 收入</li>
+            <li>Rule of 40严重不达标(-519%)。观察为主，不建议建仓</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Key Forces -->
+<div class="section">
+    <h2>Key Forces（决定性力量）</h2>
+    <div class="kf-card">
+        <div class="kf-title">#1 GLM模型能力 vs 国际第一梯队的差距</div>
+        <div class="kf-body">GLM-4系列在国内排名前列，但与GPT-4o/Claude Opus仍有差距。AutoGLM（AI Agent）和GLM-Zero（推理模型）是差异化尝试。模型能力是一切商业化的基础——如果差距拉大，客户会迁移到更强的国产替代（如DeepSeek）或等API价格战结束后转向海外模型。</div>
+        <div class="kf-oe">估值含义: 模型能力决定API定价权。如果被迫参与价格战，收入增速可能大幅放缓。</div>
+    </div>
+    <div class="kf-card">
+        <div class="kf-title">#2 MaaS API收入从"跑量"到"盈利"的转化</div>
+        <div class="kf-body">API ARR从0到17亿RMB仅用~18个月，增速惊人。但当前定价处于行业价格战阶段，毛利率极低甚至可能为负。关键转折点：价格战结束+客户粘性形成+企业级大单占比提升。参考AWS早期亏损→规模效应→高毛利的路径。</div>
+        <div class="kf-oe">估值含义: 如果API毛利率能在FY2027达到40%+，EV/Revenue合理倍数可从当前水平大幅压缩。反之则是GMV虚胖。</div>
+    </div>
+    <div class="kf-card">
+        <div class="kf-title">#3 现金消耗速率 vs 融资能力</div>
+        <div class="kf-body">月消耗~2.7亿RMB，现金储备~62亿，跑道约23个月。AI大模型训练和推理的算力成本仍在上升。IPO募资~60亿HKD（~55亿RMB），但仅够续命~20个月。如果2026-2027年不能显著缩窄亏损，将面临在不利市场环境下被迫融资的风险。</div>
+        <div class="kf-oe">估值含义: 稀释风险是最大的隐性成本。每轮融资10-15%稀释，对现有股东IRR影响巨大。</div>
+    </div>
+    <div class="kf-card">
+        <div class="kf-title">#4 竞争格局——国内AI大模型"百模大战"的存活率</div>
+        <div class="kf-body">国内大模型公司超过100家，但资金和人才正在向头部集中。智谱的竞争对手包括：百度（文心）、阿里（通义）、字节（豆包）、DeepSeek、月之暗面等。字节和阿里有C端流量+云基础设施的天然优势。智谱的护城河在于学术基因和政府关系，但不够深。</div>
+        <div class="kf-oe">估值含义: 如果最终只有3-5家存活，智谱需证明自己在其中。否则市场份额被挤压，收入增速断崖下降。</div>
+    </div>
+</div>
+
+<!-- 为什么K0不适用 -->
+<div class="section">
+    <h2>1. 为什么K0（OE估值）不适用</h2>
+    <table class="calc-table">
+        <tr><td></td><td>经营性现金流 (CFO)</td><td class="negative">负值</td></tr>
+        <tr><td class="op">−</td><td>维持性资本支出</td><td>无法区分</td></tr>
+        <tr class="separator result"><td class="op">=</td><td>Owner's Earnings</td><td class="negative">深度为负</td></tr>
+    </table>
+    <div class="warn-box">⚠ OE估值的前提条件（正向经营现金流、可辨识的维持性CapEx）均不满足。公司处于Pre-Profit阶段，净亏损-47.18亿RMB，R&D占收入439%。OE框架对此类公司无效——改用EV/Revenue + Rule of 40 + 可比公司PS倍数。</div>
+    <table class="calc-table" style="margin-top:16px">
+        <tr><td></td><td>净亏损</td><td class="negative">-47.18 亿RMB</td></tr>
+        <tr><td></td><td>R&D支出</td><td>31.80 亿RMB</td></tr>
+        <tr><td></td><td>R&D / 收入</td><td class="negative">439%</td></tr>
+        <tr><td></td><td>毛利率 (GAAP)</td><td>未披露（推测为负或极低）</td></tr>
+    </table>
+</div>
+
+<!-- 收入拆解 -->
+<div class="section">
+    <h2>2. 收入拆解 (FY2025)</h2>
+    <table class="sens-table">
+        <tr>
+            <th>业务线</th>
+            <th>收入 (亿RMB)</th>
+            <th>占比</th>
+            <th>YoY</th>
+            <th>趋势</th>
+        </tr>
+        <tr>
+            <td style="text-align:left">MaaS API (大模型接口)</td>
+            <td>~3.50</td>
+            <td>48%</td>
+            <td class="change-pos">+200%+</td>
+            <td>↑↑ 核心增长极</td>
+        </tr>
+        <tr>
+            <td style="text-align:left">企业解决方案</td>
+            <td>~2.20</td>
+            <td>30%</td>
+            <td class="change-pos">+80%</td>
+            <td>↑ 政企大单驱动</td>
+        </tr>
+        <tr>
+            <td style="text-align:left">智能硬件 (AI眼镜等)</td>
+            <td>~0.80</td>
+            <td>11%</td>
+            <td>新业务</td>
+            <td>→ 早期阶段</td>
+        </tr>
+        <tr>
+            <td style="text-align:left">其他 (智谱清言等C端)</td>
+            <td>~0.74</td>
+            <td>11%</td>
+            <td class="change-pos">+100%+</td>
+            <td>↑ 用户增长快但变现弱</td>
+        </tr>
+        <tr style="font-weight:700;border-top:2px solid var(--border)">
+            <td style="text-align:left">合计</td>
+            <td>7.24</td>
+            <td>100%</td>
+            <td class="change-pos">+132%</td>
+            <td></td>
+        </tr>
+    </table>
+    <div class="info-box">ℹ 收入拆分为估算值——智谱招股书披露粒度有限，各业务线数据根据管理层公开讲话和行业推算。API口径ARR 17亿 (12月单月年化) 远大于全年GAAP确认收入，反映Q4加速趋势。</div>
+</div>
+
+<!-- 亏损结构 -->
+<div class="section">
+    <h2>3. 亏损结构 & 现金消耗</h2>
+    <h3>成本结构</h3>
+    <div class="bar-chart">
+        <div class="bar-row">
+            <div class="bar-label">R&D 研发</div>
+            <div class="bar-track"><div class="bar-fill" style="width:67%;background:var(--red)">67%</div></div>
+            <div class="bar-value">31.80亿</div>
+        </div>
+        <div class="bar-row">
+            <div class="bar-label">算力/云成本</div>
+            <div class="bar-track"><div class="bar-fill" style="width:21%;background:var(--yellow)">21%</div></div>
+            <div class="bar-value">~10.0亿</div>
+        </div>
+        <div class="bar-row">
+            <div class="bar-label">SG&A 销管</div>
+            <div class="bar-track"><div class="bar-fill" style="width:12%;background:var(--blue)">12%</div></div>
+            <div class="bar-value">~5.4亿</div>
+        </div>
+    </div>
+
+    <h3>现金跑道分析</h3>
+    <table class="calc-table">
+        <tr><td></td><td>IPO前现金</td><td>~7 亿RMB</td></tr>
+        <tr><td class="op">+</td><td>IPO净募资</td><td>~55 亿RMB</td></tr>
+        <tr class="separator"><td class="op">=</td><td>可用现金</td><td><strong>~62 亿RMB</strong></td></tr>
+        <tr><td></td><td></td><td></td></tr>
+        <tr><td></td><td>月消耗 (净亏损/12)</td><td class="negative">~2.7 亿/月</td></tr>
+        <tr><td></td><td>假设消耗递增10%/年</td><td class="negative">~3.0 亿/月 (FY2026)</td></tr>
+        <tr class="separator result"><td class="op">=</td><td>现金跑道</td><td class="negative">~23 个月 (至2027Q4)</td></tr>
+    </table>
+    <div class="danger-box">⚠ 关键风险：23个月跑道意味着公司在2027年底前必须(1)实现盈亏平衡，或(2)完成新一轮融资。在AI行业估值回调的环境下，融资条件可能显著恶化。每轮融资预计稀释10-15%。</div>
+</div>
+
+<!-- EV/Revenue估值 -->
+<div class="section">
+    <h2>4. EV/Revenue 估值框架</h2>
+    <h3>当前估值倍数</h3>
+    <table class="calc-table">
+        <tr><td></td><td>市值（~900 HKD × 4.46亿股）</td><td>~4,014 亿HKD</td></tr>
+        <tr><td class="op">−</td><td>净现金（IPO募资后）</td><td>~62 亿RMB (~68亿HKD)</td></tr>
+        <tr class="separator result"><td class="op">=</td><td>EV (企业价值)</td><td>~3,952 亿HKD</td></tr>
+    </table>
+    <table class="calc-table" style="margin-top:12px">
+        <tr><td></td><td>EV / FY2025 GAAP收入</td><td class="negative">~479x</td></tr>
+        <tr><td></td><td>EV / API ARR (17亿RMB)</td><td>~204x</td></tr>
+        <tr><td></td><td>EV / ARR ($2.4B 12月月化)</td><td>~21x</td></tr>
+    </table>
+    <div class="warn-box">⚠ 注意：EV/ARR ~21x 使用的是12月单月年化的$2.4B ARR口径，这是最乐观的计算方式。如果用全年GAAP收入，EV/Revenue ~479x是天文数字。真实估值在两者之间，取决于Q4 run-rate能否持续。</div>
+
+    <h3>可比公司对照</h3>
+    <table class="sens-table">
+        <tr>
+            <th>公司</th>
+            <th>估值</th>
+            <th>最近一轮收入</th>
+            <th>EV/Revenue</th>
+            <th>备注</th>
+        </tr>
+        <tr>
+            <td style="text-align:left">OpenAI</td>
+            <td>$3,400亿</td>
+            <td>$130亿 ARR</td>
+            <td>~26x</td>
+            <td style="text-align:left">ChatGPT + API + Enterprise</td>
+        </tr>
+        <tr>
+            <td style="text-align:left">Anthropic</td>
+            <td>$1,500亿</td>
+            <td>~$20亿 ARR</td>
+            <td>~75x</td>
+            <td style="text-align:left">Claude API + Enterprise</td>
+        </tr>
+        <tr>
+            <td style="text-align:left">MiniMax</td>
+            <td>~$50亿</td>
+            <td>~$3亿</td>
+            <td>~17x</td>
+            <td style="text-align:left">海螺/星野 + API</td>
+        </tr>
+        <tr class="current">
+            <td style="text-align:left"><strong>智谱</strong></td>
+            <td>~$500亿</td>
+            <td>7.24亿RMB</td>
+            <td class="negative"><strong>~479x</strong></td>
+            <td style="text-align:left">GLM API + 企业方案</td>
+        </tr>
+    </table>
+    <div style="font-size:13px;color:var(--text-dim);margin-top:8px">* 可比公司数据为最近一轮估值/融资时的公开信息。ARR口径和确认收入口径差异较大，需注意比较基础。智谱如用ARR口径($2.4B)则EV/ARR ~21x，接近OpenAI的26x。</div>
+</div>
+
+<!-- Rule of 40 -->
+<div class="section">
+    <h2>5. Rule of 40 测试</h2>
+    <table class="calc-table">
+        <tr><td></td><td>收入增速</td><td class="change-pos">+132%</td></tr>
+        <tr><td class="op">+</td><td>利润率 (净利/收入)</td><td class="negative">-651%</td></tr>
+        <tr class="separator result"><td class="op">=</td><td>Rule of 40 得分</td><td class="negative">-519%</td></tr>
+    </table>
+    <div class="warn-box">⚠ Rule of 40 严重不达标。这在Pre-Profit AI公司中并不罕见（OpenAI早期同样不达标），但意味着投资者在买纯预期。参考正常SaaS达标线：增速40% + 利润率0% = 40分。智谱需要到FY2028-2029、利润率改善至-30%~-20%、收入增速保持60%+才可能接近及格线。</div>
+
+    <h3>Rule of 40 路径推演</h3>
+    <table class="sens-table">
+        <tr>
+            <th>年份</th>
+            <th>收入增速</th>
+            <th>利润率</th>
+            <th>R40得分</th>
+            <th>状态</th>
+        </tr>
+        <tr>
+            <td style="text-align:left">FY2025 (实际)</td>
+            <td>132%</td>
+            <td>-651%</td>
+            <td class="negative">-519%</td>
+            <td style="text-align:left">严重不达标</td>
+        </tr>
+        <tr>
+            <td style="text-align:left">FY2026E</td>
+            <td>100%</td>
+            <td>-200%</td>
+            <td class="negative">-100%</td>
+            <td style="text-align:left">不达标</td>
+        </tr>
+        <tr>
+            <td style="text-align:left">FY2027E</td>
+            <td>70%</td>
+            <td>-80%</td>
+            <td class="negative">-10%</td>
+            <td style="text-align:left">接近但仍不达标</td>
+        </tr>
+        <tr>
+            <td style="text-align:left">FY2028E</td>
+            <td>50%</td>
+            <td>-20%</td>
+            <td class="positive">+30%</td>
+            <td style="text-align:left">接近及格</td>
+        </tr>
+        <tr style="background:var(--green-bg)">
+            <td style="text-align:left">FY2029E (乐观)</td>
+            <td>40%</td>
+            <td>0%</td>
+            <td class="positive">+40%</td>
+            <td style="text-align:left">达标</td>
+        </tr>
+    </table>
+</div>
+
+<!-- Reverse DCF -->
+<div class="section">
+    <h2>6. 反向DCF：当前股价隐含了什么？</h2>
+    <div style="font-size:14px;line-height:1.8;margin-bottom:16px">当前市值4014亿HKD (~$515亿USD)。假设 WACC=15%，终端增长率=3%，终端利润率=25%，需要：</div>
+    <table class="calc-table">
+        <tr><td></td><td>FY2030 收入 (需达到)</td><td><strong>~500 亿RMB</strong></td></tr>
+        <tr><td></td><td>隐含5年CAGR</td><td class="negative">~130%</td></tr>
+        <tr><td></td><td>FY2030 净利润 (25%利润率)</td><td>~125 亿RMB</td></tr>
+        <tr><td></td><td>FY2030 终端价值 (15x P/E)</td><td>~1,875 亿RMB</td></tr>
+    </table>
+    <div class="danger-box">⚠ 隐含假设极端乐观：需要连续5年130%复合增长率，同时利润率从-651%改善到+25%。即使OpenAI也没有这种速度。当前估值Price-in了"中国版OpenAI成功上市+垄断国内市场"的最乐观情景。</div>
+</div>
+
+<!-- 竞争格局 -->
+<div class="section">
+    <h2>7. 竞争格局</h2>
+    <table class="sens-table">
+        <tr>
+            <th>维度</th>
+            <th>智谱</th>
+            <th>字节(豆包)</th>
+            <th>阿里(通义)</th>
+            <th>DeepSeek</th>
+        </tr>
+        <tr>
+            <td style="text-align:left">模型能力</td>
+            <td>A-</td>
+            <td>A</td>
+            <td>A-</td>
+            <td>A+</td>
+        </tr>
+        <tr>
+            <td style="text-align:left">C端流量</td>
+            <td>C</td>
+            <td>A+</td>
+            <td>B</td>
+            <td>A</td>
+        </tr>
+        <tr>
+            <td style="text-align:left">企业客户</td>
+            <td>B+</td>
+            <td>B</td>
+            <td>A</td>
+            <td>B-</td>
+        </tr>
+        <tr>
+            <td style="text-align:left">资金实力</td>
+            <td>C+</td>
+            <td>A+</td>
+            <td>A+</td>
+            <td>B</td>
+        </tr>
+        <tr>
+            <td style="text-align:left">护城河</td>
+            <td>C+</td>
+            <td>B+</td>
+            <td>A-</td>
+            <td>B</td>
+        </tr>
+    </table>
+    <div style="font-size:13px;color:var(--text-dim);margin-top:8px"><strong>护城河评估：</strong>智谱的护城河较浅——学术血统和清华关系是差异化因素，但模型能力差距在缩小，API产品趋同。最大劣势是缺乏C端流量入口（vs字节的抖音、阿里的淘宝/钉钉）。智能硬件（AI眼镜）是潜在突破口，但尚未验证。</div>
+</div>
+
+<!-- Bull / Base / Bear -->
+<div class="section">
+    <h2>8. 情景分析 (Bull / Base / Bear)</h2>
+    <table class="sens-table">
+        <tr>
+            <th>情景</th>
+            <th>FY2028E 收入</th>
+            <th>利润率</th>
+            <th>EV/Revenue</th>
+            <th>对应股价</th>
+            <th>vs 当前</th>
+        </tr>
+        <tr style="background:var(--green-bg)">
+            <td style="text-align:left"><strong>Bull (20%)</strong></td>
+            <td>120亿+</td>
+            <td>-10%</td>
+            <td>35x</td>
+            <td>~940 HKD</td>
+            <td class="change-pos">+4%</td>
+        </tr>
+        <tr class="current">
+            <td style="text-align:left"><strong>Base (50%)</strong></td>
+            <td>60-80亿</td>
+            <td>-30%</td>
+            <td>20x</td>
+            <td>~360 HKD</td>
+            <td class="negative">-60%</td>
+        </tr>
+        <tr style="background:var(--red-bg)">
+            <td style="text-align:left"><strong>Bear (30%)</strong></td>
+            <td>30-40亿</td>
+            <td>-50%</td>
+            <td>10x</td>
+            <td>~90 HKD</td>
+            <td class="negative">-90%</td>
+        </tr>
+    </table>
+    <div style="font-size:14px;margin-top:12px;padding:12px;background:var(--bg);border-radius:8px;border:1px solid var(--border)">
+        <strong>概率加权期望值：</strong> 940×20% + 360×50% + 90×30% = <strong>~395 HKD</strong>
+        <span class="negative" style="margin-left:8px">vs 当前 ~900 HKD → 预期回报 -56%</span>
+    </div>
+    <div class="warn-box">⚠ Bull情景仅+4%上涨空间，意味着当前股价已几乎完全Price-in了最乐观情景。风险收益比极不对称。</div>
+</div>
+
+<!-- 决策 -->
+<div class="decision-box action-observe">
+    <div class="action">观察区</div>
+    <div class="position">不建议建仓 · 等待估值回归合理区间</div>
+</div>
+<div class="reasoning">概率加权期望值~395 HKD，当前~900 HKD已Price-in Bull情景。风险收益比极不对称（上涨4% vs 下跌60-90%）。即使看好AI赛道，也应等待估值回调至500 HKD以下再考虑观察性仓位。</div>
+
+<!-- 催化剂 & Kill Conditions -->
+<div class="section" style="margin-top:16px">
+    <h2>9. 催化剂 & Kill Conditions</h2>
+    <h3 style="color:var(--green)">潜在正面催化剂</h3>
+    <div class="condition triggered">
+        <div class="condition-header">API ARR持续超预期增长</div>
+        <div class="condition-detail">如果2026H1 ARR突破$5B+，证明PMF已找到。但需关注是价格补贴驱动还是真实需求。</div>
+    </div>
+    <div class="condition triggered">
+        <div class="condition-header">GLM-5/AutoGLM 2.0技术突破</div>
+        <div class="condition-detail">如果模型能力跃升至国际第一梯队，可能获得估值溢价。参考DeepSeek V3对估值的拉升效应。</div>
+    </div>
+    <div class="condition triggered">
+        <div class="condition-header">政策利好 — 国产替代加速</div>
+        <div class="condition-detail">如果中美AI对抗升级，政企客户被迫选择国产大模型。智谱作为"根正苗红"选手受益最大。</div>
+    </div>
+
+    <h3 style="color:var(--red)">Kill Conditions（立即回避）</h3>
+    <div class="condition not-triggered">
+        <div class="condition-header">❌ ARR增速连续两季低于50%</div>
+        <div class="condition-detail">说明增长引擎熄火，当前估值完全无法支撑。</div>
+    </div>
+    <div class="condition not-triggered">
+        <div class="condition-header">❌ 现金跑道缩短至12个月以下</div>
+        <div class="condition-detail">意味着在不利环境下被迫融资，条件极差，稀释风险极高。</div>
+    </div>
+    <div class="condition not-triggered">
+        <div class="condition-header">❌ 核心团队流失或战略方向摇摆</div>
+        <div class="condition-detail">唐杰教授等核心技术人员离职，或频繁更换商业化方向，说明组织出问题。</div>
+    </div>
+    <div class="condition not-triggered">
+        <div class="condition-header">❌ 大客户集中度过高（单一客户>30%收入）</div>
+        <div class="condition-detail">说明收入质量差，客户切换风险高。</div>
+    </div>
+</div>
+
+<!-- 下一步 -->
+<div class="section">
+    <h2>10. 跟踪要点</h2>
+    <ul class="next-steps">
+        <li>每季度跟踪API ARR增速和毛利率趋势——这是估值锚点</li>
+        <li>关注现金余额变化，计算动态跑道。融资公告出来要算稀释</li>
+        <li>GLM-5发布后做benchmark对比，评估技术差距是否在缩小</li>
+        <li>跟踪智能硬件(AI眼镜)销量——如果年出货>100万台是新增长极</li>
+        <li>关注字节豆包、阿里通义的API定价——价格战结束是行业拐点</li>
+        <li>股价回调至500 HKD以下(-44%)时重新评估风险收益比</li>
+    </ul>
+</div>
+
+<div class="footer">
+    数据来源: 智谱招股书 / 管理层公开讲话 / 第三方行业推算<br>
+    分析框架: EV/Revenue + Rule of 40 + 可比公司PS倍数（K0不适用）<br>
+    ⚠ 收入拆分、成本结构为估算值 · 不构成投资建议
+</div>
+
+</body>
+</html>
